@@ -121,6 +121,63 @@ void MainWindow::galleriesWindow() {
     }
 }
 
+void MainWindow::imageWindow() {
+    currentWindow = IMAGE_MENU;
+    bgImage->load(BG_IMAGE);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    backButton->setVisible(true);
+    if(!displayedImage){
+        previousImageButton = new QPushButton(this);
+        QFont galleryButtonFont = addGalleryButton->font();
+        galleryButtonFont.setPointSize(20);
+        previousImageButton->setFont(galleryButtonFont);
+        previousImageButton->setGeometry(25, 600, 220, 70);
+        previousImageButton->setText("Previous");
+        previousImageButton->setStyleSheet("color: black; background-color:pink;");
+        connect(previousImageButton, SIGNAL(clicked()), this, SLOT(clickedPreviousImage()));
+
+        imageMetaDataButton = new QPushButton(this);
+        imageMetaDataButton->setFont(galleryButtonFont);
+        imageMetaDataButton->setGeometry(315, 600, 220, 70);
+        imageMetaDataButton->setText("Metadata");
+        imageMetaDataButton->setStyleSheet("color: black; background-color:pink;");
+        connect(imageMetaDataButton, SIGNAL(clicked()), this, SLOT(clickedImageMetaData()));
+
+        nextImageButton = new QPushButton(this);
+        nextImageButton->setGeometry(605, 600, 220, 70);
+        nextImageButton->setFont(galleryButtonFont);
+        nextImageButton->setText("Next");
+        nextImageButton->setStyleSheet("color: black; background-color:pink;");
+        connect(nextImageButton, SIGNAL(clicked()), this, SLOT(clickedNextImage()));
+
+        currentImageLabel = new QLabel(this);
+        currentImageLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        currentImageLabel->setStyleSheet("color: white;");
+        QFont galleryNameFont = currentImageLabel->font();
+        galleryNameFont.setPointSize(35);
+        galleryNameFont.setBold(true);
+        currentImageLabel->setFont(galleryNameFont);
+        displayedImage = true;
+    }
+    previousImageButton->setVisible(true);
+    currentWidgets.push_back(previousImageButton);
+    imageMetaDataButton->setVisible(true);
+    currentWidgets.push_back(imageMetaDataButton);
+    nextImageButton->setVisible(true);
+    currentWidgets.push_back(nextImageButton);
+    currentImageLabel->setVisible(true);
+    currentWidgets.push_back(currentImageLabel);
+    displayCurrentImage();
+}
+
+void MainWindow::displayCurrentImage() {
+    //aqui se displayea la imagen cargada del db
+    currentImage = "Image Example";
+    currentImageLabel->setText(currentImage);
+    currentImageLabel->setGeometry(130, 500, 600, 80);
+    currentImageLabel->setVisible(true);
+}
+
 void MainWindow::clickedLogIn() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
@@ -254,7 +311,10 @@ void MainWindow::clickedPreviousImage() {
 }
 
 void MainWindow::clickedImageMetaData() {
-
+    clearWindow(true);
+    currentWindow = IMAGE_MENU;
+    bgImage->load(BG_METADATA);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
 }
 
 void MainWindow::clickedNextImage() {
@@ -274,9 +334,7 @@ void MainWindow::addExistingGalleriesToGalleryWindow() {
 
 void MainWindow::clickedGallery() {
     clearWindow(true);
-    currentWindow = GALLERY_MANAGEMENT;
-    bgImage->load(BG_IMAGE);
-    pixmap->setPixmap(QPixmap::fromImage(*bgImage));QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
+    QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
     currentGallery = buttonSender->text();
     qDebug() << currentGallery;
     currentGalleryLabel = new QLabel(this);
@@ -290,6 +348,7 @@ void MainWindow::clickedGallery() {
     currentGalleryLabel->setGeometry(130, 45, 600, 80);
     currentGalleryLabel->setVisible(true);
     currentWidgets.push_back(currentGalleryLabel);
+    imageWindow();
 
 }
 
@@ -321,3 +380,5 @@ void MainWindow::clearWindow(bool addBackButton) {
     backButton->setVisible(addBackButton);
     currentWidgets.clear();
 }
+
+

@@ -27,12 +27,15 @@ private:
     const QString BG_GALLERIES = "../Resources/galleries.png";
     const QString BG_BACKGROUND = "../Resources/background.png";
     const QString BG_IMAGE = "../Resources/image.png";
+    const QString BG_METADATA = "../Resources/metadata.png";
 
     const int MENU = 0;
     const int LOGIN = 1;
     const int SIGNUP = 1;
     const int GALLERY_MENU = 1;
     const int GALLERY_MANAGEMENT = 3;
+    const int IMAGE_MENU = 3;
+    const int IMAGE_METADATA = 4;
     int currentWindow = MENU;
 
     QImage * bgImage;
@@ -56,12 +59,16 @@ private:
     bool successfulVerification = true;
     bool successfulCreation = true;
     bool displayedGalleries = false;
+    bool displayedImage = false;
 
     QLineEdit * usernameTextInput;
     QLineEdit * passwordTextInput;
     QLabel * noticeLabel;
     QLabel * currentGalleryLabel;
     QString currentGallery;
+    QLabel * currentImageLabel;
+    QString currentImage;
+
     vector<QWidget*> currentWidgets;
 
 
@@ -92,5 +99,9 @@ private slots:
     void addExistingGalleriesToGalleryWindow();
 
     void clearWindow(bool addBackButton);
+
+    void imageWindow();
+
+    void displayCurrentImage();
 };
 #endif //GALLERYTEC_MAINWINDOW_H
