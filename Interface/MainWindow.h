@@ -120,6 +120,7 @@ private slots:
     void clickedNextImage();
     void clickedGallery();
     void clickedEditImageMetaData();
+    void clickedAcceptEditImageMetadata();
 
 
 };

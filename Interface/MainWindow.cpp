@@ -464,6 +464,8 @@ void MainWindow::clickedEditImageMetaData() {
     QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
     QString buttonDescription = buttonSender->accessibleDescription();
     int buttonDescriptionInt = stoi(buttonDescription.toStdString());
+    buttonSender->setText("OK");
+    connect(buttonSender, SIGNAL(clicked()), this, SLOT(clickedAcceptEditImageMetadata()));
     qDebug() << buttonDescriptionInt;
     switch(buttonDescriptionInt){
         case 0: {
@@ -489,6 +491,37 @@ void MainWindow::clickedEditImageMetaData() {
         case 4: {
             imageDescriptionInput->setVisible(true);
             currentWidgets.push_back(imageDescriptionInput);
+            break;
+        }
+    }
+}
+
+void MainWindow::clickedAcceptEditImageMetadata() {
+    QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
+    QString buttonDescription = buttonSender->accessibleDescription();
+    int buttonDescriptionInt = stoi(buttonDescription.toStdString());
+    buttonSender->setText("Edit");
+    connect(buttonSender, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
+    qDebug() << buttonDescriptionInt;
+    switch(buttonDescriptionInt){
+        case 0: {
+            imageNameInput->setVisible(false);
+            break;
+        }
+        case 1: {
+            imageAuthorInput->setVisible(false);
+            break;
+        }
+        case 2: {
+            imageYearInput->setVisible(false);
+            break;
+        }
+        case 3: {
+            imageSizeInput->setVisible(false);
+            break;
+        }
+        case 4: {
+            imageDescriptionInput->setVisible(false);
             break;
         }
     }
@@ -560,5 +593,6 @@ void MainWindow::clearWindow(bool addBackButton) {
     backButton->setVisible(addBackButton);
     currentWidgets.clear();
 }
+
 
 
