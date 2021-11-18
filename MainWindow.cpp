@@ -17,20 +17,12 @@ MainWindow::MainWindow(QWidget *parent) : QGraphicsView(parent) {
     pixmap->show();
     //setStyleSheet("background-color:pink;");
     widgetInitialization();
-
 }
 
 void MainWindow::widgetInitialization() {
-    backButton = new QPushButton(this);
-    backButton->setGeometry(35, 35, 180, 70);
-    backButton->setText("Back");
-    backButton->setVisible(false);
-    backButton->setStyleSheet("color: black;");
-    connect(backButton, SIGNAL(clicked()), this, SLOT(clickedBack()));
-
     noticeLabel = new QLabel(this);
     noticeLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    noticeLabel->setStyleSheet("color: red;");
+    noticeLabel->setStyleSheet("color: white;");
     QFont noticeFont = noticeLabel->font();
     noticeFont.setPointSize(15);
     noticeFont.setBold(true);
@@ -41,6 +33,15 @@ void MainWindow::widgetInitialization() {
     font.bold();
     font.setStyleHint(QFont::Monospace);
     QApplication::setFont(font);
+
+    backButton = new QPushButton(this);
+    backButton->setGeometry(25, 25, 140, 50);
+    font.setPointSize(20);
+    backButton->setFont(font);
+    backButton->setText("Back");
+    backButton->setVisible(false);
+    backButton->setStyleSheet("color: black; background-color:pink;");
+    connect(backButton, SIGNAL(clicked()), this, SLOT(clickedBack()));
 
     logInWindow();
 }
@@ -54,13 +55,13 @@ void MainWindow::logInWindow() {
         logInButton->setGeometry(335, 425, 180, 70);
         logInButton->setText("Log In");
         logInButton->setVisible(true);
-        logInButton->setStyleSheet("color: black;");
+        logInButton->setStyleSheet("color: black; background-color:pink;");
         connect(logInButton, SIGNAL(clicked()), this, SLOT(clickedLogIn()));
         signUpButton = new QPushButton(this);
         signUpButton->setGeometry(335, 525, 180, 70);
         signUpButton->setText("Sign Up");
         signUpButton->setVisible(true);
-        signUpButton->setStyleSheet("color: black;");
+        signUpButton->setStyleSheet("color: black; background-color:pink;");
         connect(signUpButton, SIGNAL(clicked()), this, SLOT(clickedSignUp()));
         createdLogInWindow = true;
     } else {
@@ -81,7 +82,7 @@ void MainWindow::galleriesWindow() {
         addGalleryButton->setFont(galleryButtonFont);
         addGalleryButton->setGeometry(25, 600, 220, 70);
         addGalleryButton->setText("Add Gallery");
-        addGalleryButton->setStyleSheet("color: black;");
+        addGalleryButton->setStyleSheet("color: black; background-color:pink;");
         addGalleryButton->setVisible(true);
         connect(addGalleryButton, SIGNAL(clicked()), this, SLOT(clickedAddGallery()));
 
@@ -89,7 +90,7 @@ void MainWindow::galleriesWindow() {
         editGalleryButton->setFont(galleryButtonFont);
         editGalleryButton->setGeometry(315, 600, 220, 70);
         editGalleryButton->setText("Edit Gallery");
-        editGalleryButton->setStyleSheet("color: black;");
+        editGalleryButton->setStyleSheet("color: black; background-color:pink;");
         editGalleryButton->setVisible(true);
         connect(editGalleryButton, SIGNAL(clicked()), this, SLOT(clickedEditGallery()));
 
@@ -97,7 +98,7 @@ void MainWindow::galleriesWindow() {
         deleteGalleryButton->setGeometry(605, 600, 220, 70);
         deleteGalleryButton->setFont(galleryButtonFont);
         deleteGalleryButton->setText("Delete Gallery");
-        deleteGalleryButton->setStyleSheet("color: black;");
+        deleteGalleryButton->setStyleSheet("color: black; background-color:pink;");
         deleteGalleryButton->setVisible(true);
         connect(deleteGalleryButton, SIGNAL(clicked()), this, SLOT(clickedDeleteGallery()));
     } else {
@@ -106,7 +107,6 @@ void MainWindow::galleriesWindow() {
         deleteGalleryButton->setVisible(true);
     }
 }
-
 
 void MainWindow::clickedLogIn() {
     bgImage->load(BG_BACKGROUND);
@@ -121,8 +121,6 @@ void MainWindow::clickedLogIn() {
     askForUsernameAndPassword();
 }
 
-
-
 void MainWindow::clickedSignUp() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
@@ -134,7 +132,6 @@ void MainWindow::clickedSignUp() {
     userCreated = false;
     askForUsernameAndPassword();
 }
-
 
 void MainWindow::clickedCreate() {
     if (succesfulCreation){
@@ -191,13 +188,13 @@ void MainWindow::askForUsernameAndPassword() {
         createUserButton = new QPushButton(this);
         createUserButton->setGeometry(335, 550, 180, 70);
         createUserButton->setText("Create");
-        createUserButton->setStyleSheet("color: black;");
+        createUserButton->setStyleSheet("color: black; background-color:pink;");
         connect(createUserButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
 
         verifyUserButton = new QPushButton(this);
         verifyUserButton->setGeometry(335, 550, 180, 70);
         verifyUserButton->setText("Verify");
-        verifyUserButton->setStyleSheet("color: black;");
+        verifyUserButton->setStyleSheet("color: black; background-color:pink;");
         connect(verifyUserButton, SIGNAL(clicked()), this, SLOT(clickedVerify()));
 
         if (!userCreated){
