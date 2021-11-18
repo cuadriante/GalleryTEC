@@ -48,6 +48,7 @@ void MainWindow::widgetInitialization() {
 void MainWindow::logInWindow() {
     currentWindow = GALLERY_MENU;
     bgImage->load(BG_GALLERY_TEC);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     if (!createdLogInWindow){
         logInButton = new QPushButton(this);
         logInButton->setGeometry(335, 425, 180, 70);
@@ -108,6 +109,8 @@ void MainWindow::galleriesWindow() {
 
 
 void MainWindow::clickedLogIn() {
+    bgImage->load(BG_BACKGROUND);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = LOGIN;
     cout << "current window" << currentWindow << endl;
     cout << "clicked log in" << endl;
@@ -121,6 +124,8 @@ void MainWindow::clickedLogIn() {
 
 
 void MainWindow::clickedSignUp() {
+    bgImage->load(BG_BACKGROUND);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = SIGNUP;
     cout << "clicked sign up" << endl;
     signUpButton->setVisible(false);
@@ -128,6 +133,130 @@ void MainWindow::clickedSignUp() {
     backButton->setVisible(true);
     userCreated = false;
     askForUsernameAndPassword();
+}
+
+
+void MainWindow::clickedCreate() {
+    if (succesfulCreation){
+        noticeLabel->setText("User created succesfully! \nReturn to main window.");
+        noticeLabel->setGeometry(120, 200, 600, 200);
+        noticeLabel->setVisible(true);
+        passwordTextInput->setVisible(false);
+        usernameTextInput->setVisible(false);
+        createUserButton->setVisible(false);
+        backButton->setVisible(true);
+
+    } else {
+        noticeLabel->setText("ERROR: Could not create user.");
+        noticeLabel->setGeometry(470, 420, 100, 100);
+        noticeLabel->setVisible(true);
+    }
+}
+
+void MainWindow::clickedVerify() {
+    if (succesfulVerification){
+        currentWindow = GALLERY_MENU;
+        passwordTextInput->setVisible(false);
+        usernameTextInput->setVisible(false);
+        verifyUserButton->setVisible(false);
+        backButton->setVisible(true);
+        galleriesWindow();
+    } else {
+        noticeLabel->setText("ERROR: Username or password incorrect.");
+        noticeLabel->setGeometry(470, 420, 100, 100);
+        noticeLabel->setVisible(true);
+
+    }
+}
+
+void MainWindow::askForUsernameAndPassword() {
+    if(!askedForUsernameAndPassword){
+        usernameTextInput = new QLineEdit(this);
+        usernameTextInput->setAlignment(Qt::AlignCenter);
+        usernameTextInput->setPlaceholderText("Username");
+        usernameTextInput->setStyleSheet("color : black;");
+        usernameTextInput->setMaxLength(20);
+        usernameTextInput->setGeometry(240, 250, 400, 70);
+        usernameTextInput->setVisible(true);
+
+        passwordTextInput = new QLineEdit(this);
+        passwordTextInput->setAlignment(Qt::AlignCenter);
+        passwordTextInput->setPlaceholderText("Password");
+        passwordTextInput->setStyleSheet("color : black;");
+        passwordTextInput->setMaxLength(20);
+        passwordTextInput->setGeometry(240, 350, 400, 70);
+        passwordTextInput->setVisible(true);
+        askedForUsernameAndPassword = true;
+
+        createUserButton = new QPushButton(this);
+        createUserButton->setGeometry(335, 550, 180, 70);
+        createUserButton->setText("Create");
+        createUserButton->setStyleSheet("color: black;");
+        connect(createUserButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
+
+        verifyUserButton = new QPushButton(this);
+        verifyUserButton->setGeometry(335, 550, 180, 70);
+        verifyUserButton->setText("Verify");
+        verifyUserButton->setStyleSheet("color: black;");
+        connect(verifyUserButton, SIGNAL(clicked()), this, SLOT(clickedVerify()));
+
+        if (!userCreated){
+            createUserButton->setVisible(true);
+        } else{
+            verifyUserButton->setVisible(true);
+        }
+    } else {
+        usernameTextInput->setVisible(true);
+        passwordTextInput->setVisible(true);
+        if (!userCreated){
+           createUserButton->setVisible(true);
+        } else {
+           verifyUserButton->setVisible(true);
+        }
+    }
+
+}
+
+void MainWindow::clickedAddGallery() {
+    bgImage->load(BG_BACKGROUND);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    currentWindow = GALLERY_MANAGEMENT;
+    addGalleryButton->setVisible(false);
+    editGalleryButton->setVisible(false);
+    deleteGalleryButton->setVisible(false);
+    backButton->setVisible(true);
+}
+
+void MainWindow::clickedEditGallery() {
+    bgImage->load(BG_BACKGROUND);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    currentWindow = GALLERY_MANAGEMENT;
+    addGalleryButton->setVisible(false);
+    editGalleryButton->setVisible(false);
+    deleteGalleryButton->setVisible(false);
+    backButton->setVisible(true);
+}
+
+void MainWindow::clickedDeleteGallery() {
+    bgImage->load(BG_BACKGROUND);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    currentWindow = GALLERY_MANAGEMENT;
+    addGalleryButton->setVisible(false);
+    editGalleryButton->setVisible(false);
+    deleteGalleryButton->setVisible(false);
+    backButton->setVisible(true);
+}
+
+void MainWindow::clickedPreviousImage() {
+
+}
+
+void MainWindow::clickedImageMetaData() {
+
+}
+
+void MainWindow::clickedNextImage() {
+
 }
 
 void MainWindow::clickedBack() {
@@ -169,127 +298,5 @@ void MainWindow::clickedBack() {
         }
     }
 }
-
-void MainWindow::clickedCreate() {
-    if (succesfulCreation){
-        noticeLabel->setText("User created succesfully! \nReturn to main window.");
-        noticeLabel->setGeometry(120, 200, 600, 200);
-        noticeLabel->setVisible(true);
-        passwordTextInput->setVisible(false);
-        usernameTextInput->setVisible(false);
-        createUserButton->setVisible(false);
-        backButton->setVisible(true);
-
-    } else {
-        noticeLabel->setText("ERROR: Could not create user.");
-        noticeLabel->setGeometry(470, 420, 100, 100);
-        noticeLabel->setVisible(true);
-    }
-}
-
-void MainWindow::clickedVerify() {
-    if (succesfulVerification){
-        currentWindow = GALLERY_MENU;
-        passwordTextInput->setVisible(false);
-        usernameTextInput->setVisible(false);
-        verifyUserButton->setVisible(false);
-        backButton->setVisible(true);
-        galleriesWindow();
-    } else {
-        noticeLabel->setText("ERROR: Username or password incorrect.");
-        noticeLabel->setGeometry(470, 420, 100, 100);
-        noticeLabel->setVisible(true);
-
-    }
-}
-
-
-
-
-void MainWindow::askForUsernameAndPassword() {
-    if(!askedForUsernameAndPassword){
-        usernameTextInput = new QLineEdit(this);
-        usernameTextInput->setAlignment(Qt::AlignCenter);
-        usernameTextInput->setPlaceholderText("Username");
-        usernameTextInput->setStyleSheet("color : white;");
-        usernameTextInput->setMaxLength(20);
-        usernameTextInput->setGeometry(240, 250, 400, 70);
-        usernameTextInput->setVisible(true);
-
-        passwordTextInput = new QLineEdit(this);
-        passwordTextInput->setAlignment(Qt::AlignCenter);
-        passwordTextInput->setPlaceholderText("Password");
-        passwordTextInput->setStyleSheet("color : white;");
-        passwordTextInput->setMaxLength(20);
-        passwordTextInput->setGeometry(240, 350, 400, 70);
-        passwordTextInput->setVisible(true);
-        askedForUsernameAndPassword = true;
-
-        createUserButton = new QPushButton(this);
-        createUserButton->setGeometry(335, 550, 180, 70);
-        createUserButton->setText("Create");
-        createUserButton->setStyleSheet("color: black;");
-        connect(createUserButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
-
-        verifyUserButton = new QPushButton(this);
-        verifyUserButton->setGeometry(335, 550, 180, 70);
-        verifyUserButton->setText("Verify");
-        verifyUserButton->setStyleSheet("color: black;");
-        connect(verifyUserButton, SIGNAL(clicked()), this, SLOT(clickedVerify()));
-
-        if (!userCreated){
-            createUserButton->setVisible(true);
-        } else{
-            verifyUserButton->setVisible(true);
-        }
-    } else {
-        usernameTextInput->setVisible(true);
-        passwordTextInput->setVisible(true);
-        if (!userCreated){
-           createUserButton->setVisible(true);
-        } else {
-           verifyUserButton->setVisible(true);
-        }
-    }
-
-}
-
-void MainWindow::clickedAddGallery() {
-    currentWindow = GALLERY_MANAGEMENT;
-    addGalleryButton->setVisible(false);
-    editGalleryButton->setVisible(false);
-    deleteGalleryButton->setVisible(false);
-    backButton->setVisible(true);
-}
-
-void MainWindow::clickedEditGallery() {
-    currentWindow = GALLERY_MANAGEMENT;
-    addGalleryButton->setVisible(false);
-    editGalleryButton->setVisible(false);
-    deleteGalleryButton->setVisible(false);
-    backButton->setVisible(true);
-}
-
-void MainWindow::clickedDeleteGallery() {
-    currentWindow = GALLERY_MANAGEMENT;
-    addGalleryButton->setVisible(false);
-    editGalleryButton->setVisible(false);
-    deleteGalleryButton->setVisible(false);
-    backButton->setVisible(true);
-}
-
-void MainWindow::clickedPreviousImage() {
-
-}
-
-void MainWindow::clickedImageMetaData() {
-
-}
-
-void MainWindow::clickedNextImage() {
-
-}
-
-
 
 

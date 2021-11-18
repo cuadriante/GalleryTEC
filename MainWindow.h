@@ -25,6 +25,7 @@ Q_OBJECT
 private:
     const QString BG_GALLERY_TEC = "../Resources/galleryTEC.png";
     const QString BG_GALLERIES = "../Resources/galleries.png";
+    const QString BG_BACKGROUND = "../Resources/background.png";
 
     const int MENU = 0;
     const int LOGIN = 1;
