@@ -170,10 +170,116 @@ void MainWindow::imageWindow() {
     displayCurrentImage();
 }
 
+void MainWindow::metadataWindow() {
+    clearWindow(true);
+    currentWindow = IMAGE_METADATA;
+    bgImage->load(BG_METADATA);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    if (!displayedMetadata){
+        imageNameLabel = new QLabel(this);
+        imageNameLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        imageNameLabel->setStyleSheet("color: black;");
+        QFont galleryNameFont = currentGalleryLabel->font();
+        galleryNameFont.setPointSize(25);
+        galleryNameFont.setBold(true);
+        imageNameLabel->setFont(galleryNameFont);
+        imageNameLabel->setText("Name: " + currentImageName);
+        imageNameLabel->setGeometry(200, 170, 460, 80);
+
+        imageNameButton = new QPushButton(this);
+        imageNameButton->setFont(galleryNameFont);
+        imageNameButton->setGeometry(670, 175, 80, 50);
+        imageNameButton->setText("Edit");
+        imageNameButton->setStyleSheet("color: black; background-color:pink;");
+        imageNameButton->setAccessibleDescription("0");
+        connect(imageNameButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
+
+        imageAuthorLabel = new QLabel(this);
+        imageAuthorLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        imageAuthorLabel->setStyleSheet("color: black;");
+        imageAuthorLabel->setFont(galleryNameFont);
+        imageAuthorLabel->setText("Author: " + imageAuthor);
+        imageAuthorLabel->setGeometry(200, 230, 460, 80);
+
+        imageAuthorButton = new QPushButton(this);
+        imageAuthorButton->setFont(galleryNameFont);
+        imageAuthorButton->setGeometry(670, 240, 80, 50);
+        imageAuthorButton->setText("Edit");
+        imageAuthorButton->setStyleSheet("color: black; background-color:pink;");
+        imageAuthorButton->setAccessibleDescription("1");
+        connect(imageAuthorButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
+
+        imageYearLabel = new QLabel(this);
+        imageYearLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        imageYearLabel->setStyleSheet("color: black;");
+        imageYearLabel->setFont(galleryNameFont);
+        imageYearLabel->setText("Year: " + imageYear);
+        imageYearLabel->setGeometry(200, 290, 460, 80);
+
+        imageYearButton = new QPushButton(this);
+        imageYearButton->setFont(galleryNameFont);
+        imageYearButton->setGeometry(670, 305, 80, 50);
+        imageYearButton->setText("Edit");
+        imageYearButton->setStyleSheet("color: black; background-color:pink;");
+        imageYearButton->setAccessibleDescription("2");
+        connect(imageYearButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
+
+        imageSizeLabel = new QLabel(this);
+        imageSizeLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        imageSizeLabel->setStyleSheet("color: black;");
+        imageSizeLabel->setFont(galleryNameFont);
+        imageSizeLabel->setText("Size: " + imageSize);
+        imageSizeLabel->setGeometry(200, 350, 460, 80);
+
+        imageSizeButton = new QPushButton(this);
+        imageSizeButton->setFont(galleryNameFont);
+        imageSizeButton->setGeometry(670, 370, 80, 50);
+        imageSizeButton->setText("Edit");
+        imageSizeButton->setStyleSheet("color: black; background-color:pink;");
+        imageSizeButton->setAccessibleDescription("3");
+        connect(imageSizeButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
+
+        imageDescriptionLabel = new QLabel(this);
+        imageDescriptionLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        imageDescriptionLabel->setStyleSheet("color: black;");
+        imageDescriptionLabel->setFont(galleryNameFont);
+        imageDescriptionLabel->setText("Description: " + imageDescription);
+        imageDescriptionLabel->setGeometry(200, 410, 460, 80);
+
+        imageDescriptionButton = new QPushButton(this);
+        imageDescriptionButton->setFont(galleryNameFont);
+        imageDescriptionButton->setGeometry(670, 435, 80, 50);
+        imageDescriptionButton->setText("Edit");
+        imageDescriptionButton->setAccessibleDescription("4");
+        imageDescriptionButton->setStyleSheet("color: black; background-color:pink;");
+        connect(imageDescriptionButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
+    }
+    imageNameLabel->setVisible(true);
+    currentWidgets.push_back(imageNameLabel);
+    imageNameButton->setVisible(true);
+    currentWidgets.push_back(imageNameButton);
+    imageAuthorLabel->setVisible(true);
+    currentWidgets.push_back(imageAuthorLabel);
+    imageAuthorButton->setVisible(true);
+    currentWidgets.push_back(imageAuthorButton);
+    imageYearLabel->setVisible(true);
+    currentWidgets.push_back(imageYearLabel);
+    imageYearButton->setVisible(true);
+    currentWidgets.push_back(imageYearButton);
+    imageSizeLabel->setVisible(true);
+    currentWidgets.push_back(imageSizeLabel);
+    imageSizeButton->setVisible(true);
+    currentWidgets.push_back(imageSizeButton);
+    imageDescriptionLabel->setVisible(true);
+    currentWidgets.push_back(imageDescriptionLabel);
+    imageDescriptionButton->setVisible(true);
+    currentWidgets.push_back(imageDescriptionButton);
+}
+
 void MainWindow::displayCurrentImage() {
     //aqui se displayea la imagen cargada del db
-    currentImage = "Image Example";
-    currentImageLabel->setText(currentImage);
+    currentImageName = "Image Example";
+    currentImageLabel->setText(currentImageName);
     currentImageLabel->setGeometry(130, 500, 600, 80);
     currentImageLabel->setVisible(true);
 }
@@ -311,10 +417,31 @@ void MainWindow::clickedPreviousImage() {
 }
 
 void MainWindow::clickedImageMetaData() {
-    clearWindow(true);
-    currentWindow = IMAGE_MENU;
-    bgImage->load(BG_METADATA);
-    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    metadataWindow();
+}
+
+void MainWindow::clickedEditImageMetaData() {
+    QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
+    QString buttonDescription = buttonSender->accessibleDescription();
+    int buttonDescriptionInt = stoi(buttonDescription.toStdString());
+    qDebug() << buttonDescriptionInt;
+    switch(buttonDescriptionInt){
+        case 0: {
+            break;
+        }
+        case 1: {
+            break;
+        }
+        case 2: {
+            break;
+        }
+        case 3: {
+            break;
+        }
+        case 4: {
+            break;
+        }
+    }
 }
 
 void MainWindow::clickedNextImage() {
@@ -369,6 +496,9 @@ void MainWindow::clickedBack() {
             break;
         }
         case 3: {
+            currentWindow = IMAGE_MENU;
+            imageWindow();
+            break;
         }
     }
 }

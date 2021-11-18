@@ -52,6 +52,11 @@ private:
     QPushButton * previousImageButton;
     QPushButton * imageMetaDataButton;
     QPushButton * nextImageButton;
+    QPushButton * imageNameButton;
+    QPushButton * imageAuthorButton;
+    QPushButton * imageSizeButton;
+    QPushButton * imageYearButton;
+    QPushButton * imageDescriptionButton;
 
     bool createdLogInWindow = false;
     bool askedForUsernameAndPassword = false;
@@ -60,14 +65,31 @@ private:
     bool successfulCreation = true;
     bool displayedGalleries = false;
     bool displayedImage = false;
+    bool displayedMetadata = false;
 
     QLineEdit * usernameTextInput;
     QLineEdit * passwordTextInput;
+    QLineEdit * imageNameInput;
+    QLineEdit * imageAuthorInput;
+    QLineEdit * imageSizeInput;
+    QLineEdit * imageYearInput;
+    QLineEdit * imageDescriptionInput;
+
     QLabel * noticeLabel;
     QLabel * currentGalleryLabel;
-    QString currentGallery;
     QLabel * currentImageLabel;
-    QString currentImage;
+    QLabel * imageNameLabel;
+    QLabel * imageAuthorLabel;
+    QLabel * imageSizeLabel;
+    QLabel * imageYearLabel;
+    QLabel * imageDescriptionLabel;
+
+    QString currentGallery = "New Gallery";
+    QString currentImageName = "Unknown";
+    QString imageAuthor = "Unknown";
+    QString imageSize = "Unknown";
+    QString imageYear = "Unknown";
+    QString imageDescription = "Unknown";
 
     vector<QWidget*> currentWidgets;
 
@@ -78,7 +100,12 @@ public:
     void logInWindow();
     void askForUsernameAndPassword();
     void galleriesWindow();
-
+    void widgetInitialization();
+    void addExistingGalleriesToGalleryWindow();
+    void clearWindow(bool addBackButton);
+    void imageWindow();
+    void displayCurrentImage();
+    void metadataWindow();
 private slots:
     void clickedLogIn();
     void clickedSignUp();
@@ -92,16 +119,8 @@ private slots:
     void clickedImageMetaData();
     void clickedNextImage();
     void clickedGallery();
+    void clickedEditImageMetaData();
 
 
-    void widgetInitialization();
-
-    void addExistingGalleriesToGalleryWindow();
-
-    void clearWindow(bool addBackButton);
-
-    void imageWindow();
-
-    void displayCurrentImage();
 };
 #endif //GALLERYTEC_MAINWINDOW_H
