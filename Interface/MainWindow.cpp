@@ -287,7 +287,7 @@ void MainWindow::clickedGallery() {
     galleryNameFont.setBold(true);
     currentGalleryLabel->setFont(galleryNameFont);
     currentGalleryLabel->setText(currentGallery);
-    currentGalleryLabel->setGeometry(120, 15, 600, 80);
+    currentGalleryLabel->setGeometry(130, 45, 600, 80);
     currentGalleryLabel->setVisible(true);
     currentWidgets.push_back(currentGalleryLabel);
 
