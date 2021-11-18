@@ -506,22 +506,27 @@ void MainWindow::clickedAcceptEditImageMetadata() {
     switch(buttonDescriptionInt){
         case 0: {
             imageNameInput->setVisible(false);
+            remove(currentWidgets.begin(), currentWidgets.end(), imageNameInput);
             break;
         }
         case 1: {
             imageAuthorInput->setVisible(false);
+            remove(currentWidgets.begin(), currentWidgets.end(), imageAuthorInput);
             break;
         }
         case 2: {
             imageYearInput->setVisible(false);
+            remove(currentWidgets.begin(), currentWidgets.end(), imageYearInput);
             break;
         }
         case 3: {
             imageSizeInput->setVisible(false);
+            remove(currentWidgets.begin(), currentWidgets.end(), imageSizeInput);
             break;
         }
         case 4: {
             imageDescriptionInput->setVisible(false);
+            remove(currentWidgets.begin(), currentWidgets.end(), imageDescriptionInput);
             break;
         }
     }
