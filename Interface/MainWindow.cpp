@@ -56,18 +56,22 @@ void MainWindow::logInWindow() {
         logInButton->setText("Log In");
         logInButton->setVisible(true);
         logInButton->setStyleSheet("color: black; background-color:pink;");
+        currentWidgets.push_back(logInButton);
         connect(logInButton, SIGNAL(clicked()), this, SLOT(clickedLogIn()));
         signUpButton = new QPushButton(this);
         signUpButton->setGeometry(335, 525, 180, 70);
         signUpButton->setText("Sign Up");
         signUpButton->setVisible(true);
         signUpButton->setStyleSheet("color: black; background-color:pink;");
+        currentWidgets.push_back(signUpButton);
         connect(signUpButton, SIGNAL(clicked()), this, SLOT(clickedSignUp()));
         createdLogInWindow = true;
     } else {
         backButton->setVisible(false);
         logInButton->setVisible(true);
+        currentWidgets.push_back(logInButton);
         signUpButton->setVisible(true);
+        currentWidgets.push_back(signUpButton);
     }
 }
 
@@ -75,6 +79,7 @@ void MainWindow::galleriesWindow() {
     currentWindow = GALLERY_MENU;
     bgImage->load(BG_GALLERIES);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    backButton->setVisible(true);
     if(!displayedGalleries){
         addGalleryButton = new QPushButton(this);
         QFont galleryButtonFont = addGalleryButton->font();
@@ -84,6 +89,7 @@ void MainWindow::galleriesWindow() {
         addGalleryButton->setText("Add Gallery");
         addGalleryButton->setStyleSheet("color: black; background-color:pink;");
         addGalleryButton->setVisible(true);
+        currentWidgets.push_back(addGalleryButton);
         connect(addGalleryButton, SIGNAL(clicked()), this, SLOT(clickedAddGallery()));
 
         editGalleryButton = new QPushButton(this);
@@ -92,6 +98,7 @@ void MainWindow::galleriesWindow() {
         editGalleryButton->setText("Edit Gallery");
         editGalleryButton->setStyleSheet("color: black; background-color:pink;");
         editGalleryButton->setVisible(true);
+        currentWidgets.push_back(editGalleryButton);
         connect(editGalleryButton, SIGNAL(clicked()), this, SLOT(clickedEditGallery()));
 
         deleteGalleryButton = new QPushButton(this);
@@ -100,11 +107,17 @@ void MainWindow::galleriesWindow() {
         deleteGalleryButton->setText("Delete Gallery");
         deleteGalleryButton->setStyleSheet("color: black; background-color:pink;");
         deleteGalleryButton->setVisible(true);
+        currentWidgets.push_back(deleteGalleryButton);
         connect(deleteGalleryButton, SIGNAL(clicked()), this, SLOT(clickedDeleteGallery()));
+
+        addExistingGalleriesToGalleryWindow();
     } else {
         addGalleryButton->setVisible(true);
+        currentWidgets.push_back(addGalleryButton);
         editGalleryButton->setVisible(true);
+        currentWidgets.push_back(addGalleryButton);
         deleteGalleryButton->setVisible(true);
+        currentWidgets.push_back(deleteGalleryButton);
     }
 }
 
@@ -114,9 +127,7 @@ void MainWindow::clickedLogIn() {
     currentWindow = LOGIN;
     cout << "current window" << currentWindow << endl;
     cout << "clicked log in" << endl;
-    signUpButton->setVisible(false);
-    logInButton->setVisible(false);
-    backButton->setVisible(true);
+    clearWindow(true);
     userCreated = true;
     askForUsernameAndPassword();
 }
@@ -126,22 +137,17 @@ void MainWindow::clickedSignUp() {
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = SIGNUP;
     cout << "clicked sign up" << endl;
-    signUpButton->setVisible(false);
-    logInButton->setVisible(false);
-    backButton->setVisible(true);
+    clearWindow(true);
     userCreated = false;
     askForUsernameAndPassword();
 }
 
 void MainWindow::clickedCreate() {
-    if (succesfulCreation){
+    if (successfulCreation){
         noticeLabel->setText("User created succesfully! \nReturn to main window.");
         noticeLabel->setGeometry(120, 200, 600, 200);
+        clearWindow(true);
         noticeLabel->setVisible(true);
-        passwordTextInput->setVisible(false);
-        usernameTextInput->setVisible(false);
-        createUserButton->setVisible(false);
-        backButton->setVisible(true);
 
     } else {
         noticeLabel->setText("ERROR: Could not create user.");
@@ -151,12 +157,9 @@ void MainWindow::clickedCreate() {
 }
 
 void MainWindow::clickedVerify() {
-    if (succesfulVerification){
+    if (successfulVerification){
         currentWindow = GALLERY_MENU;
-        passwordTextInput->setVisible(false);
-        usernameTextInput->setVisible(false);
-        verifyUserButton->setVisible(false);
-        backButton->setVisible(true);
+        clearWindow(true);
         galleriesWindow();
     } else {
         noticeLabel->setText("ERROR: Username or password incorrect.");
@@ -175,6 +178,7 @@ void MainWindow::askForUsernameAndPassword() {
         usernameTextInput->setMaxLength(20);
         usernameTextInput->setGeometry(240, 250, 400, 70);
         usernameTextInput->setVisible(true);
+        currentWidgets.push_back(usernameTextInput);
 
         passwordTextInput = new QLineEdit(this);
         passwordTextInput->setAlignment(Qt::AlignCenter);
@@ -183,32 +187,42 @@ void MainWindow::askForUsernameAndPassword() {
         passwordTextInput->setMaxLength(20);
         passwordTextInput->setGeometry(240, 350, 400, 70);
         passwordTextInput->setVisible(true);
+        currentWidgets.push_back(passwordTextInput);
+
         askedForUsernameAndPassword = true;
 
         createUserButton = new QPushButton(this);
         createUserButton->setGeometry(335, 550, 180, 70);
         createUserButton->setText("Create");
         createUserButton->setStyleSheet("color: black; background-color:pink;");
+        currentWidgets.push_back(createUserButton);
         connect(createUserButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
 
         verifyUserButton = new QPushButton(this);
         verifyUserButton->setGeometry(335, 550, 180, 70);
         verifyUserButton->setText("Verify");
         verifyUserButton->setStyleSheet("color: black; background-color:pink;");
+        currentWidgets.push_back(verifyUserButton);
         connect(verifyUserButton, SIGNAL(clicked()), this, SLOT(clickedVerify()));
 
         if (!userCreated){
             createUserButton->setVisible(true);
+            currentWidgets.push_back(createUserButton);
         } else{
             verifyUserButton->setVisible(true);
+            currentWidgets.push_back(verifyUserButton);
         }
     } else {
         usernameTextInput->setVisible(true);
+        currentWidgets.push_back(usernameTextInput);
         passwordTextInput->setVisible(true);
+        currentWidgets.push_back(passwordTextInput);
         if (!userCreated){
            createUserButton->setVisible(true);
+            currentWidgets.push_back(createUserButton);
         } else {
            verifyUserButton->setVisible(true);
+           currentWidgets.push_back(verifyUserButton);
         }
     }
 
@@ -218,30 +232,21 @@ void MainWindow::clickedAddGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
-    addGalleryButton->setVisible(false);
-    editGalleryButton->setVisible(false);
-    deleteGalleryButton->setVisible(false);
-    backButton->setVisible(true);
+    clearWindow(true);
 }
 
 void MainWindow::clickedEditGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
-    addGalleryButton->setVisible(false);
-    editGalleryButton->setVisible(false);
-    deleteGalleryButton->setVisible(false);
-    backButton->setVisible(true);
+    clearWindow(true);
 }
 
 void MainWindow::clickedDeleteGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
-    addGalleryButton->setVisible(false);
-    editGalleryButton->setVisible(false);
-    deleteGalleryButton->setVisible(false);
-    backButton->setVisible(true);
+    clearWindow(true);
 }
 
 void MainWindow::clickedPreviousImage() {
@@ -256,37 +261,50 @@ void MainWindow::clickedNextImage() {
 
 }
 
+void MainWindow::addExistingGalleriesToGalleryWindow() {
+
+    QPushButton * galleryButton = new QPushButton(this);
+    galleryButton->setGeometry(30, 170, 790, 50);
+    galleryButton->setText("Gallery Example");
+    galleryButton->setVisible(true);
+    galleryButton->setStyleSheet("color: black; background-color:pink;");
+    currentWidgets.push_back(galleryButton);
+    connect(galleryButton, SIGNAL(clicked()), this, SLOT(clickedGallery()));
+}
+
+void MainWindow::clickedGallery() {
+    clearWindow(true);
+    currentWindow = GALLERY_MANAGEMENT;
+    bgImage->load(BG_IMAGE);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
+    currentGallery = buttonSender->text();
+    qDebug() << currentGallery;
+    currentGalleryLabel = new QLabel(this);
+    currentGalleryLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    currentGalleryLabel->setStyleSheet("color: white;");
+    QFont galleryNameFont = currentGalleryLabel->font();
+    galleryNameFont.setPointSize(35);
+    galleryNameFont.setBold(true);
+    currentGalleryLabel->setFont(galleryNameFont);
+    currentGalleryLabel->setText(currentGallery);
+    currentGalleryLabel->setGeometry(120, 15, 600, 80);
+    currentGalleryLabel->setVisible(true);
+    currentWidgets.push_back(currentGalleryLabel);
+
+}
+
 void MainWindow::clickedBack() {
     cout << "current window: " << currentWindow << endl;
+    clearWindow(false);
     noticeLabel->setVisible(false);
     int previousWindow = currentWindow - 1;
     switch(previousWindow){
         case  0: {
-            passwordTextInput->setVisible(false);
-            usernameTextInput->setVisible(false);
-            if (!userCreated){
-                createUserButton->setVisible(false);
-            } else {
-                verifyUserButton->setVisible(false);
-            }
-            currentWindow = MENU;
-            logInWindow();
-            break;
-        }
-        case 1: {
-            addGalleryButton->setVisible(false);
-            editGalleryButton->setVisible(false);
-            deleteGalleryButton->setVisible(false);
             currentWindow = MENU;
             logInWindow();
             break;
         }
         case 2: {
-            addGalleryButton->setVisible(false);
-            editGalleryButton->setVisible(false);
-            deleteGalleryButton->setVisible(false);
-            logInButton->setVisible(false);
-            signUpButton->setVisible(false);
             currentWindow = GALLERY_MENU;
             galleriesWindow();
             break;
@@ -296,4 +314,10 @@ void MainWindow::clickedBack() {
     }
 }
 
-
+void MainWindow::clearWindow(bool addBackButton) {
+    for(QWidget * widget : currentWidgets){
+        widget->setVisible(false);
+    }
+    backButton->setVisible(addBackButton);
+    currentWidgets.clear();
+}

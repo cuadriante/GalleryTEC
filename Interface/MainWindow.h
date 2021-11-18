@@ -26,36 +26,43 @@ private:
     const QString BG_GALLERY_TEC = "../Resources/galleryTEC.png";
     const QString BG_GALLERIES = "../Resources/galleries.png";
     const QString BG_BACKGROUND = "../Resources/background.png";
+    const QString BG_IMAGE = "../Resources/image.png";
 
     const int MENU = 0;
     const int LOGIN = 1;
     const int SIGNUP = 1;
-    const int GALLERY_MENU = 2;
+    const int GALLERY_MENU = 1;
     const int GALLERY_MANAGEMENT = 3;
     int currentWindow = MENU;
 
     QImage * bgImage;
     QGraphicsPixmapItem * pixmap;
+
     QPushButton * logInButton;
     QPushButton * signUpButton;
-    bool createdLogInWindow = false;
     QPushButton * backButton;
-    QLineEdit * usernameTextInput;
-    QLineEdit * passwordTextInput;
-    bool askedForUsernameAndPassword = false;
     QPushButton * verifyUserButton;
     QPushButton * createUserButton;
-    bool userCreated = true;
-    bool succesfulVerification = true;
-    bool succesfulCreation = true;
-    QLabel * noticeLabel;
     QPushButton * addGalleryButton;
     QPushButton * editGalleryButton;
     QPushButton * deleteGalleryButton;
-    bool displayedGalleries = false;
     QPushButton * previousImageButton;
     QPushButton * imageMetaDataButton;
     QPushButton * nextImageButton;
+
+    bool createdLogInWindow = false;
+    bool askedForUsernameAndPassword = false;
+    bool userCreated = true;
+    bool successfulVerification = true;
+    bool successfulCreation = true;
+    bool displayedGalleries = false;
+
+    QLineEdit * usernameTextInput;
+    QLineEdit * passwordTextInput;
+    QLabel * noticeLabel;
+    QLabel * currentGalleryLabel;
+    QString currentGallery;
+    vector<QWidget*> currentWidgets;
 
 
 public:
@@ -77,8 +84,13 @@ private slots:
     void clickedPreviousImage();
     void clickedImageMetaData();
     void clickedNextImage();
+    void clickedGallery();
 
 
     void widgetInitialization();
+
+    void addExistingGalleriesToGalleryWindow();
+
+    void clearWindow(bool addBackButton);
 };
 #endif //GALLERYTEC_MAINWINDOW_H
