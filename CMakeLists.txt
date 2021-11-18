@@ -10,7 +10,7 @@ find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
 
-add_executable(GalleryTEC main.cpp Interface/MainWindow.cpp Interface/MainWindow.h)
+add_executable(GalleryTEC main.cpp MainWindow.cpp MainWindow.h)
 # Link the library to the executable
 target_link_libraries(GalleryTEC Qt5::Core Qt5::Widgets)
 

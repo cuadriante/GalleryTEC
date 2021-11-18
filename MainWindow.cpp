@@ -9,16 +9,14 @@ MainWindow::MainWindow(QWidget *parent) : QGraphicsView(parent) {
     scene = new QGraphicsScene(0,0,850,700);
     setScene(scene);
     this->setWindowTitle("GalleryTEC");
-  //  QImage * backgroundImage = new QImage();
-//    backgroundImage->load("/home/cuadriante/CLionProjects/GalleryTEC/Resources/galleryTEC.bmp");
-//    QLabel * backgroundLabel = new QLabel(this);
-//    backgroundLabel->setPixmap(QPixmap::fromImage(*backgroundImage));
-//    backgroundLabel->setGeometry(0, 0, 0, 0);
-//    backgroundLabel->setVisible(true);
-    //scene->addItem(reinterpret_cast<QGraphicsItem *>(backgroundLabel));
-
-
-
+    bgImage = new QImage();
+    bgImage->load("../Resources/galleryTEC.png");
+    cout << " aiudgfcuiywg" << bgImage->colorCount() << endl;
+    pixmap = new QGraphicsPixmapItem(QPixmap::fromImage(*bgImage));
+    scene->addItem(pixmap);
+    pixmap->setPos(0,0);
+    pixmap->show();
+    //setStyleSheet("background-color:pink;");
     widgetInitialization();
 
 }
@@ -44,7 +42,7 @@ void MainWindow::widgetInitialization() {
     font.bold();
     font.setStyleHint(QFont::Monospace);
     QApplication::setFont(font);
-    setStyleSheet("background-color:pink;");
+
     logInWindow();
 }
 

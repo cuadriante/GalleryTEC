@@ -29,6 +29,9 @@ private:
     const int GALLERY_MENU = 2;
     const int GALLERY_MANAGEMENT = 3;
     int currentWindow = MENU;
+
+    QImage * bgImage;
+    QGraphicsPixmapItem * pixmap;
     QPushButton * logInButton;
     QPushButton * signUpButton;
     bool createdLogInWindow = false;
@@ -49,6 +52,8 @@ private:
     QPushButton * previousImageButton;
     QPushButton * imageMetaDataButton;
     QPushButton * nextImageButton;
+
+
 public:
     QGraphicsScene *scene;
     MainWindow(QWidget* parent=NULL);
