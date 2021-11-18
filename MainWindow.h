@@ -23,6 +23,9 @@ using namespace std;
 class MainWindow: public QGraphicsView {
 Q_OBJECT
 private:
+    const QString BG_GALLERY_TEC = "../Resources/galleryTEC.png";
+    const QString BG_GALLERIES = "../Resources/galleries.png";
+
     const int MENU = 0;
     const int LOGIN = 1;
     const int SIGNUP = 1;

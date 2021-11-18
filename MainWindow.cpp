@@ -10,8 +10,7 @@ MainWindow::MainWindow(QWidget *parent) : QGraphicsView(parent) {
     setScene(scene);
     this->setWindowTitle("GalleryTEC");
     bgImage = new QImage();
-    bgImage->load("../Resources/galleryTEC.png");
-    cout << " aiudgfcuiywg" << bgImage->colorCount() << endl;
+    bgImage->load(BG_GALLERY_TEC);
     pixmap = new QGraphicsPixmapItem(QPixmap::fromImage(*bgImage));
     scene->addItem(pixmap);
     pixmap->setPos(0,0);
@@ -47,7 +46,8 @@ void MainWindow::widgetInitialization() {
 }
 
 void MainWindow::logInWindow() {
-    //currentWindow = 0;
+    currentWindow = GALLERY_MENU;
+    bgImage->load(BG_GALLERY_TEC);
     if (!createdLogInWindow){
         logInButton = new QPushButton(this);
         logInButton->setGeometry(335, 425, 180, 70);
@@ -67,8 +67,45 @@ void MainWindow::logInWindow() {
         logInButton->setVisible(true);
         signUpButton->setVisible(true);
     }
-
 }
+
+void MainWindow::galleriesWindow() {
+    currentWindow = GALLERY_MENU;
+    bgImage->load(BG_GALLERIES);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    if(!displayedGalleries){
+        addGalleryButton = new QPushButton(this);
+        QFont galleryButtonFont = addGalleryButton->font();
+        galleryButtonFont.setPointSize(20);
+        addGalleryButton->setFont(galleryButtonFont);
+        addGalleryButton->setGeometry(25, 600, 220, 70);
+        addGalleryButton->setText("Add Gallery");
+        addGalleryButton->setStyleSheet("color: black;");
+        addGalleryButton->setVisible(true);
+        connect(addGalleryButton, SIGNAL(clicked()), this, SLOT(clickedAddGallery()));
+
+        editGalleryButton = new QPushButton(this);
+        editGalleryButton->setFont(galleryButtonFont);
+        editGalleryButton->setGeometry(315, 600, 220, 70);
+        editGalleryButton->setText("Edit Gallery");
+        editGalleryButton->setStyleSheet("color: black;");
+        editGalleryButton->setVisible(true);
+        connect(editGalleryButton, SIGNAL(clicked()), this, SLOT(clickedEditGallery()));
+
+        deleteGalleryButton = new QPushButton(this);
+        deleteGalleryButton->setGeometry(605, 600, 220, 70);
+        deleteGalleryButton->setFont(galleryButtonFont);
+        deleteGalleryButton->setText("Delete Gallery");
+        deleteGalleryButton->setStyleSheet("color: black;");
+        deleteGalleryButton->setVisible(true);
+        connect(deleteGalleryButton, SIGNAL(clicked()), this, SLOT(clickedDeleteGallery()));
+    } else {
+        addGalleryButton->setVisible(true);
+        editGalleryButton->setVisible(true);
+        deleteGalleryButton->setVisible(true);
+    }
+}
+
 
 void MainWindow::clickedLogIn() {
     currentWindow = LOGIN;
@@ -166,40 +203,6 @@ void MainWindow::clickedVerify() {
     }
 }
 
-void MainWindow::galleriesWindow() {
-    currentWindow = GALLERY_MENU;
-    if(!displayedGalleries){
-        addGalleryButton = new QPushButton(this);
-        QFont galleryButtonFont = addGalleryButton->font();
-        galleryButtonFont.setPointSize(20);
-        addGalleryButton->setFont(galleryButtonFont);
-        addGalleryButton->setGeometry(25, 500, 220, 70);
-        addGalleryButton->setText("Add Gallery");
-        addGalleryButton->setStyleSheet("color: black;");
-        addGalleryButton->setVisible(true);
-        connect(addGalleryButton, SIGNAL(clicked()), this, SLOT(clickedAddGallery()));
-
-        editGalleryButton = new QPushButton(this);
-        editGalleryButton->setFont(galleryButtonFont);
-        editGalleryButton->setGeometry(315, 500, 220, 70);
-        editGalleryButton->setText("Edit Gallery");
-        editGalleryButton->setStyleSheet("color: black;");
-        editGalleryButton->setVisible(true);
-        connect(editGalleryButton, SIGNAL(clicked()), this, SLOT(clickedEditGallery()));
-
-        deleteGalleryButton = new QPushButton(this);
-        deleteGalleryButton->setGeometry(605, 500, 220, 70);
-        deleteGalleryButton->setFont(galleryButtonFont);
-        deleteGalleryButton->setText("Delete Gallery");
-        deleteGalleryButton->setStyleSheet("color: black;");
-        deleteGalleryButton->setVisible(true);
-        connect(deleteGalleryButton, SIGNAL(clicked()), this, SLOT(clickedDeleteGallery()));
-    } else {
-        addGalleryButton->setVisible(true);
-        editGalleryButton->setVisible(true);
-        deleteGalleryButton->setVisible(true);
-    }
-}
 
 
 
