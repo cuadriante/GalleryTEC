@@ -57,6 +57,7 @@ private:
     QPushButton * imageSizeButton;
     QPushButton * imageYearButton;
     QPushButton * imageDescriptionButton;
+    QPushButton * confirmAddGalleryButton;
 
     bool createdLogInWindow = false;
     bool askedForUsernameAndPassword = false;
@@ -66,6 +67,7 @@ private:
     bool displayedGalleries = false;
     bool displayedImage = false;
     bool displayedMetadata = false;
+    bool hasAddedGallery = false;
 
     QLineEdit * usernameTextInput;
     QLineEdit * passwordTextInput;

@@ -124,6 +124,7 @@ void MainWindow::galleriesWindow() {
 void MainWindow::imageWindow() {
     currentWindow = IMAGE_MENU;
     currentGalleryLabel->setVisible(true);
+    currentWidgets.push_back(currentGalleryLabel);
     bgImage->load(BG_IMAGE);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     backButton->setVisible(true);
@@ -437,14 +438,29 @@ void MainWindow::clickedAddGallery() {
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
     clearWindow(true);
-//    newGalleryInput = new QLineEdit(this);
-//    usernameTextInput->setAlignment(Qt::AlignCenter);
-//    usernameTextInput->setPlaceholderText("Username");
-//    usernameTextInput->setStyleSheet("color : black;");
-//    usernameTextInput->setMaxLength(20);
-//    usernameTextInput->setGeometry(240, 250, 400, 70);
-//    usernameTextInput->setVisible(true);
-//    currentWidgets.push_back(usernameTextInput);
+    if(!hasAddedGallery){
+        newGalleryInput = new QLineEdit(this);
+        newGalleryInput->setAlignment(Qt::AlignCenter);
+        newGalleryInput->setPlaceholderText("New Gallery Name");
+        newGalleryInput->setStyleSheet("color : black;");
+        newGalleryInput->setMaxLength(20);
+        newGalleryInput->setGeometry(220, 250, 400, 70);
+
+        confirmAddGalleryButton = new QPushButton(this);
+        confirmAddGalleryButton->setGeometry(335, 350, 180, 70);
+        confirmAddGalleryButton->setText("Add");
+        confirmAddGalleryButton->setStyleSheet("color: black; background-color:pink;");
+
+        connect(confirmAddGalleryButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
+
+        hasAddedGallery = true;
+    }
+    newGalleryInput->setPlaceholderText("New Gallery Name");
+    confirmAddGalleryButton->setText("Add");
+    newGalleryInput->setVisible(true);
+    currentWidgets.push_back(newGalleryInput);
+    confirmAddGalleryButton->setVisible(true);
+    currentWidgets.push_back(confirmAddGalleryButton);
 }
 
 void MainWindow::clickedEditGallery() {
@@ -459,6 +475,29 @@ void MainWindow::clickedDeleteGallery() {
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
     clearWindow(true);
+    if(!hasAddedGallery){
+        newGalleryInput = new QLineEdit(this);
+        newGalleryInput->setAlignment(Qt::AlignCenter);
+        newGalleryInput->setPlaceholderText("Gallery Name");
+        newGalleryInput->setStyleSheet("color : black;");
+        newGalleryInput->setMaxLength(20);
+        newGalleryInput->setGeometry(220, 250, 400, 70);
+
+        confirmAddGalleryButton = new QPushButton(this);
+        confirmAddGalleryButton->setGeometry(335, 350, 180, 70);
+        confirmAddGalleryButton->setText("Delete");
+        confirmAddGalleryButton->setStyleSheet("color: black; background-color:pink;");
+
+        connect(confirmAddGalleryButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
+
+        hasAddedGallery = true;
+    }
+    newGalleryInput->setPlaceholderText("Gallery Name");
+    confirmAddGalleryButton->setText("Delete");
+    newGalleryInput->setVisible(true);
+    currentWidgets.push_back(newGalleryInput);
+    confirmAddGalleryButton->setVisible(true);
+    currentWidgets.push_back(confirmAddGalleryButton);
 }
 
 void MainWindow::clickedPreviousImage() {
