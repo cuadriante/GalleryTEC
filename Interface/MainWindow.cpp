@@ -123,6 +123,7 @@ void MainWindow::galleriesWindow() {
 
 void MainWindow::imageWindow() {
     currentWindow = IMAGE_MENU;
+    currentGalleryLabel->setVisible(true);
     bgImage->load(BG_IMAGE);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     backButton->setVisible(true);
@@ -436,6 +437,14 @@ void MainWindow::clickedAddGallery() {
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
     clearWindow(true);
+//    newGalleryInput = new QLineEdit(this);
+//    usernameTextInput->setAlignment(Qt::AlignCenter);
+//    usernameTextInput->setPlaceholderText("Username");
+//    usernameTextInput->setStyleSheet("color : black;");
+//    usernameTextInput->setMaxLength(20);
+//    usernameTextInput->setGeometry(240, 250, 400, 70);
+//    usernameTextInput->setVisible(true);
+//    currentWidgets.push_back(usernameTextInput);
 }
 
 void MainWindow::clickedEditGallery() {

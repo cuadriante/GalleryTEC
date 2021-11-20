@@ -74,6 +74,7 @@ private:
     QLineEdit * imageSizeInput;
     QLineEdit * imageYearInput;
     QLineEdit * imageDescriptionInput;
+    QLineEdit * newGalleryInput;
 
     QLabel * noticeLabel;
     QLabel * currentGalleryLabel;
