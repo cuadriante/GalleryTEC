@@ -3,8 +3,8 @@
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    ImageProcessor* pros = new ImageProcessor("/home/eduardo/Documentos/GitHub/GalleryTEC/cupcake.png");
-    pros->pixelReader();
-    delete pros;
+    ImageProcessor p("/home/eduardo/Documentos/GitHub/GalleryTEC/cupcake.png");
+    p.pixelReader();
+    p.frequencyCounter();
     return 0;
 }

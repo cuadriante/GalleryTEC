@@ -15,13 +15,14 @@ using namespace std;
 class ImageProcessor {
 private:
     Mat* image;
+    vector<Vec3b> allColors;
     vector<Vec3b> pixels;
     vector<Pixel> unrepeatedPixels;
 public:
     ImageProcessor(const string& imgUrl);
     ~ImageProcessor();
     void pixelReader();
-    void unrepeatedReader();
+    void frequencyCounter();
 };
 
 

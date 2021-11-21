@@ -14,6 +14,7 @@ private:
     int probability;
     Vec3b color;
 public:
+    Pixel(Vec3b color, int prob);
     int getProbability() const;
     void setProbability(int prob);
     Vec3b getColor();

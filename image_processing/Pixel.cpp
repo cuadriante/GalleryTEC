@@ -4,6 +4,10 @@
 
 #include "Pixel.h"
 
+Pixel::Pixel(Vec3b color, int prob) {
+    this->color = color;
+    this->probability = prob;
+}
 
 int Pixel::getProbability() const {
     return this->probability;
