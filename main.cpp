@@ -1,12 +1,17 @@
 #include <iostream>
-#include <QApplication>
-#include "Interface/MainWindow.h"
+//#include <QApplication>
+//#include "Interface/MainWindow.h"
+
+using namespace std;
 
 int main(int argc, char** argv) {
 
-    QApplication app(argc, argv);
-    MainWindow mainWindow;
-    mainWindow.show();
+    cout << "Hola" << endl;
 
-    return app.exec();
+    //QApplication app(argc, argv);
+    //MainWindow mainWindow;
+    //mainWindow.show();
+
+    //return app.exec();
+    return 0;
 }
