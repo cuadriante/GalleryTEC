@@ -1,12 +1,13 @@
 #include <iostream>
 //#include <QApplication>
 //#include "Interface/MainWindow.h"
+#include "StorageManager/raidManager.h"
 
 using namespace std;
 
 int main(int argc, char** argv) {
 
-    cout << "Hola" << endl;
+    raidManager manager;
 
     //QApplication app(argc, argv);
     //MainWindow mainWindow;
