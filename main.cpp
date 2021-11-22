@@ -9,6 +9,10 @@ int main(int argc, char** argv) {
 
     raidManager manager;
 
+//    manager.write("Hola, estoy haciendo una prueba");
+
+//    manager.read();
+
     //QApplication app(argc, argv);
     //MainWindow mainWindow;
     //mainWindow.show();

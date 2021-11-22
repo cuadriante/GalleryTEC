@@ -13,6 +13,7 @@ public:
     raidManager();
 
     void write(string data);
+    string read();
 
 private:
     string fileLocation;

@@ -20,6 +20,32 @@ void raidManager::write(string data) {
     }
 }
 
+string raidManager::read() {
+    ifstream file;
+    string data;
+
+    int counter = 1;
+
+    file.open(fileLocation, ios::in);
+
+    if (file.fail()) {
+        cout << "File " + fileLocation + " not found" << endl;
+    } else {
+        while (counter < 4) {
+            getline(file, data);
+            counter++;
+
+        }
+        cout << data << endl;
+        cout << data[0] << endl;
+        cout << "Data found" << endl;
+
+        file.close();
+    }
+
+    return data;
+}
+
 void raidManager::setFileLocation() {
     raidManager::fileLocation = "RAIDStorage/Disk" + to_string(disk) + "/data.txt";
 }
