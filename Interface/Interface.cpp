@@ -3,9 +3,9 @@
 //
 
 
-#include "MainWindow.h"
+#include "Interface.h"
 
-MainWindow::MainWindow(QWidget *parent) : QGraphicsView(parent) {
+Interface::Interface(QWidget *parent) : QGraphicsView(parent) {
     scene = new QGraphicsScene(0,0,850,700);
     setScene(scene);
     this->setWindowTitle("GalleryTEC");
@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QGraphicsView(parent) {
     widgetInitialization();
 }
 
-void MainWindow::widgetInitialization() {
+void Interface::widgetInitialization() {
     noticeLabel = new QLabel(this);
     noticeLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     noticeLabel->setStyleSheet("color: white;");
@@ -43,37 +43,28 @@ void MainWindow::widgetInitialization() {
     backButton->setStyleSheet("color: black; background-color:pink;");
     connect(backButton, SIGNAL(clicked()), this, SLOT(clickedBack()));
 
-    logInWindow();
+    startWindow();
 }
 
-void MainWindow::logInWindow() {
+void Interface::startWindow() {
     currentWindow = GALLERY_MENU;
     bgImage->load(BG_GALLERY_TEC);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     if (!createdLogInWindow){
         logInButton = new QPushButton(this);
-        logInButton->setGeometry(335, 425, 180, 70);
-        logInButton->setText("Log In");
-        logInButton->setVisible(true);
-        logInButton->setStyleSheet("color: black; background-color:pink;");
-        currentWidgets.push_back(logInButton);
+        createButton(logInButton, "Log In", 335, 425, 180, 70);
         connect(logInButton, SIGNAL(clicked()), this, SLOT(clickedLogIn()));
         signUpButton = new QPushButton(this);
-        signUpButton->setGeometry(335, 525, 180, 70);
-        signUpButton->setText("Sign Up");
-        signUpButton->setVisible(true);
-        signUpButton->setStyleSheet("color: black; background-color:pink;");
-        currentWidgets.push_back(signUpButton);
+        createButton(signUpButton, "Sign Up", 335, 525, 180, 70);
         connect(signUpButton, SIGNAL(clicked()), this, SLOT(clickedSignUp()));
         createdLogInWindow = true;
-    } else {
-        backButton->setVisible(false);
-        addToWindow(logInButton);
-        addToWindow(signUpButton);
     }
+    backButton->setVisible(false);
+    addToWindow(logInButton);
+    addToWindow(signUpButton);
 }
 
-void MainWindow::galleriesWindow() {
+void Interface::galleriesWindow() {
     currentWindow = GALLERY_MENU;
     bgImage->load(BG_GALLERIES);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
@@ -116,7 +107,7 @@ void MainWindow::galleriesWindow() {
     }
 }
 
-void MainWindow::imageWindow() {
+void Interface::imageWindow() {
     currentWindow = IMAGE_MENU;
     currentGalleryLabel->setVisible(true);
     currentWidgets.push_back(currentGalleryLabel);
@@ -167,7 +158,7 @@ void MainWindow::imageWindow() {
     displayCurrentImage();
 }
 
-void MainWindow::metadataWindow() {
+void Interface::metadataWindow() {
     clearWindow(true);
     currentWindow = IMAGE_METADATA;
     bgImage->load(BG_METADATA);
@@ -304,7 +295,7 @@ void MainWindow::metadataWindow() {
     addToWindow(imageDescriptionButton);
 }
 
-void MainWindow::displayCurrentImage() {
+void Interface::displayCurrentImage() {
     //aqui se displayea la imagen cargada del db
     currentImageName = "Image Example";
     currentImageLabel->setText(currentImageName);
@@ -312,28 +303,23 @@ void MainWindow::displayCurrentImage() {
     currentImageLabel->setVisible(true);
 }
 
-void MainWindow::clickedLogIn() {
-    bgImage->load(BG_BACKGROUND);
-    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+void Interface::clickedLogIn() {
+
     currentWindow = LOGIN;
-    cout << "current window" << currentWindow << endl;
-    cout << "clicked log in" << endl;
-    clearWindow(true);
     userCreated = true;
     askForUsernameAndPassword();
 }
 
-void MainWindow::clickedSignUp() {
-    bgImage->load(BG_BACKGROUND);
-    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+void Interface::clickedSignUp() {
     currentWindow = SIGNUP;
-    cout << "clicked sign up" << endl;
-    clearWindow(true);
     userCreated = false;
     askForUsernameAndPassword();
 }
 
-void MainWindow::clickedCreate() {
+void Interface::clickedCreate() {
+    //get username and password and verify
+    //string username  = usernameTextInput->text().toStdString();
+    //string password = passwordTextInput->text().toStdString();
     if (successfulCreation){
         noticeLabel->setText("User created succesfully! \nReturn to main window.");
         noticeLabel->setGeometry(120, 200, 600, 200);
@@ -347,7 +333,11 @@ void MainWindow::clickedCreate() {
     }
 }
 
-void MainWindow::clickedVerify() {
+void Interface::clickedVerify() {
+    //get username and password and verify
+    string username  = usernameTextInput->text().toStdString();
+    string password = passwordTextInput->text().toStdString();
+    cout << "username: " << username << " password: " << password << endl;
     if (successfulVerification){
         currentWindow = GALLERY_MENU;
         clearWindow(true);
@@ -356,39 +346,25 @@ void MainWindow::clickedVerify() {
         noticeLabel->setText("ERROR: Username or password incorrect.");
         noticeLabel->setGeometry(470, 420, 100, 100);
         noticeLabel->setVisible(true);
-
     }
 }
 
-void MainWindow::askForUsernameAndPassword() {
+void Interface::askForUsernameAndPassword() {
+    bgImage->load(BG_BACKGROUND);
+    pixmap->setPixmap(QPixmap::fromImage(*bgImage));
+    clearWindow(true);
     if(!askedForUsernameAndPassword){
         usernameTextInput = new QLineEdit(this);
-        usernameTextInput->setAlignment(Qt::AlignCenter);
-        usernameTextInput->setPlaceholderText("Username");
-        usernameTextInput->setStyleSheet("color : black;");
-        usernameTextInput->setMaxLength(20);
-        usernameTextInput->setGeometry(240, 250, 400, 70);
-
         passwordTextInput = new QLineEdit(this);
-        passwordTextInput->setAlignment(Qt::AlignCenter);
-        passwordTextInput->setPlaceholderText("Password");
-        passwordTextInput->setStyleSheet("color : black;");
-        passwordTextInput->setMaxLength(20);
-        passwordTextInput->setGeometry(240, 350, 400, 70);
-
-        askedForUsernameAndPassword = true;
-
         createUserButton = new QPushButton(this);
-        createUserButton->setGeometry(335, 550, 180, 70);
-        createUserButton->setText("Create");
-        createUserButton->setStyleSheet("color: black; background-color:pink;");
-        connect(createUserButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
-
         verifyUserButton = new QPushButton(this);
-        verifyUserButton->setGeometry(335, 550, 180, 70);
-        verifyUserButton->setText("Verify");
-        verifyUserButton->setStyleSheet("color: black; background-color:pink;");
+        createInput(usernameTextInput, "Username", 240, 250, 400, 70);
+        createInput(passwordTextInput, "Password", 240, 350, 400, 70);
+        createButton(createUserButton, "Create", 335, 550, 180, 70);
+        connect(createUserButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
+        createButton(verifyUserButton, "Verify", 335, 550, 180, 70);
         connect(verifyUserButton, SIGNAL(clicked()), this, SLOT(clickedVerify()));
+        askedForUsernameAndPassword = true;
     }
     addToWindow(usernameTextInput);
     addToWindow(passwordTextInput);
@@ -399,26 +375,17 @@ void MainWindow::askForUsernameAndPassword() {
     }
 }
 
-void MainWindow::clickedAddGallery() {
+void Interface::clickedAddGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
     clearWindow(true);
     if(!hasAddedGallery){
         newGalleryInput = new QLineEdit(this);
-        newGalleryInput->setAlignment(Qt::AlignCenter);
-        newGalleryInput->setPlaceholderText("New Gallery Name");
-        newGalleryInput->setStyleSheet("color : black;");
-        newGalleryInput->setMaxLength(20);
-        newGalleryInput->setGeometry(220, 250, 400, 70);
-
+        createInput(newGalleryInput, "New Gallery Name",  220, 250, 400, 70);
         confirmAddGalleryButton = new QPushButton(this);
-        confirmAddGalleryButton->setGeometry(335, 350, 180, 70);
-        confirmAddGalleryButton->setText("Add");
-        confirmAddGalleryButton->setStyleSheet("color: black; background-color:pink;");
-
+        createButton(confirmAddGalleryButton, "Add", 335, 350, 180, 70);
         connect(confirmAddGalleryButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
-
         hasAddedGallery = true;
     }
     newGalleryInput->setPlaceholderText("New Gallery Name");
@@ -427,29 +394,24 @@ void MainWindow::clickedAddGallery() {
     addToWindow(confirmAddGalleryButton);
 }
 
-void MainWindow::clickedEditGallery() {
+void Interface::clickedEditGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
     clearWindow(true);
 }
 
-void MainWindow::clickedDeleteGallery() {
+void Interface::clickedDeleteGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
     currentWindow = GALLERY_MANAGEMENT;
     clearWindow(true);
     if(!hasAddedGallery){
         newGalleryInput = new QLineEdit(this);
-        newGalleryInput->setAlignment(Qt::AlignCenter);
-        newGalleryInput->setPlaceholderText("Gallery Name");
-        newGalleryInput->setStyleSheet("color : black;");
-        newGalleryInput->setMaxLength(20);
-        newGalleryInput->setGeometry(220, 250, 400, 70);
-
+        createInput(newGalleryInput, "Gallery Name",  220, 250, 400, 70);
+        confirmAddGalleryButton = new QPushButton(this);
         createButton(confirmAddGalleryButton, "Delete", 335, 350, 180, 70);
         connect(confirmAddGalleryButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
-
         hasAddedGallery = true;
     }
     newGalleryInput->setPlaceholderText("Gallery Name");
@@ -458,15 +420,14 @@ void MainWindow::clickedDeleteGallery() {
     addToWindow(confirmAddGalleryButton);
 }
 
-void MainWindow::clickedPreviousImage() {
-
+void Interface::clickedPreviousImage() {
 }
 
-void MainWindow::clickedImageMetaData() {
+void Interface::clickedImageMetaData() {
     metadataWindow();
 }
 
-void MainWindow::clickedEditImageMetaData() {
+void Interface::clickedEditImageMetaData() {
     QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
     QString buttonDescription = buttonSender->accessibleDescription();
     int buttonDescriptionInt = stoi(buttonDescription.toStdString());
@@ -502,7 +463,7 @@ void MainWindow::clickedEditImageMetaData() {
     }
 }
 
-void MainWindow::clickedAcceptEditImageMetadata() {
+void Interface::clickedAcceptEditImageMetadata() {
     QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
     QString buttonDescription = buttonSender->accessibleDescription();
     int buttonDescriptionInt = stoi(buttonDescription.toStdString());
@@ -538,40 +499,38 @@ void MainWindow::clickedAcceptEditImageMetadata() {
     }
 }
 
-void MainWindow::clickedNextImage() {
+void Interface::clickedNextImage() {
 
 }
 
-void MainWindow::addExistingGalleriesToGalleryWindow() {
-
+void Interface::addExistingGalleriesToGalleryWindow() {
     QPushButton * galleryButton = new QPushButton(this);
-    galleryButton->setGeometry(30, 170, 790, 50);
-    galleryButton->setText("Gallery Example");
-    galleryButton->setStyleSheet("color: black; background-color:pink;");
+    createButton(galleryButton, "Gallery Example", 30, 170, 790, 50);
     addToWindow(galleryButton);
     connect(galleryButton, SIGNAL(clicked()), this, SLOT(clickedGallery()));
 }
 
-void MainWindow::clickedGallery() {
+void Interface::clickedGallery() {
     clearWindow(true);
     QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
     currentGallery = buttonSender->text();
     qDebug() << currentGallery;
+
     currentGalleryLabel = new QLabel(this);
+    createLabel(currentGalleryLabel, currentGallery, 130, 45, 600, 80);
     currentGalleryLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    currentGalleryLabel->setStyleSheet("color: white;");
+
     QFont galleryNameFont = currentGalleryLabel->font();
     galleryNameFont.setPointSize(35);
     galleryNameFont.setBold(true);
     currentGalleryLabel->setFont(galleryNameFont);
-    currentGalleryLabel->setText(currentGallery);
-    currentGalleryLabel->setGeometry(130, 45, 600, 80);
+
     addToWindow(currentGalleryLabel);
     imageWindow();
 
 }
 
-void MainWindow::clickedBack() {
+void Interface::clickedBack() {
     cout << "current window: " << currentWindow << endl;
     clearWindow(false);
     noticeLabel->setVisible(false);
@@ -579,7 +538,7 @@ void MainWindow::clickedBack() {
     switch(previousWindow){
         case  0: {
             currentWindow = MENU;
-            logInWindow();
+            startWindow();
             break;
         }
         case 2: {
@@ -595,7 +554,7 @@ void MainWindow::clickedBack() {
     }
 }
 
-void MainWindow::clearWindow(bool addBackButton) {
+void Interface::clearWindow(bool addBackButton) {
     for(QWidget * widget : currentWidgets){
         widget->setVisible(false);
     }
@@ -603,17 +562,36 @@ void MainWindow::clearWindow(bool addBackButton) {
     currentWidgets.clear();
 }
 
-void MainWindow::addToWindow(QWidget *widget) {
+void Interface::addToWindow(QWidget *widget) {
     widget->setVisible(true);
     currentWidgets.push_back(widget);
 }
 
-void MainWindow::createButton(QPushButton *button, QString text, int ax, int ay, int aw, int ah) {
-    button = new QPushButton(this);
+void Interface::createButton(QPushButton *button, QString text, int ax, int ay, int aw, int ah) {
     button->setGeometry(ax, ay, aw, ah);
     button->setText(text);
     button->setStyleSheet("color: black; background-color:pink;");
 }
+
+void Interface::createLabel(QLabel *label, QString text, int ax, int ay, int aw, int ah){
+    label->setGeometry(ax, ay, aw, ah);
+    label->setText(text);
+    label->setStyleSheet("color: white;");
+}
+
+void Interface::createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah){
+    input->setAlignment(Qt::AlignCenter);
+    input->setPlaceholderText(text);
+    input->setStyleSheet("color : black;");
+    input->setMaxLength(20);
+    input->setGeometry(ax, ay, aw, ah);
+}
+
+void Interface::setDbHandler(DataBaseHandler *dbHandler) {
+    Interface::dbHandler = dbHandler;
+}
+
+
 
 
 

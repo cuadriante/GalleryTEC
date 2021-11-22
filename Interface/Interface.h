@@ -2,8 +2,8 @@
 // Created by cuadriante on 16/11/21.
 //
 
-#ifndef GALLERYTEC_MAINWINDOW_H
-#define GALLERYTEC_MAINWINDOW_H
+#ifndef GALLERYTEC_INTERFACE_H
+#define GALLERYTEC_INTERFACE_H
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -17,12 +17,17 @@
 #include <QApplication>
 #include <unistd.h>
 #include <iostream>
+#include "../DataBase/DataBaseHandler.h"
 
 using namespace std;
 
-class MainWindow: public QGraphicsView {
+class Interface: public QGraphicsView {
 Q_OBJECT
+
 private:
+
+    DataBaseHandler * dbHandler;
+
     const QString BG_GALLERY_TEC = "../Resources/galleryTEC.png";
     const QString BG_GALLERIES = "../Resources/galleries.png";
     const QString BG_BACKGROUND = "../Resources/background.png";
@@ -99,8 +104,11 @@ private:
 
 public:
     QGraphicsScene *scene;
-    MainWindow(QWidget* parent=NULL);
-    void logInWindow();
+    Interface(QWidget* parent=NULL);
+
+    void setDbHandler(DataBaseHandler *dbHandler);
+
+    void startWindow();
     void askForUsernameAndPassword();
     void galleriesWindow();
     void widgetInitialization();
@@ -111,6 +119,7 @@ public:
     void imageWindow();
     void displayCurrentImage();
     void metadataWindow();
+    void createLabel(QLabel *label, QString text, int ax, int ay, int aw, int ah);
 private slots:
     void clickedLogIn();
     void clickedSignUp();
@@ -128,5 +137,6 @@ private slots:
     void clickedAcceptEditImageMetadata();
 
 
+    void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
 };
-#endif //GALLERYTEC_MAINWINDOW_H
+#endif //GALLERYTEC_INTERFACE_H

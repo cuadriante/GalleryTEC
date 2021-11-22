@@ -12,7 +12,7 @@ DataBaseHandler::DataBaseHandler() {
         db = conn["GalleryTEC"];
         collection coll = db["users"];
         cursor cor = coll.find({});
-        cout << "connection successful." << endl;
+        cout << "successful connection to GalleryTEC database." << endl;
 
 
     } catch (const exception& xcp){

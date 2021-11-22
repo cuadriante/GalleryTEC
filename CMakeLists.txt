@@ -17,7 +17,7 @@ include_directories("/usr/local/include/libmongoc-1.0")
 include_directories("/usr/local/include/libbson-1.0")
 include_directories("/usr/local/lib")
 
-add_executable(GalleryTEC main.cpp Interface/MainWindow.cpp Interface/MainWindow.h DataBase/DataBaseHandler.cpp DataBase/DataBaseHandler.h DataBase/DataBaseHandler.cpp DataBase/DataBaseHandler.h)
+add_executable(GalleryTEC main.cpp Interface/Interface.cpp Interface/Interface.h DataBase/DataBaseHandler.cpp DataBase/DataBaseHandler.h DataBase/DataBaseHandler.cpp DataBase/DataBaseHandler.h)
 target_link_libraries(GalleryTEC Qt5::Core Qt5::Widgets)
 target_link_libraries(GalleryTEC ${LIBMONGOCXX_LIBRARIES})
 target_link_libraries(GalleryTEC ${LIBBSONCXX_LIBRARIES})

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <QApplication>
-#include "Interface/MainWindow.h"
+#include "Interface/Interface.h"
 #include "DataBase/DataBaseHandler.h"
 
 #include <bsoncxx/builder/stream/document.hpp>
@@ -17,8 +17,9 @@ int main(int argc, char** argv) {
     DataBaseHandler dataBaseHandler;
     dataBaseHandler.addUserToDb("adrr", "222");
     QApplication app(argc, argv);
-    MainWindow mainWindow;
-    mainWindow.show();
+    Interface interface;
+    interface.setDbHandler(&dataBaseHandler);
+    interface.show();
 
     return app.exec();
 }
