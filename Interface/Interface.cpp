@@ -339,7 +339,7 @@ void Interface::clickedVerify() {
     //Verify user and password
     string username  = usernameTextInput->text().toStdString();
     string password = passwordTextInput->text().toStdString();
-    dbHandler->checkForUserInDb(username, password);
+    successfulVerification = dbHandler->checkForUserInDb(username, password);
     //Display
     if (successfulVerification){
         cout << "username: " << username << " password: " << password << endl;
@@ -347,9 +347,9 @@ void Interface::clickedVerify() {
         clearWindow(true);
         galleriesWindow();
     } else {
-        noticeLabel->setText("ERROR: Username or password incorrect.");
-        noticeLabel->setGeometry(470, 420, 100, 100);
-        noticeLabel->setVisible(true);
+        noticeLabel->setText("ERROR: Username and/or password not found.");
+        noticeLabel->setGeometry(170, 420, 500, 100);
+        addToWindow(noticeLabel);
     }
 }
 
