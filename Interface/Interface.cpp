@@ -360,6 +360,7 @@ void Interface::askForUsernameAndPassword() {
     if(!askedForUsernameAndPassword){
         usernameTextInput = new QLineEdit(this);
         passwordTextInput = new QLineEdit(this);
+        passwordTextInput->setEchoMode(QLineEdit::Password);
         createUserButton = new QPushButton(this);
         verifyUserButton = new QPushButton(this);
         createInput(usernameTextInput, "Username", 240, 250, 400, 70);
