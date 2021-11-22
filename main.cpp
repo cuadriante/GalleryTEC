@@ -15,7 +15,6 @@
 int main(int argc, char** argv) {
 
     DataBaseHandler dataBaseHandler;
-    dataBaseHandler.addUserToDb("adrr", "222");
     QApplication app(argc, argv);
     Interface interface;
     interface.setDbHandler(&dataBaseHandler);

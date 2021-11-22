@@ -29,6 +29,7 @@ public:
 
     DataBaseHandler();
     bool addUserToDb(const std::string &username, const std::string &password);
+    bool checkForUserInDb(const std::string &username, const std::string &password);
     bool addGalleryToUserDb(const std::string &galleryName);
     bool removeGalleryFromUser(const std::string &galleryName);
     bool addImageToUserGalleryDb(const std::string &imageName);

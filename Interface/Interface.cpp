@@ -317,15 +317,17 @@ void Interface::clickedSignUp() {
 }
 
 void Interface::clickedCreate() {
-    //get username and password and verify
-    //string username  = usernameTextInput->text().toStdString();
-    //string password = passwordTextInput->text().toStdString();
+    //add user and password to db
+    string username  = usernameTextInput->text().toStdString();
+    string password = passwordTextInput->text().toStdString();
+    dbHandler->addUserToDb(username, password);
+    //Display
     if (successfulCreation){
+        cout << "username: " << username << " password: " << password << endl;
         noticeLabel->setText("User created succesfully! \nReturn to main window.");
         noticeLabel->setGeometry(120, 200, 600, 200);
         clearWindow(true);
         noticeLabel->setVisible(true);
-
     } else {
         noticeLabel->setText("ERROR: Could not create user.");
         noticeLabel->setGeometry(470, 420, 100, 100);
@@ -334,11 +336,13 @@ void Interface::clickedCreate() {
 }
 
 void Interface::clickedVerify() {
-    //get username and password and verify
+    //Verify user and password
     string username  = usernameTextInput->text().toStdString();
     string password = passwordTextInput->text().toStdString();
-    cout << "username: " << username << " password: " << password << endl;
+    dbHandler->checkForUserInDb(username, password);
+    //Display
     if (successfulVerification){
+        cout << "username: " << username << " password: " << password << endl;
         currentWindow = GALLERY_MENU;
         clearWindow(true);
         galleriesWindow();

@@ -33,3 +33,28 @@ bool DataBaseHandler::addUserToDb(const string &username, const string &password
     coll.insert_one(doc_to_add.view());
     return false;
 }
+
+bool DataBaseHandler::checkForUserInDb(const string &username, const string &password) {
+    uri myURI("mongodb://localhost:27017");
+    client conn(myURI);
+    db = conn["GalleryTEC"];
+    collection coll = db["users"];
+    auto cursor = coll.find({});
+    for(auto&& doc : cursor){
+        bsoncxx::document::element dbUsername = doc["username"];
+        cout << "username: " << dbUsername.get_utf8().value << endl;
+        string dbUsernameString = (string) dbUsername.get_utf8().value;
+        if (dbUsernameString == username){
+            cout << "found username <" << username << "> in database" << endl;
+            dbUsername = doc["password"];
+            dbUsernameString = (string) dbUsername.get_utf8().value;
+            if (dbUsernameString == password){
+                cout << "found password match for <" << username << "> : " << password << endl;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    return false;
+}
