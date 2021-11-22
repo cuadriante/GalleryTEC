@@ -68,10 +68,8 @@ void MainWindow::logInWindow() {
         createdLogInWindow = true;
     } else {
         backButton->setVisible(false);
-        logInButton->setVisible(true);
-        currentWidgets.push_back(logInButton);
-        signUpButton->setVisible(true);
-        currentWidgets.push_back(signUpButton);
+        addToWindow(logInButton);
+        addToWindow(signUpButton);
     }
 }
 
@@ -112,12 +110,9 @@ void MainWindow::galleriesWindow() {
 
         addExistingGalleriesToGalleryWindow();
     } else {
-        addGalleryButton->setVisible(true);
-        currentWidgets.push_back(addGalleryButton);
-        editGalleryButton->setVisible(true);
-        currentWidgets.push_back(addGalleryButton);
-        deleteGalleryButton->setVisible(true);
-        currentWidgets.push_back(deleteGalleryButton);
+        addToWindow(addGalleryButton);
+        addToWindow(editGalleryButton);
+        addToWindow(deleteGalleryButton);
     }
 }
 
@@ -188,6 +183,7 @@ void MainWindow::metadataWindow() {
         imageNameLabel->setText("Name: " + currentImageName);
         imageNameLabel->setGeometry(200, 170, 460, 80);
 
+        //createButton(imageNameButton, "Edit", 670, 180, 80, 50);
         imageNameButton = new QPushButton(this);
         imageNameButton->setFont(galleryNameFont);
         imageNameButton->setGeometry(670, 180, 80, 50);
@@ -296,26 +292,16 @@ void MainWindow::metadataWindow() {
         imageDescriptionInput->setMaxLength(20);
         imageDescriptionInput->setGeometry(295, 440, 360, 50);
     }
-    imageNameLabel->setVisible(true);
-    currentWidgets.push_back(imageNameLabel);
-    imageNameButton->setVisible(true);
-    currentWidgets.push_back(imageNameButton);
-    imageAuthorLabel->setVisible(true);
-    currentWidgets.push_back(imageAuthorLabel);
-    imageAuthorButton->setVisible(true);
-    currentWidgets.push_back(imageAuthorButton);
-    imageYearLabel->setVisible(true);
-    currentWidgets.push_back(imageYearLabel);
-    imageYearButton->setVisible(true);
-    currentWidgets.push_back(imageYearButton);
-    imageSizeLabel->setVisible(true);
-    currentWidgets.push_back(imageSizeLabel);
-    imageSizeButton->setVisible(true);
-    currentWidgets.push_back(imageSizeButton);
-    imageDescriptionLabel->setVisible(true);
-    currentWidgets.push_back(imageDescriptionLabel);
-    imageDescriptionButton->setVisible(true);
-    currentWidgets.push_back(imageDescriptionButton);
+    addToWindow(imageNameLabel);
+    addToWindow(imageNameButton);
+    addToWindow(imageAuthorLabel);
+    addToWindow(imageAuthorButton);
+    addToWindow(imageYearLabel);
+    addToWindow(imageYearButton);
+    addToWindow(imageSizeLabel);
+    addToWindow(imageSizeButton);
+    addToWindow(imageDescriptionLabel);
+    addToWindow(imageDescriptionButton);
 }
 
 void MainWindow::displayCurrentImage() {
@@ -382,8 +368,6 @@ void MainWindow::askForUsernameAndPassword() {
         usernameTextInput->setStyleSheet("color : black;");
         usernameTextInput->setMaxLength(20);
         usernameTextInput->setGeometry(240, 250, 400, 70);
-        usernameTextInput->setVisible(true);
-        currentWidgets.push_back(usernameTextInput);
 
         passwordTextInput = new QLineEdit(this);
         passwordTextInput->setAlignment(Qt::AlignCenter);
@@ -391,8 +375,6 @@ void MainWindow::askForUsernameAndPassword() {
         passwordTextInput->setStyleSheet("color : black;");
         passwordTextInput->setMaxLength(20);
         passwordTextInput->setGeometry(240, 350, 400, 70);
-        passwordTextInput->setVisible(true);
-        currentWidgets.push_back(passwordTextInput);
 
         askedForUsernameAndPassword = true;
 
@@ -400,37 +382,21 @@ void MainWindow::askForUsernameAndPassword() {
         createUserButton->setGeometry(335, 550, 180, 70);
         createUserButton->setText("Create");
         createUserButton->setStyleSheet("color: black; background-color:pink;");
-        currentWidgets.push_back(createUserButton);
         connect(createUserButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
 
         verifyUserButton = new QPushButton(this);
         verifyUserButton->setGeometry(335, 550, 180, 70);
         verifyUserButton->setText("Verify");
         verifyUserButton->setStyleSheet("color: black; background-color:pink;");
-        currentWidgets.push_back(verifyUserButton);
         connect(verifyUserButton, SIGNAL(clicked()), this, SLOT(clickedVerify()));
-
-        if (!userCreated){
-            createUserButton->setVisible(true);
-            currentWidgets.push_back(createUserButton);
-        } else{
-            verifyUserButton->setVisible(true);
-            currentWidgets.push_back(verifyUserButton);
-        }
-    } else {
-        usernameTextInput->setVisible(true);
-        currentWidgets.push_back(usernameTextInput);
-        passwordTextInput->setVisible(true);
-        currentWidgets.push_back(passwordTextInput);
-        if (!userCreated){
-           createUserButton->setVisible(true);
-            currentWidgets.push_back(createUserButton);
-        } else {
-           verifyUserButton->setVisible(true);
-           currentWidgets.push_back(verifyUserButton);
-        }
     }
-
+    addToWindow(usernameTextInput);
+    addToWindow(passwordTextInput);
+    if (!userCreated){
+        addToWindow(createUserButton);
+    } else {
+        addToWindow(verifyUserButton);
+    }
 }
 
 void MainWindow::clickedAddGallery() {
@@ -457,10 +423,8 @@ void MainWindow::clickedAddGallery() {
     }
     newGalleryInput->setPlaceholderText("New Gallery Name");
     confirmAddGalleryButton->setText("Add");
-    newGalleryInput->setVisible(true);
-    currentWidgets.push_back(newGalleryInput);
-    confirmAddGalleryButton->setVisible(true);
-    currentWidgets.push_back(confirmAddGalleryButton);
+    addToWindow(newGalleryInput);
+    addToWindow(confirmAddGalleryButton);
 }
 
 void MainWindow::clickedEditGallery() {
@@ -483,21 +447,15 @@ void MainWindow::clickedDeleteGallery() {
         newGalleryInput->setMaxLength(20);
         newGalleryInput->setGeometry(220, 250, 400, 70);
 
-        confirmAddGalleryButton = new QPushButton(this);
-        confirmAddGalleryButton->setGeometry(335, 350, 180, 70);
-        confirmAddGalleryButton->setText("Delete");
-        confirmAddGalleryButton->setStyleSheet("color: black; background-color:pink;");
-
+        createButton(confirmAddGalleryButton, "Delete", 335, 350, 180, 70);
         connect(confirmAddGalleryButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
 
         hasAddedGallery = true;
     }
     newGalleryInput->setPlaceholderText("Gallery Name");
     confirmAddGalleryButton->setText("Delete");
-    newGalleryInput->setVisible(true);
-    currentWidgets.push_back(newGalleryInput);
-    confirmAddGalleryButton->setVisible(true);
-    currentWidgets.push_back(confirmAddGalleryButton);
+    addToWindow(newGalleryInput);
+    addToWindow(confirmAddGalleryButton);
 }
 
 void MainWindow::clickedPreviousImage() {
@@ -589,9 +547,8 @@ void MainWindow::addExistingGalleriesToGalleryWindow() {
     QPushButton * galleryButton = new QPushButton(this);
     galleryButton->setGeometry(30, 170, 790, 50);
     galleryButton->setText("Gallery Example");
-    galleryButton->setVisible(true);
     galleryButton->setStyleSheet("color: black; background-color:pink;");
-    currentWidgets.push_back(galleryButton);
+    addToWindow(galleryButton);
     connect(galleryButton, SIGNAL(clicked()), this, SLOT(clickedGallery()));
 }
 
@@ -609,8 +566,7 @@ void MainWindow::clickedGallery() {
     currentGalleryLabel->setFont(galleryNameFont);
     currentGalleryLabel->setText(currentGallery);
     currentGalleryLabel->setGeometry(130, 45, 600, 80);
-    currentGalleryLabel->setVisible(true);
-    currentWidgets.push_back(currentGalleryLabel);
+    addToWindow(currentGalleryLabel);
     imageWindow();
 
 }
@@ -645,6 +601,18 @@ void MainWindow::clearWindow(bool addBackButton) {
     }
     backButton->setVisible(addBackButton);
     currentWidgets.clear();
+}
+
+void MainWindow::addToWindow(QWidget *widget) {
+    widget->setVisible(true);
+    currentWidgets.push_back(widget);
+}
+
+void MainWindow::createButton(QPushButton *button, QString text, int ax, int ay, int aw, int ah) {
+    button = new QPushButton(this);
+    button->setGeometry(ax, ay, aw, ah);
+    button->setText(text);
+    button->setStyleSheet("color: black; background-color:pink;");
 }
 
 

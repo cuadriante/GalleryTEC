@@ -2,23 +2,22 @@ cmake_minimum_required(VERSION 3.20)
 project(GalleryTEC)
 
 find_package(Qt5Widgets REQUIRED)
-# Tell cmake where Qt is located
 set(Qt5_DIR "~/Qt/5.12.2/clang_64/lib/cmake/Qt5")
-# Tell cmake to find the modules Qt5Core and Qt5widgets
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
-
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
 
-include_directories(${MONGO_INCLUDE_DIRS})
-include_directories(${MONGO_LIBRARY_DIRS})
+find_package(libmongocxx REQUIRED)
+find_package(libbsoncxx REQUIRED)
+include_directories(${LIBMONGOCXX_INCLUDE_DIR})
+include_directories(${LIBBSONCXX_INCLUDE_DIR})
+include_directories("/usr/local/include/mongocxx/v_noabi")
+include_directories("/usr/local/include/bsoncxx/v_noabi")
+include_directories("/usr/local/include/libmongoc-1.0")
+include_directories("/usr/local/include/libbson-1.0")
+include_directories("/usr/local/lib")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set(SOURCE_FILES main.c)
-
-add_executable(GalleryTEC main.cpp Interface/MainWindow.cpp Interface/MainWindow.h DataBase/Users.cpp DataBase/Users.h)
-# Link the library to the executable
-target_link_libraries(GalleryTEC ${MONGO_LIBRARIES} )
+add_executable(GalleryTEC main.cpp Interface/MainWindow.cpp Interface/MainWindow.h DataBase/DataBaseHandler.cpp DataBase/DataBaseHandler.h DataBase/DataBaseHandler.cpp DataBase/DataBaseHandler.h)
 target_link_libraries(GalleryTEC Qt5::Core Qt5::Widgets)
-#target_link_libraries(GalleryTEC ${MONGODB_LIBRARY} ${BSON_LIBRARY})
-
+target_link_libraries(GalleryTEC ${LIBMONGOCXX_LIBRARIES})
+target_link_libraries(GalleryTEC ${LIBBSONCXX_LIBRARIES})

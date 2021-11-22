@@ -106,6 +106,8 @@ public:
     void widgetInitialization();
     void addExistingGalleriesToGalleryWindow();
     void clearWindow(bool addBackButton);
+    void addToWindow(QWidget *widget);
+    void createButton(QPushButton *button, QString text, int ax, int ay, int aw, int ah);
     void imageWindow();
     void displayCurrentImage();
     void metadataWindow();
