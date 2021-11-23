@@ -45,6 +45,7 @@ void raidManager::read(string imgID) {
 
     setImageId(imgID);
     int counter = 1;
+    int curr_disk = 1;
 
 
     while (counter < 5) {
@@ -54,12 +55,15 @@ void raidManager::read(string imgID) {
         try {
             if (root.get<bool>(imageID + ".parity") == 0) {
                 tempCode = root.get<string>(imageID + ".code");
-                if (root.get<bool>(imageID + ".extrabit") == 1) {
+                cout << tempCode.length() << endl;
+                if (root.get<int>(imageID + ".length" + to_string(curr_disk)) != tempCode.length()) {
                     deleteExtraBit(tempCode);
                 }
                 completeCode += tempCode;
                 counter ++;
             }
+
+            curr_disk++;
         } catch (boost::property_tree::ptree_bad_path err) {
             cout << "Data not found" << endl;
         }
