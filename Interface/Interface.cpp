@@ -385,17 +385,18 @@ void Interface::clickedAcceptAddGallery() {
     bool successfulGalleryAddition = dbHandler->addGalleryToUserDb(newGallery);
     if (successfulGalleryAddition){
         cout << "new Gallery: " << newGallery << endl;
-        noticeLabel->setText("User created succesfully! \nReturn to main window.");
+        noticeLabel->setText("Gallery created succesfully! \nReturn to gallery window.");
         noticeLabel->setGeometry(120, 200, 600, 200);
         clearWindow(true);
         noticeLabel->setVisible(true);
     } else {
-        noticeLabel->setText("ERROR: Could not create user.");
-        noticeLabel->setGeometry(470, 420, 100, 100);
+        noticeLabel->setText("ERROR: Could not create gallery.");
+        noticeLabel->setGeometry(170, 420, 500, 100);
         noticeLabel->setVisible(true);
     }
 
 }
+
 void Interface::clickedAddGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
@@ -525,10 +526,17 @@ void Interface::clickedNextImage() {
 }
 
 void Interface::addExistingGalleriesToGalleryWindow() {
-    QPushButton * galleryButton = new QPushButton(this);
-    createButton(galleryButton, "Gallery Example", 30, 170, 790, 50);
-    addToWindow(galleryButton);
-    connect(galleryButton, SIGNAL(clicked()), this, SLOT(clickedGallery()));
+    vector<string> currentGalleryNames = dbHandler->retrieveAllUserGalleries();
+    int height = 170;
+    for(const string& galleryName : currentGalleryNames){
+        QString qGalleryName = QString::fromStdString(galleryName);
+        auto * galleryButton = new QPushButton(this);
+        createButton(galleryButton, qGalleryName, 30, height, 790, 50);
+        addToWindow(galleryButton);
+        connect(galleryButton, SIGNAL(clicked()), this, SLOT(clickedGallery()));
+        height = height + 70;
+    }
+
 }
 
 void Interface::clickedGallery() {

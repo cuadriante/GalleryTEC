@@ -27,6 +27,7 @@ private:
     database db;
     client conn;
     string currentUser;
+    vector<string> galleriesVector;
 public:
 
     DataBaseHandler();
@@ -39,6 +40,9 @@ public:
 
     void setCurrentUser(const string &currentUser);
 
+    vector<string> retrieveAllUserGalleries();
+
+    vector<string> retrieveImagefromUserGallery(string imageName, string gallery);
 };
 
 

@@ -41,7 +41,9 @@ private:
     const int GALLERY_MANAGEMENT = 3;
     const int IMAGE_MENU = 3;
     const int IMAGE_METADATA = 4;
+    const int MAX_GALLERIES = 6;
     int currentWindow = MENU;
+    int currentGalleries = 0;
 
     QImage * bgImage;
     QGraphicsPixmapItem * pixmap;
