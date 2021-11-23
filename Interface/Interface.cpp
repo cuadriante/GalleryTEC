@@ -35,12 +35,9 @@ void Interface::widgetInitialization() {
     QApplication::setFont(font);
 
     backButton = new QPushButton(this);
-    backButton->setGeometry(25, 25, 140, 50);
+    createButton(backButton, "Back", 25, 25, 140, 50);
     font.setPointSize(20);
     backButton->setFont(font);
-    backButton->setText("Back");
-    backButton->setVisible(false);
-    backButton->setStyleSheet("color: black; background-color:pink;");
     connect(backButton, SIGNAL(clicked()), this, SLOT(clickedBack()));
 
     startWindow();
@@ -316,6 +313,8 @@ void Interface::clickedSignUp() {
     askForUsernameAndPassword();
 }
 
+// ADD TO DATABASE
+
 void Interface::clickedCreate() {
     //add user and password to db
     string username  = usernameTextInput->text().toStdString();
@@ -340,6 +339,7 @@ void Interface::clickedVerify() {
     string username  = usernameTextInput->text().toStdString();
     string password = passwordTextInput->text().toStdString();
     successfulVerification = dbHandler->checkForUserInDb(username, password);
+    dbHandler->setCurrentUser(username);
     //Display
     if (successfulVerification){
         cout << "username: " << username << " password: " << password << endl;
@@ -380,6 +380,22 @@ void Interface::askForUsernameAndPassword() {
     }
 }
 
+void Interface::clickedAcceptAddGallery() {
+    string newGallery  = newGalleryInput->text().toStdString();
+    bool successfulGalleryAddition = dbHandler->addGalleryToUserDb(newGallery);
+    if (successfulGalleryAddition){
+        cout << "new Gallery: " << newGallery << endl;
+        noticeLabel->setText("User created succesfully! \nReturn to main window.");
+        noticeLabel->setGeometry(120, 200, 600, 200);
+        clearWindow(true);
+        noticeLabel->setVisible(true);
+    } else {
+        noticeLabel->setText("ERROR: Could not create user.");
+        noticeLabel->setGeometry(470, 420, 100, 100);
+        noticeLabel->setVisible(true);
+    }
+
+}
 void Interface::clickedAddGallery() {
     bgImage->load(BG_BACKGROUND);
     pixmap->setPixmap(QPixmap::fromImage(*bgImage));
@@ -390,7 +406,7 @@ void Interface::clickedAddGallery() {
         createInput(newGalleryInput, "New Gallery Name",  220, 250, 400, 70);
         confirmAddGalleryButton = new QPushButton(this);
         createButton(confirmAddGalleryButton, "Add", 335, 350, 180, 70);
-        connect(confirmAddGalleryButton, SIGNAL(clicked()), this, SLOT(clickedCreate()));
+        connect(confirmAddGalleryButton, SIGNAL(clicked()), this, SLOT(clickedAcceptAddGallery()));
         hasAddedGallery = true;
     }
     newGalleryInput->setPlaceholderText("New Gallery Name");
@@ -595,6 +611,8 @@ void Interface::createInput(QLineEdit *input, QString text, int ax, int ay, int 
 void Interface::setDbHandler(DataBaseHandler *dbHandler) {
     Interface::dbHandler = dbHandler;
 }
+
+
 
 
 

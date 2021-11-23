@@ -21,10 +21,12 @@
 using namespace std;
 using namespace mongocxx;
 
+
 class DataBaseHandler {
 private:
     database db;
     client conn;
+    string currentUser;
 public:
 
     DataBaseHandler();
@@ -34,6 +36,8 @@ public:
     bool removeGalleryFromUser(const std::string &galleryName);
     bool addImageToUserGalleryDb(const std::string &imageName);
     bool editGalleryFromUserDb(const std::string &galleryName);
+
+    void setCurrentUser(const string &currentUser);
 
 };
 

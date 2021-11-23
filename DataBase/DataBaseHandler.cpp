@@ -25,12 +25,11 @@ bool DataBaseHandler::addUserToDb(const string &username, const string &password
     client conn(myURI);
     db = conn["GalleryTEC"];
     collection coll = db["users"];
-    auto builder = bsoncxx::builder::stream::document{};
-    bsoncxx::document::value doc_to_add = builder
-            << "username" << username
-            << "password" << password
-            << bsoncxx::builder::stream::finalize;
-    coll.insert_one(doc_to_add.view());
+    coll.insert_one(bsoncxx::builder::basic::make_document(
+            bsoncxx::builder::basic::kvp("username", username),
+            bsoncxx::builder::basic::kvp("password", password),
+            bsoncxx::builder::basic::kvp("galleries", bsoncxx::builder::basic::make_array(""))
+            ));
     return false;
 }
 
@@ -56,5 +55,45 @@ bool DataBaseHandler::checkForUserInDb(const string &username, const string &pas
             }
         }
     }
+    return false;
+}
+
+bool DataBaseHandler::addGalleryToUserDb(const string &galleryName) {
+    uri myURI("mongodb://localhost:27017");
+    client conn(myURI);
+    db = conn["GalleryTEC"];
+    collection coll = db["users"];
+//    auto builder = bsoncxx::builder::stream::document{};
+//    bsoncxx::document::value update_statement = builder
+//            << "$push" << bsoncxx::builder::stream::open_document
+//            << "galleries" << bsoncxx::builder::stream::open_document
+//            << "$each" << bsoncxx::builder::stream::open_array
+//            << galleryName
+//            << bsoncxx::builder::stream::close_array
+//            <<bsoncxx::builder::stream::close_document
+//            <<bsoncxx::builder::stream::close_document
+//            << bsoncxx::builder::stream::finalize;
+//
+//    coll.update_one(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("username", currentUser)), update_statement.view());
+
+    return false;
+}
+
+void DataBaseHandler::setCurrentUser(const string &currentUser) {
+    DataBaseHandler::currentUser = currentUser;
+}
+
+bool DataBaseHandler::editGalleryFromUserDb(const string &galleryName) {
+//    uri myURI("mongodb://localhost:27017");
+//    client conn(myURI);
+//    db = conn["GalleryTEC"];
+//    collection coll = db["users"];
+//    auto builder = bsoncxx::builder::stream::document{};
+//    coll.update_one(
+//            builder << "username" << currentUser
+//                    << bsoncxx::builder::stream::finalize,
+//
+//            builder <<
+//    )
     return false;
 }

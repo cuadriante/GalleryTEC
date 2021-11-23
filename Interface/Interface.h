@@ -135,6 +135,7 @@ private slots:
     void clickedGallery();
     void clickedEditImageMetaData();
     void clickedAcceptEditImageMetadata();
+    void clickedAcceptAddGallery();
 
 
     void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
