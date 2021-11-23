@@ -6,9 +6,10 @@
 
 int TreeNode::currentId = 0;
 
-TreeNode::TreeNode(Vec3b data1) {
+TreeNode::TreeNode(Vec3b data1, int freq) {
     this->data = data1;
     this->id = TreeNode::currentId++;
+    this->frequency = freq;
 }
 
 Vec3b TreeNode::getData() {
@@ -17,6 +18,10 @@ Vec3b TreeNode::getData() {
 
 int TreeNode::getID() {
     return this->id;
+}
+
+int TreeNode::getFrequency() {
+    return this->frequency;
 }
 
 TreeNode *TreeNode::getLeftChild() {

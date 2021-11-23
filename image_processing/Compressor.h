@@ -11,15 +11,16 @@ using namespace std;
 
 class Compressor {
 private:
-    vector<Vec3b> orderedList;
-    HuffmanBinaryTree tree;
+    vector<TreeNode> orderedList;
+    HuffmanBinaryTree* tree;
     bool compressed;
 public:
-    Compressor();
+    Compressor(vector<TreeNode> pixels);
+    ~Compressor();
     void compress();
     void decompress();
-    void bubble_sort();
-    bool isCompressed();
+    static vector<TreeNode> bubble_sort(vector<TreeNode> pixels);
+    bool isCompressed() const;
 };
 
 

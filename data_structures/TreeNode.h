@@ -17,10 +17,12 @@ private:
     int id;
     TreeNode* rightChild;
     TreeNode* leftChild;
+    int frequency;
 public:
-    TreeNode(Vec3b data1);
+    TreeNode(Vec3b data1, int freq);
     Vec3b getData();
     int getID();
+    int getFrequency();
     TreeNode* getRightChild();
     TreeNode* getLeftChild();
 };

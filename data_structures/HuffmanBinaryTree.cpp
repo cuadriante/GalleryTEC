@@ -4,7 +4,7 @@
 
 #include "HuffmanBinaryTree.h"
 
-HuffmanBinaryTree::HuffmanBinaryTree(std::vector<Pixel> list) {
+HuffmanBinaryTree::HuffmanBinaryTree(std::vector<TreeNode> list) {
 
 }
 

@@ -7,7 +7,7 @@
 
 #include "opencv2/opencv.hpp"
 #include "opencv2/highgui.hpp"
-#include "Pixel.h"
+#include "../data_structures/TreeNode.h"
 
 using namespace cv;
 using namespace std;
@@ -16,13 +16,13 @@ class ImageProcessor {
 private:
     Mat* image;
     vector<Vec3b> allColors;
-    vector<Vec3b> pixels;
-    vector<Pixel> unrepeatedPixels;
+    vector<Vec3b> unrepeatedColors;
+    vector<TreeNode> pixels;
+    vector<TreeNode> frequencyCounter();
 public:
     ImageProcessor(const string& imgUrl);
     ~ImageProcessor();
-    void pixelReader();
-    void frequencyCounter();
+    vector<TreeNode> pixelReader();
 };
 
 

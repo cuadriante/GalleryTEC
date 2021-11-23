@@ -6,14 +6,13 @@
 #define GALLERYTEC_HUFFMANBINARYTREE_H
 
 #include "TreeNode.h"
-#include "../image_processing/Pixel.h"
 
 class HuffmanBinaryTree {
 private:
-    std::vector<Pixel> root;
+    std::vector<TreeNode> root;
     int size;
 public:
-    HuffmanBinaryTree(std::vector<Pixel> list);
+    HuffmanBinaryTree(std::vector<TreeNode> list);
     void insert(Vec3b pix);
     void erase(int id);
     Vec3b get(int id);

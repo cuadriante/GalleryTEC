@@ -14,7 +14,7 @@ ImageProcessor::~ImageProcessor() {
     delete this->image;
 }
 
-void ImageProcessor::pixelReader() {
+vector<TreeNode> ImageProcessor::pixelReader() {
     //int i = 0;
     Vec3b color;
     //cout << "All pixels:" << endl;
@@ -22,31 +22,33 @@ void ImageProcessor::pixelReader() {
         for (int c = 0; c < this->image->cols; c++) {
             color = this->image->at<Vec3b>(Point(c,r));
             this->allColors.push_back(color);
-            if (find(this->pixels.begin(), this->pixels.end(), color) == this->pixels.end()) {
-                this->pixels.push_back(color);
+            if (find(this->unrepeatedColors.begin(), this->unrepeatedColors.end(), color) == this->unrepeatedColors.end()) {
+                this->unrepeatedColors.push_back(color);
             }
         }
         //cout << pixels[i] << endl;
         //i++;
     }
+    return this->frequencyCounter();
 }
 
-void ImageProcessor::frequencyCounter() {
+vector<TreeNode> ImageProcessor::frequencyCounter() {
     int counter = 0;
-    if (!this->pixels.empty() && !this->allColors.empty()) {
-        for (Vec3b color : pixels) {
+    if (!this->unrepeatedColors.empty() && !this->allColors.empty()) {
+        for (Vec3b color : unrepeatedColors) {
             for (Vec3b repeated : allColors) {
                 if (repeated[0] == color[0] && repeated[1] == color[1] && repeated[2] == color[2]) {
                     counter++;
                 }
             }
-            Pixel pixel(color, counter);
-            this->unrepeatedPixels.push_back(pixel);
-            cout << "Color: ";
-            cout << pixel.getColor();
-            cout << " Se repite: " + to_string(counter) << endl;
+            TreeNode pixel(color, counter);
+            this->pixels.push_back(pixel);
+            //cout << "Color: ";
+            //cout << pixel.getData();
+            //cout << " Se repite: " + to_string(counter) << endl;
             counter = 0;
         }
+        return this->pixels;
     }
     else {
         cout << "There are no pixels read yet" << endl;
