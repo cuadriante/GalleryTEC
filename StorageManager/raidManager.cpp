@@ -20,39 +20,77 @@ void raidManager::write(string data) {
     }
 }
 
-string raidManager::read() {
-    ifstream file;
-    string data;
+void raidManager::read(string imgID) {
+//    ifstream file;
+//    string data;
+//
+//    int counter = 1;
+//
+//    file.open(fileLocation, ios::in);
+//
+//    if (file.fail()) {
+//        cout << "File " + fileLocation + " not found" << endl;
+//    } else {
+//        while (counter < 4) {
+//            getline(file, data);
+//            counter++;
+//
+//        }
+//        cout << data << endl;
+//        cout << data[0] << endl;
+//        cout << "Data found" << endl;
+//
+//        file.close();
+//    }
 
+    setImageId(imgID);
     int counter = 1;
 
-    file.open(fileLocation, ios::in);
 
-    if (file.fail()) {
-        cout << "File " + fileLocation + " not found" << endl;
-    } else {
-        while (counter < 4) {
-            getline(file, data);
-            counter++;
-
+    while (counter < 5) {
+        setDisk();
+        setFileLocation();
+        pt::read_json(fileLocation, root);
+        try {
+            if (root.get<bool>(imageID + ".parity") == 0) {
+                tempCode = root.get<string>(imageID + ".code");
+                if (root.get<bool>(imageID + ".extrabit") == 1) {
+                    deleteExtraBit(tempCode);
+                }
+                completeCode += tempCode;
+                counter ++;
+            }
+        } catch (boost::property_tree::ptree_bad_path err) {
+            cout << "Data not found" << endl;
         }
-        cout << data << endl;
-        cout << data[0] << endl;
-        cout << "Data found" << endl;
-
-        file.close();
     }
 
-    return data;
+    cout << completeCode << endl;
+
+
+
+}
+
+void raidManager::deleteExtraBit(string code) {
+    string newCode = "";
+    for (int i = 0; i < code.length() - 1; ++i) {
+        newCode += code[i];
+    }
+
+    tempCode = newCode;
 }
 
 void raidManager::setFileLocation() {
-    raidManager::fileLocation = "RAIDStorage/Disk" + to_string(disk) + "/data.txt";
+    raidManager::fileLocation = "RAIDStorage/Disk" + to_string(disk) + "/data.json";
 }
 
 void raidManager::setDisk() {
     raidManager::disk += 1;
-    if (raidManager::disk > 4) {
+    if (raidManager::disk > 5) {
         raidManager::disk = 1;
     }
+}
+
+void raidManager::setImageId(const string &imageId) {
+    imageID = imageId;
 }

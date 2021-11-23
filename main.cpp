@@ -9,6 +9,8 @@ int main(int argc, char** argv) {
 
     raidManager manager;
 
+    manager.read("1");
+
 //    manager.write("Hola, estoy haciendo una prueba");
 //    manager.write("5465");
 //    manager.write("perro");
