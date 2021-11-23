@@ -63,18 +63,18 @@ bool DataBaseHandler::addGalleryToUserDb(const string &galleryName) {
     client conn(myURI);
     db = conn["GalleryTEC"];
     collection coll = db["users"];
-//    auto builder = bsoncxx::builder::stream::document{};
-//    bsoncxx::document::value update_statement = builder
-//            << "$push" << bsoncxx::builder::stream::open_document
-//            << "galleries" << bsoncxx::builder::stream::open_document
-//            << "$each" << bsoncxx::builder::stream::open_array
-//            << galleryName
-//            << bsoncxx::builder::stream::close_array
-//            <<bsoncxx::builder::stream::close_document
-//            <<bsoncxx::builder::stream::close_document
-//            << bsoncxx::builder::stream::finalize;
-//
-//    coll.update_one(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("username", currentUser)), update_statement.view());
+    auto builder = bsoncxx::builder::stream::document{};
+    bsoncxx::document::value update_statement = builder
+            << "$push" << bsoncxx::builder::stream::open_document
+            << "galleries" << bsoncxx::builder::stream::open_document
+            << "$each" << bsoncxx::builder::stream::open_array
+            << galleryName
+            << bsoncxx::builder::stream::close_array
+            <<bsoncxx::builder::stream::close_document
+            <<bsoncxx::builder::stream::close_document
+            << bsoncxx::builder::stream::finalize;
+
+    coll.update_one(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("username", currentUser)), update_statement.view());
 
     return false;
 }
