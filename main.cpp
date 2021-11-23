@@ -9,17 +9,12 @@ int main(int argc, char** argv) {
 
     raidManager manager;
 
-    manager.read("1");
+    manager.read("3");
 
-//    manager.write("Hola, estoy haciendo una prueba");
-//    manager.write("5465");
-//    manager.write("perro");
-//    manager.write("...");
-//    manager.write("Volviendo al disk 1");
-//    manager.write("Volviendo al disk 2");
-//    manager.write("Volviendo al disk 3");
-//    manager.write("Volviendo al disk 4");
-//    manager.read();
+//    string prueba = "Actualmente-curso-seis-temas-distintos-en-el-TEC";
+//    cout << prueba.length() << endl;
+
+//    manager.write("Actualmente-curso-seis-temas-distintos-en-el-TEC", "3");
 
     //QApplication app(argc, argv);
     //MainWindow mainWindow;
