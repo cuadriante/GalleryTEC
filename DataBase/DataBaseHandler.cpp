@@ -43,10 +43,10 @@ bool DataBaseHandler::addUserToDb(const string &username, const string &password
             kvp("galleries", make_array())
             ));
 
-    collection coll2 = db["images"];
-    coll2.insert_one(make_document(
-            kvp("username", username),
-            kvp("image", make_array())));
+//    collection coll2 = db["images"];
+//    coll2.insert_one(make_document(
+//            kvp("username", username),
+//            kvp("image", make_array())));
 
     return true;
 }
@@ -96,11 +96,12 @@ bool DataBaseHandler::addGalleryToUserDb(const string &galleryName) {
             << "$push" << bsoncxx::builder::stream::open_document
             << "galleries" << bsoncxx::builder::stream::open_document
                     << "$each" << bsoncxx::builder::stream::open_array
-                        << bsoncxx::builder::stream::open_document
-                        << "name" << galleryName
-                        << "images" << bsoncxx::builder::stream::open_array
-                        << bsoncxx::builder::stream::close_array
-                        << bsoncxx::builder::stream::close_document
+                    << galleryName
+//                        << bsoncxx::builder::stream::open_document
+//                        << "name" << galleryName
+//                        << "images" << bsoncxx::builder::stream::open_array
+//                        << bsoncxx::builder::stream::close_array
+//                        << bsoncxx::builder::stream::close_document
                 << bsoncxx::builder::stream::close_array
             << bsoncxx::builder::stream::close_document
             << bsoncxx::builder::stream::close_document
@@ -138,8 +139,8 @@ bool DataBaseHandler::deleteGalleryFromUserDb(const string &galleryName) {
                << "$each" << bsoncxx::builder::stream::open_array
                << bsoncxx::builder::stream::open_document
                << "name" << galleryName
-               << "images" << bsoncxx::builder::stream::open_array
-               << bsoncxx::builder::stream::close_array
+//               << "images" << bsoncxx::builder::stream::open_array
+//               << bsoncxx::builder::stream::close_array
                << bsoncxx::builder::stream::close_document
                << bsoncxx::builder::stream::close_array
                << bsoncxx::builder::stream::close_document
@@ -165,7 +166,8 @@ vector<string> DataBaseHandler::retrieveAllUserGalleries() {
             if(userGalleries && userGalleries.type() == bsoncxx::type::k_array){
                 bsoncxx::array::view galleries{userGalleries.get_array().value};
                 for (bsoncxx::array::element subdocument : galleries){
-                    string galleryName = (string) subdocument["name"].get_utf8().value;
+                    cout << subdocument.get_utf8().value << endl;
+                    string galleryName = (string) subdocument.get_utf8().value;
                     galleriesVector.push_back(galleryName);
                 }
             }
@@ -183,22 +185,15 @@ bool DataBaseHandler::addImageToUserGalleryDb(const string &imageName, const str
     collection coll = db["images"];
     auto builder = bsoncxx::builder::stream::document{};
     bsoncxx::document::value update_statement = builder
-            << "$push" << open_document
-            << "image" << open_document
-            << "$each" << open_array
-            << open_document
+            << "username" << currentUser
             << "gallery" << galleryName
             << "imageName" << imageName
             << "imageAuthor" << "unknown"
             << "imageYear" << "unknown"
             << "imageSize" << "unknown"
             << "imageDesc" << "unknown"
-            << close_document
-            << close_array
-            << close_document
-            << close_document
             << finalize;
-    coll.update_one(make_document(kvp("username", currentUser)), update_statement.view());
+    coll.insert_one(update_statement.view());
     return true;
 
 }
