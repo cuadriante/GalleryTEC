@@ -10,7 +10,7 @@ project(GalleryTEC)
 set(CMAKE_CXX_STANDARD 14)
 #set(CMAKE_AUTOMOC ON)
 
-add_executable(GalleryTEC main.cpp Interface/MainWindow.cpp Interface/MainWindow.h StorageManager/raidManager.cpp StorageManager/raidManager.h)
+add_executable(GalleryTEC main.cpp Interface/MainWindow.cpp Interface/MainWindow.h StorageManager/raidManager.cpp StorageManager/raidManager.h StorageManager/dataSetter.cpp StorageManager/dataSetter.h)
 # Link the library to the executable
 #target_link_libraries(GalleryTEC Qt5::Core Qt5::Widgets)
 
