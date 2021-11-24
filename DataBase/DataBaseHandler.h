@@ -34,15 +34,15 @@ public:
     bool addUserToDb(const std::string &username, const std::string &password);
     bool checkForUserInDb(const std::string &username, const std::string &password);
     bool addGalleryToUserDb(const std::string &galleryName);
-    bool removeGalleryFromUser(const std::string &galleryName);
-    bool addImageToUserGalleryDb(const std::string &imageName);
+    bool deleteGalleryFromUserDb(const std::string &galleryName);
+    bool addImageToUserGalleryDb(const string &imageName, const string &galleryName);
     bool editGalleryFromUserDb(const std::string &galleryName);
 
     void setCurrentUser(const string &currentUser);
 
     vector<string> retrieveAllUserGalleries();
 
-    vector<string> retrieveImagefromUserGallery(string imageName, string gallery);
+    vector<string> retrieveAllImagesFromUserGallery(string gallery);
 };
 
 

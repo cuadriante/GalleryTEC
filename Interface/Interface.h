@@ -55,6 +55,9 @@ private:
     QPushButton * createUserButton;
     QPushButton * addGalleryButton;
     QPushButton * editGalleryButton;
+    QPushButton * editGalleryNameButton;
+    QPushButton * addImageButton;
+    QPushButton * deleteImageButton;
     QPushButton * deleteGalleryButton;
     QPushButton * previousImageButton;
     QPushButton * imageMetaDataButton;
@@ -75,6 +78,8 @@ private:
     bool displayedImage = false;
     bool displayedMetadata = false;
     bool hasAddedGallery = false;
+    bool successfulGalleryManagement = false;
+    bool hasEdited = false;
 
     QLineEdit * usernameTextInput;
     QLineEdit * passwordTextInput;
@@ -128,18 +133,19 @@ private slots:
     void clickedBack();
     void clickedVerify();
     void clickedCreate();
-    void clickedAddGallery();
-    void clickedEditGallery();
-    void clickedDeleteGallery();
+    void clickedManageGallery();
     void clickedPreviousImage();
     void clickedImageMetaData();
     void clickedNextImage();
     void clickedGallery();
     void clickedEditImageMetaData();
     void clickedAcceptEditImageMetadata();
-    void clickedAcceptAddGallery();
+    void clickedAcceptManageGallery();
+    void clickedAcceptDeleteGallery();
 
 
     void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
+
+    void editGalleryWindow();
 };
 #endif //GALLERYTEC_INTERFACE_H
