@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 //    Interface interface;
 //    interface.setDbHandler(&dataBaseHandler);
 //    interface.show();
-
-  //  return app.exec();
-  return 1;
+//
+//    return app.exec();
+    return 1;
 }

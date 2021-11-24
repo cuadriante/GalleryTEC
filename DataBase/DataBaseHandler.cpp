@@ -98,8 +98,8 @@ bool DataBaseHandler::addGalleryToUserDb(const string &galleryName) {
                     << "$each" << bsoncxx::builder::stream::open_array
                         << bsoncxx::builder::stream::open_document
                         << "name" << galleryName
-//                        << "images" << bsoncxx::builder::stream::open_array
-//                        << bsoncxx::builder::stream::close_array
+                        << "images" << bsoncxx::builder::stream::open_array
+                        << bsoncxx::builder::stream::close_array
                         << bsoncxx::builder::stream::close_document
                 << bsoncxx::builder::stream::close_array
             << bsoncxx::builder::stream::close_document
@@ -188,7 +188,11 @@ bool DataBaseHandler::addImageToUserGalleryDb(const string &imageName, const str
             << "$each" << open_array
             << open_document
             << "gallery" << galleryName
-            << "name" << imageName
+            << "imageName" << imageName
+            << "imageAuthor" << "unknown"
+            << "imageYear" << "unknown"
+            << "imageSize" << "unknown"
+            << "imageDesc" << "unknown"
             << close_document
             << close_array
             << close_document
