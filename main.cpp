@@ -15,10 +15,15 @@
 int main(int argc, char** argv) {
 
     DataBaseHandler dataBaseHandler;
-    QApplication app(argc, argv);
-    Interface interface;
-    interface.setDbHandler(&dataBaseHandler);
-    interface.show();
+    dataBaseHandler.addUserToDb("adri", "xx");
+    dataBaseHandler.setCurrentUser("adri");
+    dataBaseHandler.addGalleryToUserDb("maxi");
+    dataBaseHandler.addImageToUserGalleryDb("maxito", "maxi");
+//    QApplication app(argc, argv);
+//    Interface interface;
+//    interface.setDbHandler(&dataBaseHandler);
+//    interface.show();
 
-    return app.exec();
+  //  return app.exec();
+  return 1;
 }

@@ -41,9 +41,8 @@ private:
     const int GALLERY_MANAGEMENT = 3;
     const int IMAGE_MENU = 3;
     const int IMAGE_METADATA = 4;
-    const int MAX_GALLERIES = 6;
     int currentWindow = MENU;
-    int currentGalleries = 0;
+    int currentImageIndex = 0;
 
     QImage * bgImage;
     QGraphicsPixmapItem * pixmap;
@@ -107,6 +106,8 @@ private:
     QString imageDescription = "Unknown";
 
     vector<QWidget*> currentWidgets;
+    vector<string> currentImages;
+    string currentGalleryString;
 
 
 public:
@@ -127,6 +128,8 @@ public:
     void displayCurrentImage();
     void metadataWindow();
     void createLabel(QLabel *label, QString text, int ax, int ay, int aw, int ah);
+    void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
+    void editGalleryWindow();
 private slots:
     void clickedLogIn();
     void clickedSignUp();
@@ -144,8 +147,7 @@ private slots:
     void clickedAcceptDeleteGallery();
 
 
-    void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
 
-    void editGalleryWindow();
+
 };
 #endif //GALLERYTEC_INTERFACE_H

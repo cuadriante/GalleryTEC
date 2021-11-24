@@ -96,6 +96,7 @@ void Interface::galleriesWindow() {
 }
 
 void Interface::imageWindow() {
+
     currentWindow = IMAGE_MENU;
     currentGalleryLabel->setVisible(true);
     currentWidgets.push_back(currentGalleryLabel);
@@ -107,28 +108,22 @@ void Interface::imageWindow() {
         QFont galleryButtonFont = addGalleryButton->font();
         galleryButtonFont.setPointSize(20);
         previousImageButton->setFont(galleryButtonFont);
-        previousImageButton->setGeometry(25, 600, 220, 70);
-        previousImageButton->setText("Previous");
-        previousImageButton->setStyleSheet("color: black; background-color:pink;");
+        createButton(previousImageButton, "Previous", 25, 600, 220, 70);
         connect(previousImageButton, SIGNAL(clicked()), this, SLOT(clickedPreviousImage()));
 
         imageMetaDataButton = new QPushButton(this);
+        createButton(imageMetaDataButton, "Metadata", 315, 600, 220, 70);
         imageMetaDataButton->setFont(galleryButtonFont);
-        imageMetaDataButton->setGeometry(315, 600, 220, 70);
-        imageMetaDataButton->setText("Metadata");
-        imageMetaDataButton->setStyleSheet("color: black; background-color:pink;");
         connect(imageMetaDataButton, SIGNAL(clicked()), this, SLOT(clickedImageMetaData()));
 
         nextImageButton = new QPushButton(this);
-        nextImageButton->setGeometry(605, 600, 220, 70);
+        createButton(nextImageButton, "Next", 605, 600, 220, 70);
         nextImageButton->setFont(galleryButtonFont);
-        nextImageButton->setText("Next");
-        nextImageButton->setStyleSheet("color: black; background-color:pink;");
+
         connect(nextImageButton, SIGNAL(clicked()), this, SLOT(clickedNextImage()));
 
         currentImageLabel = new QLabel(this);
-        currentImageLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        currentImageLabel->setStyleSheet("color: white;");
+        createLabel(currentImageLabel, " ", 130, 500, 600, 80);
         QFont galleryNameFont = currentImageLabel->font();
         galleryNameFont.setPointSize(35);
         galleryNameFont.setBold(true);
@@ -400,18 +395,21 @@ void Interface::clickedManageGallery() {
             break;
         }
         case 3: {
+            currentGalleryString  = newGalleryInput->text().toStdString();
             newGalleryInput->setPlaceholderText("New Gallery Name");
             confirmAddGalleryButton->setText("Change");
             confirmAddGalleryButton->setAccessibleDescription("3");
             break;
         }
         case 4: {
+            currentGalleryString  = newGalleryInput->text().toStdString();
             newGalleryInput->setPlaceholderText("New Image Name");
             confirmAddGalleryButton->setText("Add");
             confirmAddGalleryButton->setAccessibleDescription("4");
             break;
         }
         case 5: {
+            currentGalleryString  = newGalleryInput->text().toStdString();
             newGalleryInput->setPlaceholderText("Image Name");
             confirmAddGalleryButton->setText("Delete");
             confirmAddGalleryButton->setAccessibleDescription("5");
@@ -423,21 +421,21 @@ void Interface::clickedManageGallery() {
 }
 
 void Interface::clickedAcceptManageGallery() {
-    string gallery  = newGalleryInput->text().toStdString();
+    string objectName  = newGalleryInput->text().toStdString();
     auto * buttonSender = qobject_cast<QPushButton*>(sender());
     QString buttonDescription = buttonSender->accessibleDescription();
     int buttonDescriptionInt = stoi(buttonDescription.toStdString());
     switch(buttonDescriptionInt) {
         case 0: {
-            successfulGalleryManagement = dbHandler->addGalleryToUserDb(gallery);
+            successfulGalleryManagement = dbHandler->addGalleryToUserDb(objectName);
             if (successfulGalleryManagement) {
-                cout << "new Gallery: " << gallery << endl;
-                noticeLabel->setText("Gallery created successfully! \nReturn to gallery window.");
+                cout << "new Gallery: " << objectName << endl;
+                noticeLabel->setText("Gallery created successfully! \nReturn to objectName window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
             } else {
-                noticeLabel->setText("ERROR: Could not create gallery.");
+                noticeLabel->setText("ERROR: Could not create objectName.");
                 noticeLabel->setGeometry(170, 420, 500, 100);
                 noticeLabel->setVisible(true);
             }
@@ -448,15 +446,15 @@ void Interface::clickedAcceptManageGallery() {
             break;
         }
         case 2: {
-            successfulGalleryManagement = dbHandler->deleteGalleryFromUserDb(gallery);
+            successfulGalleryManagement = dbHandler->deleteGalleryFromUserDb(objectName);
             if (successfulGalleryManagement) {
-                cout << "Gallery deleted: " << gallery << endl;
-                noticeLabel->setText("Gallery deleted successfully! \nReturn to gallery window.");
+                cout << "Gallery deleted: " << objectName << endl;
+                noticeLabel->setText("Gallery deleted successfully! \nReturn to objectName window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
             } else {
-                noticeLabel->setText("ERROR: Could not delete gallery.");
+                noticeLabel->setText("ERROR: Could not delete objectName.");
                 noticeLabel->setGeometry(170, 420, 500, 100);
                 noticeLabel->setVisible(true);
             }
@@ -465,23 +463,23 @@ void Interface::clickedAcceptManageGallery() {
         case 3: {
             successfulGalleryManagement = false;
             if (successfulGalleryManagement) {
-                cout << "new Gallery: " << gallery << endl;
-                noticeLabel->setText("Gallery name changes successfully! \nReturn to gallery window.");
+                cout << "new Gallery name: " << objectName << endl;
+                noticeLabel->setText("Gallery name changes successfully! \nReturn to objectName window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
             } else {
-                noticeLabel->setText("ERROR: Could not change gallery name.");
+                noticeLabel->setText("ERROR: Could not change objectName name.");
                 noticeLabel->setGeometry(170, 420, 500, 100);
                 noticeLabel->setVisible(true);
             }
             break;
         }
         case 4: {
-            successfulGalleryManagement = false;
+            successfulGalleryManagement = dbHandler->addImageToUserGalleryDb(objectName, currentGalleryString);
             if (successfulGalleryManagement) {
-                cout << "new Gallery: " << gallery << endl;
-                noticeLabel->setText("Image created successfully! \nReturn to gallery window.");
+                cout << "new Image: " << objectName << endl;
+                noticeLabel->setText("Image created successfully! \nReturn to objectName window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
@@ -495,8 +493,8 @@ void Interface::clickedAcceptManageGallery() {
         case 5: {
             successfulGalleryManagement = false;
             if (successfulGalleryManagement) {
-                cout << "new Gallery: " << gallery << endl;
-                noticeLabel->setText("Image deleted successfully! \nReturn to gallery window.");
+                cout << "deleted Image: " << objectName << endl;
+                noticeLabel->setText("Image deleted successfully! \nReturn to objectName window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
@@ -667,15 +665,29 @@ void Interface::clickedAcceptEditImageMetadata() {
 }
 
 void Interface::clickedNextImage() {
+    clearWindow(true);
+    currentImageIndex++;
+    if (currentImageIndex >= currentImages.size()){
+        currentImageIndex = 0;
+    }
+    if (currentImageIndex < 0){
+        currentImageIndex = currentImages.size() - 1;
+    }
+    currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
 
 }
 
 void Interface::displayCurrentImage() {
     //aqui se displayea la imagen cargada del db
-    currentImageName = "Image Example";
+
+    auto * buttonSender = qobject_cast<QPushButton*>(sender());
+    QString buttonText = buttonSender->text();
+    string gallery = buttonText.toStdString();
+    currentImages = dbHandler->retrieveAllImagesFromUserGallery(gallery);
+    currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
     currentImageLabel->setText(currentImageName);
-    currentImageLabel->setGeometry(130, 500, 600, 80);
-    currentImageLabel->setVisible(true);
+
+
 }
 
 // MANAGE WIDGETS
@@ -693,6 +705,7 @@ void Interface::clickedBack() {
         }
         case 2: {
             currentWindow = GALLERY_MENU;
+            currentImages.clear();
             galleriesWindow();
             break;
         }

@@ -20,6 +20,8 @@
 
 using namespace std;
 using namespace mongocxx;
+using namespace bsoncxx::builder::basic;
+using namespace bsoncxx::builder::stream;
 
 
 class DataBaseHandler {
