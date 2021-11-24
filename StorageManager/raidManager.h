@@ -28,6 +28,7 @@ private:
     bool isParity;
     int disk = 6;
     int codeIndex = 1;
+    int parityBlock = 1;
     pt::ptree root, dictionary, newImage, code_1, code_2, code_3, code_4, code_5, parity;
     pt::ptree length1, length2, length3, length4, length5, lengthTree;
 
@@ -39,6 +40,7 @@ private:
     void codeSplitter();
     void setCompleteCode(const string &completeCode);
     void setLenght();
+    void changeParity();
 };
 
 
