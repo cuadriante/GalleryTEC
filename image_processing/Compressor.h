@@ -6,6 +6,7 @@
 #define GALLERYTEC_COMPRESSOR_H
 
 #include "../data_structures/HuffmanBinaryTree.h"
+#include "Dictionary.h"
 
 using namespace std;
 
@@ -14,6 +15,8 @@ private:
     vector<TreeNode> nodes;
     HuffmanBinaryTree* tree;
     int size;
+    void buildTree();
+    Dictionary createDictionary();
 public:
     Compressor(vector<TreeNode> pixels);
     ~Compressor();

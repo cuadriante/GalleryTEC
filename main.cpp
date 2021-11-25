@@ -5,25 +5,15 @@
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    TreeNode t1(Vec3b(1,2,2), 14);
-    TreeNode t2(Vec3b(21,2,1), 46);
-    TreeNode t3(Vec3b(21,2,1), 34);
-    TreeNode t4(Vec3b(21,2,1), 4);
-    TreeNode t5(Vec3b(21,2,1), 65);
-    TreeNode t6(Vec3b(21,2,1), 62);
-    TreeNode t7(Vec3b(21,2,1), 92);
 
-    vector<TreeNode> p;
+    vector<pair<Vec3b, string>> v;
+    v.push_back(make_pair(Vec3b(0,0,0), "10001"));
+    v.push_back(make_pair(Vec3b(0,5,6), "10000"));
+    v.push_back(make_pair(Vec3b(12,234,165), "101"));
+    v.push_back(make_pair(Vec3b(6,5,2), "1011"));
+    v.push_back(make_pair(Vec3b(5,6,7), "10111"));
 
-    p.push_back(t1);
-    p.push_back(t2);
-    p.push_back(t3);
-    p.push_back(t4);
-    p.push_back(t5);
-    p.push_back(t6);
-    p.push_back(t7);
-
-    Compressor compressor(p);
-    compressor.compress();
+    Dictionary dict;
+    dict.generateJSON("/home/eduardo/Documentos/GitHub/GalleryTEC/cupcake.json", v);
     return 0;
 }

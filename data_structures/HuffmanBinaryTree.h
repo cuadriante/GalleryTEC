@@ -16,7 +16,8 @@ private:
 public:
     HuffmanBinaryTree(vector<TreeNode> nodes);
     void setRoots(vector<TreeNode> nodes);
-    vector<TreeNode> getRoot();
+    TreeNode getRoot();
+    vector<TreeNode> getRoots();
     void updateTreeRoots(TreeNode parent);
     int getSize();
 };

@@ -13,39 +13,49 @@ Compressor::~Compressor() {
     delete this->tree;
 }
 
-void Compressor::compress() {
+void Compressor::buildTree() {
     TreeNode parent;
-    int c = 10;
-    while (c > 1 || this->tree->getSize() > 0) {
-        this->tree->setRoots(Compressor::bubble_sort(this->tree->getRoot()));
-        for (TreeNode n : this->tree->getRoot()) {
-            cout << n.getFrequency();
-            cout << ", ";
-        }
-        cout << endl;
-        for (TreeNode n : this->tree->getRoot()) {
-            cout << "Parent: ";
-            cout << n.getFrequency() << endl;
-            if (n.getLeftChild() != nullptr) {
-                cout << "Left: ";
-                cout << n.getLeftChild()->getFrequency();
-                cout << ", ";
-            }
-            if (n.getRightChild() != nullptr) {
-                cout << "Right: ";
-                cout << n.getRightChild()->getFrequency();
-            }
-            else {
-                cout << "No children";
-            }
-            cout << endl;
-        }
-        parent.setFrequency(this->tree->getRoot()[0].getFrequency() + this->tree->getRoot()[1].getFrequency());
-        parent.setLeftChild(&this->tree->getRoot()[0]);
-        parent.setRightChild(&this->tree->getRoot()[1]);
+    while (this->tree->getSize() > 1) {
+        this->tree->setRoots(Compressor::bubble_sort(this->tree->getRoots()));
+        parent.setFrequency(this->tree->getRoots()[0].getFrequency() + this->tree->getRoots()[1].getFrequency());
+        parent.setLeftChild(&this->tree->getRoots()[0]);
+        parent.setRightChild(&this->tree->getRoots()[1]);
+        //parent.getLeftChild()->setParent(&parent);
+        //parent.getRightChild()->setParent(&parent);
         this->tree->updateTreeRoots(parent);
-        c--;
     }
+    cout << this->tree->getRoot().getFrequency() << endl;
+    cout << this->tree->getRoot().getLeftChild()->getFrequency() << endl;
+    cout << this->tree->getRoot().getLeftChild()->getRightChild()->getFrequency() << endl;
+}
+
+Dictionary Compressor::createDictionary() {
+    //Dictionary d;
+    string code;
+    TreeNode current = this->tree->getRoot();
+    int iterations = this->nodes.size();
+    while (iterations > 0) {
+        cout << code << endl;
+        if (current.getLeftChild() != nullptr && !current.getLeftChild()->isVisited()) {
+            code.push_back('0');
+            current = *current.getLeftChild();
+        }
+        else if (current.getRightChild() != nullptr && !current.getRightChild()->isVisited()) {
+            code.push_back('1');
+            current = *current.getRightChild();
+        }
+        else if (current.getLeftChild() == nullptr && current.getRightChild() == nullptr) {
+            //d.addElement(current.getData(), code);
+            current.visit();
+            current = *current.getParent();
+        }
+        iterations--;
+    }
+}
+
+void Compressor::compress() {
+    this->buildTree();
+    //this->createDictionary();
 }
 
 void Compressor::decompress() {

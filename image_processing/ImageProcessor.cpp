@@ -15,9 +15,7 @@ ImageProcessor::~ImageProcessor() {
 }
 
 vector<TreeNode> ImageProcessor::pixelReader() {
-    //int i = 0;
     Vec3b color;
-    //cout << "All pixels:" << endl;
     for (int r = 0; r < this->image->rows; r++) {
         for (int c = 0; c < this->image->cols; c++) {
             color = this->image->at<Vec3b>(Point(c,r));
@@ -26,8 +24,6 @@ vector<TreeNode> ImageProcessor::pixelReader() {
                 this->unrepeatedColors.push_back(color);
             }
         }
-        //cout << pixels[i] << endl;
-        //i++;
     }
     return this->frequencyCounter();
 }
@@ -43,9 +39,6 @@ vector<TreeNode> ImageProcessor::frequencyCounter() {
             }
             TreeNode pixel(color, counter);
             this->pixels.push_back(pixel);
-            //cout << "Color: ";
-            //cout << pixel.getData();
-            //cout << " Se repite: " + to_string(counter) << endl;
             counter = 0;
         }
         return this->pixels;
