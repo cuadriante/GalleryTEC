@@ -67,7 +67,7 @@ private:
     QPushButton * imageYearButton;
     QPushButton * imageDescriptionButton;
     QPushButton * confirmAddGalleryButton;
-    QPushButton * addPicButton;
+    QPushButton * selectPicButton;
 
     bool createdLogInWindow = false;
     bool askedForUsernameAndPassword = false;
@@ -147,6 +147,7 @@ private slots:
     void clickedEditImageMetaData();
     void clickedAcceptEditImageMetadata();
     void clickedAcceptManageGallery();
+    void clickedSelectPicButton();
 
 
 

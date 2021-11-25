@@ -170,101 +170,76 @@ void Interface::metadataWindow() {
 
         imageNameInput = new QLineEdit(this);
         createInput(imageNameInput, "New Name", 315, 180, 340, 50);
-        imageNameInput->setAlignment(Qt::AlignCenter);
         imageNameInput->setFont(galleryNameFont);
-        imageNameInput->setMaxLength(20);
 
         imageAuthorLabel = new QLabel(this);
         imageAuthorLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        createLabel(imageAuthorLabel, "Author: " + imageAuthor,200, 235, 460, 80);
         imageAuthorLabel->setStyleSheet("color: black;");
         imageAuthorLabel->setFont(galleryNameFont);
-        imageAuthorLabel->setText("Author: " + imageAuthor);
-        imageAuthorLabel->setGeometry(200, 235, 460, 80);
 
         imageAuthorButton = new QPushButton(this);
         imageAuthorButton->setFont(galleryNameFont);
-        imageAuthorButton->setGeometry(670, 245, 80, 50);
-        imageAuthorButton->setText("Edit");
-        imageAuthorButton->setStyleSheet("color: black; background-color:pink;");
+        createButton(imageAuthorButton, "Edit", 670, 245, 80, 50);
         imageAuthorButton->setAccessibleDescription("1");
         connect(imageAuthorButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
 
         imageAuthorInput = new QLineEdit(this);
-        imageAuthorInput->setAlignment(Qt::AlignCenter);
-        imageAuthorInput->setPlaceholderText("New Author");
-        imageAuthorInput->setStyleSheet("color : black;");
+        createInput(imageAuthorInput, "New Author",338, 245, 317, 50);
         imageAuthorInput->setFont(galleryNameFont);
-        imageAuthorInput->setMaxLength(20);
-        imageAuthorInput->setGeometry(338, 245, 317, 50);
 
         imageYearLabel = new QLabel(this);
         imageYearLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        createLabel(imageYearLabel, "Year: " + imageYear, 200, 300, 460, 80);
         imageYearLabel->setStyleSheet("color: black;");
         imageYearLabel->setFont(galleryNameFont);
-        imageYearLabel->setText("Year: " + imageYear);
-        imageYearLabel->setGeometry(200, 300, 460, 80);
 
         imageYearButton = new QPushButton(this);
         imageYearButton->setFont(galleryNameFont);
-        imageYearButton->setGeometry(670, 310, 80, 50);
-        imageYearButton->setText("Edit");
-        imageYearButton->setStyleSheet("color: black; background-color:pink;");
+        createButton(imageYearButton, "Edit", 670, 310, 80, 50);
         imageYearButton->setAccessibleDescription("2");
         connect(imageYearButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
 
         imageYearInput = new QLineEdit(this);
-        imageYearInput->setAlignment(Qt::AlignCenter);
-        imageYearInput->setPlaceholderText("New Year");
-        imageYearInput->setStyleSheet("color : black;");
+        createInput(imageYearInput, "New Year", 295, 310, 360, 50);
         imageYearInput->setFont(galleryNameFont);
-        imageYearInput->setMaxLength(20);
-        imageYearInput->setGeometry(295, 310, 360, 50);
 
         imageSizeLabel = new QLabel(this);
         imageSizeLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        createLabel(imageSizeLabel, "Size: " + imageSize, 200, 365, 460, 80);
         imageSizeLabel->setStyleSheet("color: black;");
         imageSizeLabel->setFont(galleryNameFont);
-        imageSizeLabel->setText("Size: " + imageSize);
-        imageSizeLabel->setGeometry(200, 365, 460, 80);
 
         imageSizeButton = new QPushButton(this);
         imageSizeButton->setFont(galleryNameFont);
-        imageSizeButton->setGeometry(670, 375, 80, 50);
-        imageSizeButton->setText("Edit");
-        imageSizeButton->setStyleSheet("color: black; background-color:pink;");
+        createButton(imageSizeButton, "Edit", 670, 375, 80, 50);
         imageSizeButton->setAccessibleDescription("3");
         connect(imageSizeButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
 
         imageSizeInput = new QLineEdit(this);
-        imageSizeInput->setAlignment(Qt::AlignCenter);
-        imageSizeInput->setPlaceholderText("New Size");
-        imageSizeInput->setStyleSheet("color : black;");
+        createInput(imageSizeInput, "New Size",285, 375, 370, 50);
         imageSizeInput->setFont(galleryNameFont);
-        imageSizeInput->setMaxLength(20);
-        imageSizeInput->setGeometry(285, 375, 370, 50);
 
         imageDescriptionLabel = new QLabel(this);
         imageDescriptionLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        createLabel(imageDescriptionLabel, "Desc: " + imageDescription, 200, 430, 460, 80);
         imageDescriptionLabel->setStyleSheet("color: black;");
         imageDescriptionLabel->setFont(galleryNameFont);
-        imageDescriptionLabel->setText("Desc: " + imageDescription);
-        imageDescriptionLabel->setGeometry(200, 430, 460, 80);
 
         imageDescriptionButton = new QPushButton(this);
         imageDescriptionButton->setFont(galleryNameFont);
-        imageDescriptionButton->setGeometry(670, 440, 80, 50);
-        imageDescriptionButton->setText("Edit");
+        createButton(imageDescriptionButton, "Edit", 670, 440, 80, 50);
         imageDescriptionButton->setAccessibleDescription("4");
-        imageDescriptionButton->setStyleSheet("color: black; background-color:pink;");
         connect(imageDescriptionButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
 
         imageDescriptionInput = new QLineEdit(this);
-        imageDescriptionInput->setAlignment(Qt::AlignCenter);
-        imageDescriptionInput->setPlaceholderText("New Description");
-        imageDescriptionInput->setStyleSheet("color : black;");
+        createInput(imageDescriptionInput, "New Description",  295, 440, 360, 50);
         imageDescriptionInput->setFont(galleryNameFont);
-        imageDescriptionInput->setMaxLength(20);
-        imageDescriptionInput->setGeometry(295, 440, 360, 50);
+
+        selectPicButton = new QPushButton(this);
+       //selectPicButton->setFont(galleryNameFont);
+        createButton(selectPicButton, "Select pic", 200, 595, 450, 50);
+        connect(selectPicButton, SIGNAL(clicked()), this, SLOT(clickedSelectPicButton()));
     }
     retrieveImageMetadataFromDb();
     addToWindow(imageNameLabel);
@@ -277,6 +252,7 @@ void Interface::metadataWindow() {
     addToWindow(imageSizeButton);
     addToWindow(imageDescriptionLabel);
     addToWindow(imageDescriptionButton);
+    addToWindow(selectPicButton);
 }
 
 void Interface::retrieveImageMetadataFromDb() {
@@ -628,6 +604,10 @@ void Interface::addExistingImagesFromGallery() {
     currentImages = dbHandler->retrieveAllImagesFromUserGallery(gallery);
 }
 
+void Interface::clickedSelectPicButton() {
+
+}
+
 // MANAGE METADATA
 
 void Interface::clickedImageMetaData() {
@@ -801,6 +781,7 @@ void Interface::createInput(QLineEdit *input, QString text, int ax, int ay, int 
 void Interface::setDbHandler(DataBaseHandler *dbHandler) {
     Interface::dbHandler = dbHandler;
 }
+
 
 
 
