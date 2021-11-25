@@ -155,30 +155,24 @@ void Interface::metadataWindow() {
     if (!displayedMetadata){
         imageNameLabel = new QLabel(this);
         imageNameLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        createLabel(imageNameLabel, "Name: " + currentImageName, 200, 170, 460, 80);
         imageNameLabel->setStyleSheet("color: black;");
         QFont galleryNameFont = currentGalleryLabel->font();
         galleryNameFont.setPointSize(25);
         galleryNameFont.setBold(true);
         imageNameLabel->setFont(galleryNameFont);
-        imageNameLabel->setText("Name: " + currentImageName);
-        imageNameLabel->setGeometry(200, 170, 460, 80);
 
-        //createButton(imageNameButton, "Edit", 670, 180, 80, 50);
         imageNameButton = new QPushButton(this);
+        createButton(imageNameButton, "Edit", 670, 180, 80, 50);
         imageNameButton->setFont(galleryNameFont);
-        imageNameButton->setGeometry(670, 180, 80, 50);
-        imageNameButton->setText("Edit");
-        imageNameButton->setStyleSheet("color: black; background-color:pink;");
         imageNameButton->setAccessibleDescription("0");
         connect(imageNameButton, SIGNAL(clicked()), this, SLOT(clickedEditImageMetaData()));
 
         imageNameInput = new QLineEdit(this);
+        createInput(imageNameInput, "New Name", 315, 180, 340, 50);
         imageNameInput->setAlignment(Qt::AlignCenter);
-        imageNameInput->setPlaceholderText("New Name");
-        imageNameInput->setStyleSheet("color : black;");
         imageNameInput->setFont(galleryNameFont);
         imageNameInput->setMaxLength(20);
-        imageNameInput->setGeometry(315, 180, 340, 50);
 
         imageAuthorLabel = new QLabel(this);
         imageAuthorLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -272,6 +266,7 @@ void Interface::metadataWindow() {
         imageDescriptionInput->setMaxLength(20);
         imageDescriptionInput->setGeometry(295, 440, 360, 50);
     }
+    retrieveImageMetadataFromDb();
     addToWindow(imageNameLabel);
     addToWindow(imageNameButton);
     addToWindow(imageAuthorLabel);
@@ -282,6 +277,16 @@ void Interface::metadataWindow() {
     addToWindow(imageSizeButton);
     addToWindow(imageDescriptionLabel);
     addToWindow(imageDescriptionButton);
+}
+
+void Interface::retrieveImageMetadataFromDb() {
+
+    string currentImageNameString = currentImageName.toStdString();
+    vector<string> imageMetadata = dbHandler->retrieveImageMetadata(currentImages.at(currentImageIndex), currentGalleryString);
+    imageAuthorLabel->setText("Author: " + QString::fromStdString(imageMetadata.at(1)));
+    imageYearLabel->setText("Year: " + QString::fromStdString(imageMetadata.at(2)));
+    imageSizeLabel->setText("Size: " + QString::fromStdString(imageMetadata.at(3)));
+    imageDescriptionLabel->setText("Desc: " + QString::fromStdString(imageMetadata.at(4)));
 }
 
 // MANAGE USERS
@@ -580,6 +585,7 @@ void Interface::clickedGallery() {
     clearWindow(true);
     QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
     currentGallery = buttonSender->text();
+    currentGalleryString = currentGallery.toStdString();
     qDebug() << currentGallery;
 
     currentGalleryLabel = new QLabel(this);
@@ -636,6 +642,8 @@ void Interface::addExistingImagesFromGallery() {
     currentImages = dbHandler->retrieveAllImagesFromUserGallery(gallery);
 }
 
+// MANAGE METADATA
+
 void Interface::clickedImageMetaData() {
     metadataWindow();
 }
@@ -686,26 +694,56 @@ void Interface::clickedAcceptEditImageMetadata() {
     switch(buttonDescriptionInt){
         case 0: {
             imageNameInput->setVisible(false);
+            string toEdit  = imageNameInput->text().toStdString();
+            currentImageName = imageNameInput->text();
+            bool edited = dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imageName", toEdit);
+            if (edited) {
+                imageNameLabel->setText("Name: " + currentImageName);
+            }
             remove(currentWidgets.begin(), currentWidgets.end(), imageNameInput);
             break;
         }
         case 1: {
             imageAuthorInput->setVisible(false);
+            string toEdit  = imageAuthorInput->text().toStdString();
+            imageAuthor = imageAuthorInput->text();
+            bool edited = dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imageAuthor", toEdit);
+            if (edited) {
+                imageAuthorLabel->setText("Author: " + imageAuthor);
+            }
             remove(currentWidgets.begin(), currentWidgets.end(), imageAuthorInput);
             break;
         }
         case 2: {
             imageYearInput->setVisible(false);
+            string toEdit  = imageYearInput->text().toStdString();
+            imageYear = imageYearInput->text();
+            bool edited = dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imageYear", toEdit);
+            if (edited) {
+                imageYearLabel->setText("Year: " + imageYear);
+            }
             remove(currentWidgets.begin(), currentWidgets.end(), imageYearInput);
             break;
         }
         case 3: {
             imageSizeInput->setVisible(false);
+            string toEdit  = imageSizeInput->text().toStdString();
+            imageSize = imageSizeInput->text();
+            bool edited = dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imageSize", toEdit);
+            if (edited) {
+                imageSizeLabel->setText("Size: " + imageSize);
+            }
             remove(currentWidgets.begin(), currentWidgets.end(), imageSizeInput);
             break;
         }
         case 4: {
             imageDescriptionInput->setVisible(false);
+            string toEdit  = imageDescriptionInput->text().toStdString();
+            imageDescription = imageDescriptionInput->text();
+            bool edited = dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imageDesc", toEdit);
+            if (edited) {
+                imageDescriptionLabel->setText("Desc: " + imageDescription);
+            }
             remove(currentWidgets.begin(), currentWidgets.end(), imageDescriptionInput);
             break;
         }

@@ -237,7 +237,6 @@ bool DataBaseHandler::checkForImageInUserGallery(const string &imageName, const 
     return false;
 }
 
-
 vector<string> DataBaseHandler::retrieveAllImagesFromUserGallery(string gallery) {
     vector<string> galleryImagesVector;
     uri myURI("mongodb://localhost:27017");
@@ -263,7 +262,59 @@ vector<string> DataBaseHandler::retrieveAllImagesFromUserGallery(string gallery)
     return  galleryImagesVector;
 }
 
+// METADATA MANAGEMENTmake_document(kvp(parameter, newValue)))
 
+vector<string> DataBaseHandler::retrieveImageMetadata(const string &imageName, const string &galleryName){
+    vector<string> imageMetadataVector;
+    uri myURI("mongodb://localhost:27017");
+    client conn(myURI);
+    db = conn["GalleryTEC"];
+    collection coll = db["images"];
+    auto cursor = coll.find({});
+    for (auto &&doc: cursor) {
+        bsoncxx::document::element userGalleries = doc["username"];
+        cout << "username: " << userGalleries.get_utf8().value << endl;
+        string dbUsernameString = (string) userGalleries.get_utf8().value;
+        if (dbUsernameString == currentUser) {
+            userGalleries = doc["gallery"];
+            string dbGalleryString = (string) userGalleries.get_utf8().value;
+            if (dbGalleryString == galleryName) {
+                userGalleries = doc["imageName"];
+                string dbImageString = (string) userGalleries.get_utf8().value;
+                if (dbImageString == imageName){
+                    imageMetadataVector.push_back(dbImageString);
+                    imageMetadataVector.push_back((string) doc["imageAuthor"].get_utf8().value);
+                    imageMetadataVector.push_back((string) doc["imageYear"].get_utf8().value);
+                    imageMetadataVector.push_back((string) doc["imageSize"].get_utf8().value);
+                    imageMetadataVector.push_back((string) doc["imageDesc"].get_utf8().value);
+                }
+            }
+        }
+    }
+    return imageMetadataVector;
+}
 
+bool DataBaseHandler::editImageMetadata(const string &imageName, const string &galleryName, const string &parameter, const string &newValue){
+    if (checkForImageInUserGallery(imageName, galleryName)){
+        uri myURI("mongodb://localhost:27017");
+        client conn(myURI);
+        db = conn["GalleryTEC"];
+        collection coll = db["images"];
+
+        auto builder = bsoncxx::builder::stream::document{};
+        bsoncxx::document::value update_statement = builder
+                << "$set" << open_document
+                << parameter << newValue
+                << close_document
+                << finalize;
+
+        coll.update_one(make_document(kvp("username", currentUser),
+                                      kvp("imageName", imageName),
+                                      kvp("gallery", galleryName)), update_statement.view());
+        return true;
+    } else {
+        return false;
+    }
+}
 
 

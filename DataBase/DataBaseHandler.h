@@ -48,6 +48,12 @@ public:
     vector<string> retrieveAllImagesFromUserGallery(string gallery);
 
     bool checkForImageInUserGallery(const string &imageName, const string &galleryName);
+
+    bool
+    editImageMetadata(const string &imageName, const string &galleryName, const string &parameter,
+                      const string &newValue);
+
+    vector<string> retrieveImageMetadata(const string &imageName, const string &galleryName);
 };
 
 

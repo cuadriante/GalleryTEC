@@ -148,7 +148,6 @@ private slots:
     void clickedAcceptDeleteGallery();
 
 
-
-
+    void retrieveImageMetadataFromDb();
 };
 #endif //GALLERYTEC_INTERFACE_H
