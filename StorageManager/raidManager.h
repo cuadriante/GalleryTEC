@@ -17,7 +17,8 @@ public:
     void addNewImage(string data, string newImgID);
     void getDictionary(pt::ptree &dictionary, string imgID);
     string getCode(string imgID);
-    void checkForRecover(string imgID);
+    int setNextID();
+//    void checkForRecover(string imgID);
 
 private:
     string fileLocation, completeCode, tempCode, imageID;
@@ -35,7 +36,7 @@ private:
     void write(string data, string newImgID);
     void applyXOR();
     string xorAlgorithm(string firstCode, string secondCode);
-//    void checkForRecover(string imgID);
+    void checkForRecover(string imgID);
     void recoverDisk(int diskToCheck);
     void recoverySave(int diskToCheck);
     void deleteExtraBit(string code);

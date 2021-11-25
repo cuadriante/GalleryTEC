@@ -23,8 +23,9 @@ int main(int argc, char** argv) {
     raidManager manager;
 
 //    manager.checkForRecover("3");
-    manager.getCode("1");
+//    manager.getCode("1");
 //    manager.addNewImage("111001101000", "3");
+//    int number = manager.setNextID();
 
     //QApplication app(argc, argv);
     //MainWindow mainWindow;

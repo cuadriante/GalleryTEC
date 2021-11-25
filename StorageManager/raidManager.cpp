@@ -75,6 +75,30 @@ string raidManager::getCode(string imgID) {
     }
 }
 
+int raidManager::setNextID() {
+    int counter = 1;
+    checkForRecover(to_string(counter));
+    disk = 1;
+    setFileLocation();
+    string prueba = "";
+    bool flag = true;
+
+    root.clear();
+
+    pt::read_json(fileLocation, root);
+
+    while (flag) {
+        try {
+            prueba = root.get<string>(to_string(counter) + ".code");
+            counter++;
+        } catch (boost::property_tree::ptree_bad_path err) {
+            return counter;
+            flag = false;
+        }
+
+    }
+}
+
 void raidManager::write(string data, string newImgID) {
     setCompleteCode(data);
     codeSplitter();
