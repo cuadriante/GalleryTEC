@@ -1,7 +1,17 @@
 #include <iostream>
-//#include <QApplication>
-//#include "Interface/MainWindow.h"
+#include <QApplication>
+#include "Interface/Interface.h"
+#include "DataBase/DataBaseHandler.h"
 #include "StorageManager/raidManager.h"
+
+#include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/json.hpp>
+
+#include <mongocxx/client.hpp>
+#include <mongocxx/client_session.hpp>
+#include <mongocxx/stdx.hpp>
+#include <mongocxx/uri.hpp>
+#include <mongocxx/instance.hpp>
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -10,27 +20,23 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-//    namespace pt = boost::property_tree;
-//
-//    pt::ptree root, prueba;
-//
-//    pt::read_json("RAIDStorage/Disk1/data.json", root);
-//
-//    prueba.put_child("1", root.get_child("3"));
-//
-//    cout << prueba.get<string>("1.dictionary") << endl;
+//    raidManager manager;
 
-    raidManager manager;
+    DataBaseHandler dataBaseHandler;
 
-//    manager.checkForRecover("3");
-//    manager.getCode("1");
-//    manager.addNewImage("111001101000", "3");
-//    int number = manager.setNextID();
+//    dataBaseHandler.addUserToDb("adri", "xx");
+//    dataBaseHandler.setCurrentUser("adri");
+//    dataBaseHandler.addGalleryToUserDb("maxi");
+//    dataBaseHandler.addGalleryToUserDb("temi");
+//    dataBaseHandler.addGalleryToUserDb("foca");
+//    dataBaseHandler.addImageToUserGalleryDb("maxito", "maxi");
+//    dataBaseHandler.retrieveAllUserGalleries();
 
-    //QApplication app(argc, argv);
-    //MainWindow mainWindow;
-    //mainWindow.show();
+    QApplication app(argc, argv);
+    Interface interface;
+    interface.setDbHandler(&dataBaseHandler);
+    interface.show();
 
-    //return app.exec();
-    return 0;
+    return app.exec();
+    return 1;
 }
