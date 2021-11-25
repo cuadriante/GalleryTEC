@@ -193,6 +193,7 @@ bool DataBaseHandler::addImageToUserGalleryDb(const string &imageName, const str
                 << "imageYear" << "unknown"
                 << "imageSize" << "unknown"
                 << "imageDesc" << "unknown"
+                << "imagePath" << "unknown"
                 << finalize;
         coll.insert_one(update_statement.view());
         return true;

@@ -613,6 +613,7 @@ void Interface::clickedSelectPicButton() {
         bool successfulLoad = imageToDisplay.load(imagePathString);
         if (successfulLoad){
             cout << "image: " << imagePathString.toStdString() << endl;
+            dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imagePath", imagePathString.toStdString());
         } else {
             cout << "no se pudo" << endl;
         }
