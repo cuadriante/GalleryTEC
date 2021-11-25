@@ -58,7 +58,6 @@ string raidManager::getCode(string imgID) {
             checkForRecover(imageID);
             recovering = true;
             break;
-//            disk--;
         }
 
         disk++;
