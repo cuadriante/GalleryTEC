@@ -38,6 +38,7 @@ public:
     bool addGalleryToUserDb(const std::string &galleryName);
     bool deleteGalleryFromUserDb(const std::string &galleryName);
     bool addImageToUserGalleryDb(const string &imageName, const string &galleryName);
+    bool deleteImageFromUserGalleryDb(const string &imageName, const string &galleryName);
     bool editGalleryFromUserDb(const std::string &galleryName);
 
     void setCurrentUser(const string &currentUser);
@@ -45,6 +46,8 @@ public:
     vector<string> retrieveAllUserGalleries();
 
     vector<string> retrieveAllImagesFromUserGallery(string gallery);
+
+    bool checkForImageInUserGallery(const string &imageName, const string &galleryName);
 };
 
 

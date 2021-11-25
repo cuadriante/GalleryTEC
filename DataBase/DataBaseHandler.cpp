@@ -198,6 +198,46 @@ bool DataBaseHandler::addImageToUserGalleryDb(const string &imageName, const str
 
 }
 
+bool DataBaseHandler::deleteImageFromUserGalleryDb(const string &imageName, const string &galleryName) {
+    if (checkForImageInUserGallery(imageName, galleryName)){
+        uri myURI("mongodb://localhost:27017");
+        client conn(myURI);
+        db = conn["GalleryTEC"];
+        collection coll = db["images"];
+        coll.delete_one(make_document(kvp("username", currentUser), kvp("gallery", galleryName), kvp("imageName", imageName)));
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool DataBaseHandler::checkForImageInUserGallery(const string &imageName, const string &galleryName) {
+    vector<string> galleryImagesVector;
+    uri myURI("mongodb://localhost:27017");
+    client conn(myURI);
+    db = conn["GalleryTEC"];
+    collection coll = db["images"];
+    auto cursor = coll.find({});
+    for (auto &&doc: cursor) {
+        bsoncxx::document::element userGalleries = doc["username"];
+        cout << "username: " << userGalleries.get_utf8().value << endl;
+        string dbUsernameString = (string) userGalleries.get_utf8().value;
+        if (dbUsernameString == currentUser) {
+            userGalleries = doc["gallery"];
+            string dbGalleryString = (string) userGalleries.get_utf8().value;
+            if (dbGalleryString == galleryName) {
+                userGalleries = doc["imageName"];
+                string dbImageString = (string) userGalleries.get_utf8().value;
+                if (dbImageString == imageName){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
 vector<string> DataBaseHandler::retrieveAllImagesFromUserGallery(string gallery) {
     vector<string> galleryImagesVector;
     uri myURI("mongodb://localhost:27017");
@@ -222,6 +262,8 @@ vector<string> DataBaseHandler::retrieveAllImagesFromUserGallery(string gallery)
     }
     return  galleryImagesVector;
 }
+
+
 
 
 

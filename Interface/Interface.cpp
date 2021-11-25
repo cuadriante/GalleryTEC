@@ -433,6 +433,7 @@ void Interface::clickedAcceptManageGallery() {
     int buttonDescriptionInt = stoi(buttonDescription.toStdString());
     switch(buttonDescriptionInt) {
         case 0: {
+            // ADD GALLERY
             successfulGalleryManagement = dbHandler->addGalleryToUserDb(objectName);
             if (successfulGalleryManagement) {
                 cout << "new Gallery: " << objectName << endl;
@@ -448,10 +449,12 @@ void Interface::clickedAcceptManageGallery() {
             break;
         }
         case 1: {
+            // EDIT GALLERY
             editGalleryWindow();
             break;
         }
         case 2: {
+            // DELETE GALLERY
             successfulGalleryManagement = dbHandler->deleteGalleryFromUserDb(objectName);
             if (successfulGalleryManagement) {
                 cout << "Gallery deleted: " << objectName << endl;
@@ -467,6 +470,7 @@ void Interface::clickedAcceptManageGallery() {
             break;
         }
         case 3: {
+            // CHANGE GALLERY NAME
             successfulGalleryManagement = false;
             if (successfulGalleryManagement) {
                 cout << "new Gallery name: " << objectName << endl;
@@ -482,10 +486,11 @@ void Interface::clickedAcceptManageGallery() {
             break;
         }
         case 4: {
+            // ADD IMAGE TO USER GALLERY
             successfulGalleryManagement = dbHandler->addImageToUserGalleryDb(objectName, currentGalleryString);
             if (successfulGalleryManagement) {
                 cout << "new Image: " << objectName << endl;
-                noticeLabel->setText("Image created successfully! \nReturn to objectName window.");
+                noticeLabel->setText("Image created successfully! \n Return to objectName window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
@@ -497,13 +502,15 @@ void Interface::clickedAcceptManageGallery() {
             break;
         }
         case 5: {
-            successfulGalleryManagement = false;
+            // DELETE IMAGE FROM USER GALLERY
+            successfulGalleryManagement = dbHandler->deleteImageFromUserGalleryDb(objectName, currentGalleryString);
             if (successfulGalleryManagement) {
                 cout << "deleted Image: " << objectName << endl;
                 noticeLabel->setText("Image deleted successfully! \nReturn to objectName window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
+
             } else {
                 noticeLabel->setText("ERROR: Could not delete image.");
                 noticeLabel->setGeometry(170, 420, 500, 100);
@@ -624,6 +631,7 @@ void Interface::addExistingImagesFromGallery() {
     auto *buttonSender = qobject_cast<QPushButton *>(sender());
     QString buttonText = buttonSender->text();
     string gallery = buttonText.toStdString();
+    currentImageIndex == 0;
     currentImages.clear();
     currentImages = dbHandler->retrieveAllImagesFromUserGallery(gallery);
 }
