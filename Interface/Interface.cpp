@@ -123,12 +123,17 @@ void Interface::imageWindow() {
         connect(nextImageButton, SIGNAL(clicked()), this, SLOT(clickedNextImage()));
 
         currentImageLabel = new QLabel(this);
+        currentImageLabel->setAlignment(Qt::AlignCenter);
         createLabel(currentImageLabel, " ", 130, 500, 600, 80);
         QFont galleryNameFont = currentImageLabel->font();
         galleryNameFont.setPointSize(35);
         galleryNameFont.setBold(true);
         currentImageLabel->setFont(galleryNameFont);
         displayedImage = true;
+    }
+    if (!createdImageVector){
+        addExistingImagesFromGallery();
+        createdImageVector = true;
     }
     previousImageButton->setVisible(true);
     currentWidgets.push_back(previousImageButton);
@@ -138,7 +143,8 @@ void Interface::imageWindow() {
     currentWidgets.push_back(nextImageButton);
     currentImageLabel->setVisible(true);
     currentWidgets.push_back(currentImageLabel);
-    displayCurrentImage();
+    currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
+    currentImageLabel->setText(currentImageName);
 }
 
 void Interface::metadataWindow() {
@@ -586,6 +592,40 @@ void Interface::clickedGallery() {
 // MANAGE IMAGES
 
 void Interface::clickedPreviousImage() {
+    clearWindow(true);
+    currentImageIndex++;
+    if (currentImageIndex >= currentImages.size()){
+        currentImageIndex = 0;
+    }
+    if (currentImageIndex < 0){
+        currentImageIndex = currentImages.size() - 1;
+    }
+    currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
+    imageWindow();
+}
+
+void Interface::clickedNextImage() {
+    clearWindow(true);
+    currentImageIndex++;
+    if (currentImageIndex >= currentImages.size()){
+        currentImageIndex = 0;
+    }
+    if (currentImageIndex < 0){
+        currentImageIndex = currentImages.size() - 1;
+    }
+    currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
+    imageWindow();
+
+}
+
+void Interface::addExistingImagesFromGallery() {
+    //aqui se displayea la imagen cargada del db
+
+    auto *buttonSender = qobject_cast<QPushButton *>(sender());
+    QString buttonText = buttonSender->text();
+    string gallery = buttonText.toStdString();
+    currentImages.clear();
+    currentImages = dbHandler->retrieveAllImagesFromUserGallery(gallery);
 }
 
 void Interface::clickedImageMetaData() {
@@ -664,31 +704,6 @@ void Interface::clickedAcceptEditImageMetadata() {
     }
 }
 
-void Interface::clickedNextImage() {
-    clearWindow(true);
-    currentImageIndex++;
-    if (currentImageIndex >= currentImages.size()){
-        currentImageIndex = 0;
-    }
-    if (currentImageIndex < 0){
-        currentImageIndex = currentImages.size() - 1;
-    }
-    currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
-
-}
-
-void Interface::displayCurrentImage() {
-    //aqui se displayea la imagen cargada del db
-
-    auto * buttonSender = qobject_cast<QPushButton*>(sender());
-    QString buttonText = buttonSender->text();
-    string gallery = buttonText.toStdString();
-    currentImages = dbHandler->retrieveAllImagesFromUserGallery(gallery);
-    currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
-    currentImageLabel->setText(currentImageName);
-
-
-}
 
 // MANAGE WIDGETS
 
@@ -706,6 +721,7 @@ void Interface::clickedBack() {
         case 2: {
             currentWindow = GALLERY_MENU;
             currentImages.clear();
+            createdImageVector = false;
             galleriesWindow();
             break;
         }

@@ -203,26 +203,25 @@ vector<string> DataBaseHandler::retrieveAllImagesFromUserGallery(string gallery)
     uri myURI("mongodb://localhost:27017");
     client conn(myURI);
     db = conn["GalleryTEC"];
-    collection coll = db["users"];
+    collection coll = db["images"];
     auto cursor = coll.find({});
-    for(auto&& doc : cursor){
+    for (auto &&doc: cursor) {
         bsoncxx::document::element userGalleries = doc["username"];
         cout << "username: " << userGalleries.get_utf8().value << endl;
         string dbUsernameString = (string) userGalleries.get_utf8().value;
-        if (dbUsernameString == currentUser){
-            userGalleries = doc["galleries"];
-            if(userGalleries && userGalleries.type() == bsoncxx::type::k_array){
-                bsoncxx::array::view galleries{userGalleries.get_array().value};
-                for (bsoncxx::array::element subdocument : galleries){
-                    string galleryName = (string) subdocument["name"].get_utf8().value;
-                    galleriesVector.push_back(galleryName);
-                }
+        if (dbUsernameString == currentUser) {
+            userGalleries = doc["gallery"];
+            string dbGalleryString = (string) userGalleries.get_utf8().value;
+            if (dbGalleryString == gallery) {
+                userGalleries = doc["imageName"];
+                string imageName = (string) userGalleries.get_utf8().value;
+                galleryImagesVector.push_back(imageName);
+
             }
         }
     }
-    return galleriesVector;
-
-    return {};
+    return  galleryImagesVector;
 }
+
 
 

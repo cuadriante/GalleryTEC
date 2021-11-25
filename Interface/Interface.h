@@ -79,6 +79,7 @@ private:
     bool hasAddedGallery = false;
     bool successfulGalleryManagement = false;
     bool hasEdited = false;
+    bool createdImageVector = false;
 
     QLineEdit * usernameTextInput;
     QLineEdit * passwordTextInput;
@@ -125,7 +126,7 @@ public:
     void addToWindow(QWidget *widget);
     void createButton(QPushButton *button, QString text, int ax, int ay, int aw, int ah);
     void imageWindow();
-    void displayCurrentImage();
+    void addExistingImagesFromGallery();
     void metadataWindow();
     void createLabel(QLabel *label, QString text, int ax, int ay, int aw, int ah);
     void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
