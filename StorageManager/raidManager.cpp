@@ -30,14 +30,18 @@ void raidManager::getDictionary(pt::ptree &dictionary, string imgID) {
 }
 
 string raidManager::getCode(string imgID) {
+    bool recovering = false;
     setImageId(imgID);
     int counter = 1;
     disk = 1;
+    int prueba = 0;
 
 
     while (counter < 5) {
         setFileLocation();
+        prueba = disk;
         pt::read_json(fileLocation, root);
+        cout << disk << endl;
         try {
             if (root.get<bool>(imageID + ".parity") == 0) {
                 tempCode = root.get<string>(imageID + ".code");
@@ -49,15 +53,26 @@ string raidManager::getCode(string imgID) {
                 counter ++;
             }
         } catch (boost::property_tree::ptree_bad_path err) {
-            cout << "Data not found" << endl; // Cambiar por reporte de fallo
+            cout << "Some data is missing" << endl;
+            cout << "System is trying to recover the lost data" << endl;
+            checkForRecover(imageID);
+            recovering = true;
+            break;
+//            disk--;
         }
 
-        setDisk();
+        disk++;
+        if (disk > 5) {
+            disk = 1;
+        }
     }
 
-    cout << completeCode << endl;
-
-    return completeCode;
+    if (recovering) {
+        return completeCode;
+    } else {
+        cout << "A restart is necessary to work properly" << endl;
+        return 0;
+    }
 }
 
 void raidManager::write(string data, string newImgID) {
