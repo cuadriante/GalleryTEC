@@ -130,15 +130,16 @@ bool DataBaseHandler::deleteGalleryFromUserDb(const string &galleryName, bool de
             collection coll = db["users"];
             coll.update_one(make_document(kvp("username", currentUser)), make_document(kvp("$unset", make_document(kvp("galleries",
             make_array())))));
+//            if (galleriesVector.size() != 1){
+//
+//            }
 
-            if (galleriesVector.size() != 1){
-                remove(galleriesVector.begin(), galleriesVector.end(), galleryName);
-                for(const string& gallery : galleriesVector){
-                    if (!gallery.empty()){
-                        addGalleryToUserDb(gallery);
-                    }
-                }
+        galleriesVector.erase(remove(galleriesVector.begin(), galleriesVector.end(), galleryName));
+        for(const string& gallery : galleriesVector){
+            if (!gallery.empty()){
+                addGalleryToUserDb(gallery);
             }
+        }
 
             if(deleteImages){
                 deleteAllImagesFromUserGalleryDb(galleryName);
@@ -207,7 +208,7 @@ bool DataBaseHandler::deleteAllImagesFromUserGalleryDb(const string &galleryName
         client conn(myURI);
         db = conn["GalleryTEC"];
         collection coll = db["images"];
-        coll.delete_one(make_document(kvp("username", currentUser), kvp("gallery", galleryName)));
+        coll.delete_many(make_document(kvp("username", currentUser), kvp("gallery", galleryName)));
         return true;
 
 }

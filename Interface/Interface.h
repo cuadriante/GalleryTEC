@@ -67,6 +67,7 @@ private:
     QPushButton * imageYearButton;
     QPushButton * imageDescriptionButton;
     QPushButton * confirmAddGalleryButton;
+    QPushButton * addPicButton;
 
     bool createdLogInWindow = false;
     bool askedForUsernameAndPassword = false;
