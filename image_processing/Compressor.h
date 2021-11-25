@@ -13,15 +13,16 @@ using namespace std;
 class Compressor {
 private:
     vector<TreeNode> nodes;
+    string imageCode;
     HuffmanBinaryTree* tree;
+    Dictionary* dictionary;
     int size;
     void buildTree();
-    Dictionary createDictionary();
+    void createDictionary();
 public:
     Compressor(vector<TreeNode> pixels);
-    ~Compressor();
-    void compress();
-    void decompress();
+    void compress(string compressedFilename);
+    vector<TreeNode> decompress(string compressedFilename);
     static vector<TreeNode> bubble_sort(vector<TreeNode> pixels);
 };
 

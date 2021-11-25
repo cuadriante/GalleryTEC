@@ -7,7 +7,8 @@
 ImageProcessor::ImageProcessor(const string& imgUrl) {
     this->image = new Mat();
     *image = imread(imgUrl);
-    imshow("Try", *image);
+    this->height = image->rows;
+    this->width = image->cols;
 }
 
 ImageProcessor::~ImageProcessor() {
@@ -41,9 +42,25 @@ vector<TreeNode> ImageProcessor::frequencyCounter() {
             this->pixels.push_back(pixel);
             counter = 0;
         }
+        delete this->image;
         return this->pixels;
     }
     else {
         cout << "There are no pixels read yet" << endl;
+    }
+}
+
+void ImageProcessor::constructImg(vector<TreeNode> vec) {
+    int i = 0;
+    this->image = new Mat(this->height, this->width,1);
+    for (int row = 0; row < this->height; row++) {
+        for (int col = 0; col < this->width; col++) {
+            if (i >= col) {
+                i = 0;
+            }
+            this->image->at<Vec3b>(Point(row,col)) = vec[i].getData();
+            i++;
+        }
+        i = 0;
     }
 }

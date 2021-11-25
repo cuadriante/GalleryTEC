@@ -15,6 +15,7 @@ using namespace std;
 class ImageProcessor {
 private:
     Mat* image;
+    int height, width;
     vector<Vec3b> allColors;
     vector<Vec3b> unrepeatedColors;
     vector<TreeNode> pixels;
@@ -23,6 +24,7 @@ public:
     ImageProcessor(const string& imgUrl);
     ~ImageProcessor();
     vector<TreeNode> pixelReader();
+    void constructImg(vector<TreeNode> vec);
 };
 
 

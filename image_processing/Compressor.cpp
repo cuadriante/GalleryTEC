@@ -7,33 +7,31 @@
 Compressor::Compressor(vector<TreeNode> pixels) {
     this->nodes = pixels;
     this->tree = new HuffmanBinaryTree(this->nodes);
-}
-
-Compressor::~Compressor() {
-    delete this->tree;
+    this->dictionary = nullptr;
+    this->imageCode = "";
 }
 
 void Compressor::buildTree() {
     TreeNode parent;
+    cout << "Building tree" << endl;
     while (this->tree->getSize() > 1) {
         this->tree->setRoots(Compressor::bubble_sort(this->tree->getRoots()));
         parent.setFrequency(this->tree->getRoots()[0].getFrequency() + this->tree->getRoots()[1].getFrequency());
         parent.setLeftChild(&this->tree->getRoots()[0]);
         parent.setRightChild(&this->tree->getRoots()[1]);
-        //parent.getLeftChild()->setParent(&parent);
-        //parent.getRightChild()->setParent(&parent);
+        parent.getLeftChild()->setParent(&parent);
+        parent.getRightChild()->setParent(&parent);
         this->tree->updateTreeRoots(parent);
     }
-    cout << this->tree->getRoot().getFrequency() << endl;
-    cout << this->tree->getRoot().getLeftChild()->getFrequency() << endl;
-    cout << this->tree->getRoot().getLeftChild()->getRightChild()->getFrequency() << endl;
+    cout << "Tree built" << endl;
 }
 
-Dictionary Compressor::createDictionary() {
-    //Dictionary d;
-    string code;
+void Compressor::createDictionary() {
+    this->dictionary = new Dictionary();
+    string code = "";
     TreeNode current = this->tree->getRoot();
     int iterations = this->nodes.size();
+    cout << "Building dictionary" << endl;
     while (iterations > 0) {
         cout << code << endl;
         if (current.getLeftChild() != nullptr && !current.getLeftChild()->isVisited()) {
@@ -45,21 +43,35 @@ Dictionary Compressor::createDictionary() {
             current = *current.getRightChild();
         }
         else if (current.getLeftChild() == nullptr && current.getRightChild() == nullptr) {
-            //d.addElement(current.getData(), code);
+            this->dictionary->addElement(current.getData(), code);
             current.visit();
             current = *current.getParent();
         }
         iterations--;
     }
+    cout << "Dictionary built" << endl;
 }
 
-void Compressor::compress() {
+void Compressor::compress(string compressedFilename) {
     this->buildTree();
-    //this->createDictionary();
+    this->createDictionary();
+    for (TreeNode node : this->nodes) {
+        for (pair<Vec3b, string> pair : this->dictionary->getElements()) {
+            if (node.getData() == pair.first) {
+                this->imageCode.append(pair.second);
+                continue;
+            }
+            cout << imageCode << endl;
+        }
+    }
+    this->dictionary->generateJSON(compressedFilename);
 }
 
-void Compressor::decompress() {
-
+vector<TreeNode> Compressor::decompress(string compressedFilename) {
+    vector<TreeNode> imagePixels = this->dictionary->readJSON(compressedFilename, this->imageCode);
+    delete this->tree;
+    delete this->dictionary;
+    return imagePixels;
 }
 
 vector<TreeNode> Compressor::bubble_sort(vector<TreeNode> list) {
