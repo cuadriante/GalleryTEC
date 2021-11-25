@@ -20,23 +20,12 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-//    raidManager manager;
-
     DataBaseHandler dataBaseHandler;
-
-//    dataBaseHandler.addUserToDb("adri", "xx");
-//    dataBaseHandler.setCurrentUser("adri");
-//    dataBaseHandler.addGalleryToUserDb("maxi");
-//    dataBaseHandler.addGalleryToUserDb("temi");
-//    dataBaseHandler.addGalleryToUserDb("foca");
-//    dataBaseHandler.addImageToUserGalleryDb("maxito", "maxi");
-//    dataBaseHandler.retrieveAllUserGalleries();
-
     QApplication app(argc, argv);
     Interface interface;
     interface.setDbHandler(&dataBaseHandler);
     interface.show();
 
     return app.exec();
-    return 1;
+
 }
