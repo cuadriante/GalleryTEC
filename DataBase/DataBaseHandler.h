@@ -36,10 +36,11 @@ public:
     bool addUserToDb(const std::string &username, const std::string &password);
     bool checkForUserInDb(const std::string &username, const std::string &password);
     bool addGalleryToUserDb(const std::string &galleryName);
-    bool deleteGalleryFromUserDb(const std::string &galleryName);
+    bool deleteGalleryFromUserDb(const string &galleryName, bool deleteImages);
     bool addImageToUserGalleryDb(const string &imageName, const string &galleryName);
     bool deleteImageFromUserGalleryDb(const string &imageName, const string &galleryName);
-    bool editGalleryFromUserDb(const std::string &galleryName);
+    bool deleteAllImagesFromUserGalleryDb(const string &galleryName);
+    bool editGalleryFromUserDb(const string &galleryName, const string &newGalleryName);
 
     void setCurrentUser(const string &currentUser);
 
@@ -54,6 +55,8 @@ public:
                       const string &newValue);
 
     vector<string> retrieveImageMetadata(const string &imageName, const string &galleryName);
+
+
 };
 
 

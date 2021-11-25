@@ -43,11 +43,6 @@ bool DataBaseHandler::addUserToDb(const string &username, const string &password
             kvp("galleries", make_array())
             ));
 
-//    collection coll2 = db["images"];
-//    coll2.insert_one(make_document(
-//            kvp("username", username),
-//            kvp("image", make_array())));
-
     return true;
 }
 
@@ -97,11 +92,6 @@ bool DataBaseHandler::addGalleryToUserDb(const string &galleryName) {
             << "galleries" << bsoncxx::builder::stream::open_document
                     << "$each" << bsoncxx::builder::stream::open_array
                     << galleryName
-//                        << bsoncxx::builder::stream::open_document
-//                        << "name" << galleryName
-//                        << "images" << bsoncxx::builder::stream::open_array
-//                        << bsoncxx::builder::stream::close_array
-//                        << bsoncxx::builder::stream::close_document
                 << bsoncxx::builder::stream::close_array
             << bsoncxx::builder::stream::close_document
             << bsoncxx::builder::stream::close_document
@@ -112,42 +102,51 @@ bool DataBaseHandler::addGalleryToUserDb(const string &galleryName) {
 
 }
 
-bool DataBaseHandler::editGalleryFromUserDb(const string &galleryName) {
-//    uri myURI("mongodb://localhost:27017");
-//    client conn(myURI);
-//    db = conn["GalleryTEC"];
-//    collection coll = db["users"];
-//    auto builder = bsoncxx::builder::stream::document{};
-//    coll.update_one(
-//            builder << "username" << currentUser
-//                    << bsoncxx::builder::stream::finalize,
-//
-//            builder <<
-//    )
+bool DataBaseHandler::editGalleryFromUserDb(const string &galleryName, const string &newGalleryName) {
+    if(find(galleriesVector.begin(), galleriesVector.end(), galleryName) != galleriesVector.end()){
+        uri myURI("mongodb://localhost:27017");
+        client conn(myURI);
+        db = conn["GalleryTEC"];
+        collection coll = db["users"];
+        deleteGalleryFromUserDb(galleryName, false);
+
+        vector<string> currentImages = retrieveAllImagesFromUserGallery(galleryName);
+        for(const string& imageName : currentImages){
+            editImageMetadata(imageName, galleryName, "gallery", newGalleryName);
+        }
+
+        addGalleryToUserDb(newGalleryName);
+        return true;
+    }
     return false;
 }
 
-bool DataBaseHandler::deleteGalleryFromUserDb(const string &galleryName) {
-    uri myURI("mongodb://localhost:27017");
-    client conn(myURI);
-    db = conn["GalleryTEC"];
-    collection coll = db["users"];
-    auto builder = bsoncxx::builder::stream::document{};
-    bsoncxx::document::value update_statement = builder
-    << "$pull" << bsoncxx::builder::stream::open_document
-               << "galleries" << bsoncxx::builder::stream::open_document
-               << "$each" << bsoncxx::builder::stream::open_array
-               << bsoncxx::builder::stream::open_document
-               << "name" << galleryName
-//               << "images" << bsoncxx::builder::stream::open_array
-//               << bsoncxx::builder::stream::close_array
-               << bsoncxx::builder::stream::close_document
-               << bsoncxx::builder::stream::close_array
-               << bsoncxx::builder::stream::close_document
-               << bsoncxx::builder::stream::close_document
-               << bsoncxx::builder::stream::finalize;
-    coll.update_one(bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("username", currentUser)), update_statement.view());
-    return true;
+bool DataBaseHandler::deleteGalleryFromUserDb(const string &galleryName, bool deleteImages) {\
+    //vector<string> currentGalleries = retrieveAllUserGalleries();
+    if(find(galleriesVector.begin(), galleriesVector.end(), galleryName) != galleriesVector.end()){
+            uri myURI("mongodb://localhost:27017");
+            client conn(myURI);
+            db = conn["GalleryTEC"];
+            collection coll = db["users"];
+            coll.update_one(make_document(kvp("username", currentUser)), make_document(kvp("$unset", make_document(kvp("galleries",
+            make_array())))));
+
+            if (galleriesVector.size() != 1){
+                remove(galleriesVector.begin(), galleriesVector.end(), galleryName);
+                for(const string& gallery : galleriesVector){
+                    if (!gallery.empty()){
+                        addGalleryToUserDb(gallery);
+                    }
+                }
+            }
+
+            if(deleteImages){
+                deleteAllImagesFromUserGalleryDb(galleryName);
+            }
+        return true;
+    } else {
+        return false;
+    }
 }
 
 vector<string> DataBaseHandler::retrieveAllUserGalleries() {
@@ -179,22 +178,37 @@ vector<string> DataBaseHandler::retrieveAllUserGalleries() {
 // IMAGE MANAGEMENT
 
 bool DataBaseHandler::addImageToUserGalleryDb(const string &imageName, const string &galleryName) {
-    uri myURI("mongodb://localhost:27017");
-    client conn(myURI);
-    db = conn["GalleryTEC"];
-    collection coll = db["images"];
-    auto builder = bsoncxx::builder::stream::document{};
-    bsoncxx::document::value update_statement = builder
-            << "username" << currentUser
-            << "gallery" << galleryName
-            << "imageName" << imageName
-            << "imageAuthor" << "unknown"
-            << "imageYear" << "unknown"
-            << "imageSize" << "unknown"
-            << "imageDesc" << "unknown"
-            << finalize;
-    coll.insert_one(update_statement.view());
-    return true;
+    if(find(galleriesVector.begin(), galleriesVector.end(), galleryName) != galleriesVector.end()){
+        uri myURI("mongodb://localhost:27017");
+        client conn(myURI);
+        db = conn["GalleryTEC"];
+        collection coll = db["images"];
+        auto builder = bsoncxx::builder::stream::document{};
+        bsoncxx::document::value update_statement = builder
+                << "username" << currentUser
+                << "gallery" << galleryName
+                << "imageName" << imageName
+                << "imageAuthor" << "unknown"
+                << "imageYear" << "unknown"
+                << "imageSize" << "unknown"
+                << "imageDesc" << "unknown"
+                << finalize;
+        coll.insert_one(update_statement.view());
+        return true;
+    } else {
+        return false;
+    }
+
+
+}
+
+bool DataBaseHandler::deleteAllImagesFromUserGalleryDb(const string &galleryName) {
+        uri myURI("mongodb://localhost:27017");
+        client conn(myURI);
+        db = conn["GalleryTEC"];
+        collection coll = db["images"];
+        coll.delete_one(make_document(kvp("username", currentUser), kvp("gallery", galleryName)));
+        return true;
 
 }
 

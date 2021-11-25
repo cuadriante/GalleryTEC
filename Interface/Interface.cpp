@@ -442,12 +442,12 @@ void Interface::clickedAcceptManageGallery() {
             successfulGalleryManagement = dbHandler->addGalleryToUserDb(objectName);
             if (successfulGalleryManagement) {
                 cout << "new Gallery: " << objectName << endl;
-                noticeLabel->setText("Gallery created successfully! \nReturn to objectName window.");
+                noticeLabel->setText("Gallery created successfully! \nReturn to gallery window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
             } else {
-                noticeLabel->setText("ERROR: Could not create objectName.");
+                noticeLabel->setText("ERROR: Could not create gallery.");
                 noticeLabel->setGeometry(170, 420, 500, 100);
                 noticeLabel->setVisible(true);
             }
@@ -460,10 +460,10 @@ void Interface::clickedAcceptManageGallery() {
         }
         case 2: {
             // DELETE GALLERY
-            successfulGalleryManagement = dbHandler->deleteGalleryFromUserDb(objectName);
+            successfulGalleryManagement = dbHandler->deleteGalleryFromUserDb(objectName, true);
             if (successfulGalleryManagement) {
                 cout << "Gallery deleted: " << objectName << endl;
-                noticeLabel->setText("Gallery deleted successfully! \nReturn to objectName window.");
+                noticeLabel->setText("Gallery deleted successfully! \nReturn to gallery window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
@@ -476,15 +476,15 @@ void Interface::clickedAcceptManageGallery() {
         }
         case 3: {
             // CHANGE GALLERY NAME
-            successfulGalleryManagement = false;
+            successfulGalleryManagement = dbHandler->editGalleryFromUserDb(currentGalleryString, objectName);
             if (successfulGalleryManagement) {
                 cout << "new Gallery name: " << objectName << endl;
-                noticeLabel->setText("Gallery name changes successfully! \nReturn to objectName window.");
+                noticeLabel->setText("Gallery name changed successfully! \nReturn to gallery window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
             } else {
-                noticeLabel->setText("ERROR: Could not change objectName name.");
+                noticeLabel->setText("ERROR: Could not change name.");
                 noticeLabel->setGeometry(170, 420, 500, 100);
                 noticeLabel->setVisible(true);
             }
@@ -495,7 +495,7 @@ void Interface::clickedAcceptManageGallery() {
             successfulGalleryManagement = dbHandler->addImageToUserGalleryDb(objectName, currentGalleryString);
             if (successfulGalleryManagement) {
                 cout << "new Image: " << objectName << endl;
-                noticeLabel->setText("Image created successfully! \n Return to objectName window.");
+                noticeLabel->setText("Image created successfully! \n Return to gallery window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
@@ -511,7 +511,7 @@ void Interface::clickedAcceptManageGallery() {
             successfulGalleryManagement = dbHandler->deleteImageFromUserGalleryDb(objectName, currentGalleryString);
             if (successfulGalleryManagement) {
                 cout << "deleted Image: " << objectName << endl;
-                noticeLabel->setText("Image deleted successfully! \nReturn to objectName window.");
+                noticeLabel->setText("Image deleted successfully! \nReturn to gallery window.");
                 noticeLabel->setGeometry(120, 200, 600, 200);
                 clearWindow(true);
                 noticeLabel->setVisible(true);
@@ -551,22 +551,6 @@ void Interface::editGalleryWindow() {
 
 }
 
-void Interface::clickedAcceptDeleteGallery() {
-    string galleryToDelete  = newGalleryInput->text().toStdString();
-    successfulGalleryManagement = dbHandler->deleteGalleryFromUserDb(galleryToDelete);
-    if (successfulGalleryManagement){
-        cout << "Gallery deleted: " << galleryToDelete << endl;
-        noticeLabel->setText("Gallery deleted successfully! \nReturn to gallery window.");
-        noticeLabel->setGeometry(120, 200, 600, 200);
-        clearWindow(true);
-        noticeLabel->setVisible(true);
-    } else {
-        noticeLabel->setText("ERROR: Could not delete gallery.");
-        noticeLabel->setGeometry(170, 420, 500, 100);
-        noticeLabel->setVisible(true);
-    }
-}
-
 void Interface::addExistingGalleriesToGalleryWindow() {
     vector<string> currentGalleryNames = dbHandler->retrieveAllUserGalleries();
     int height = 170;
@@ -582,24 +566,26 @@ void Interface::addExistingGalleriesToGalleryWindow() {
 }
 
 void Interface::clickedGallery() {
-    clearWindow(true);
+
+
     QPushButton* buttonSender = qobject_cast<QPushButton*>(sender());
     currentGallery = buttonSender->text();
     currentGalleryString = currentGallery.toStdString();
     qDebug() << currentGallery;
+    if (!dbHandler->retrieveAllImagesFromUserGallery(currentGalleryString).empty()){
+        clearWindow(true);
+        currentGalleryLabel = new QLabel(this);
+        createLabel(currentGalleryLabel, currentGallery, 130, 45, 600, 80);
+        currentGalleryLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
-    currentGalleryLabel = new QLabel(this);
-    createLabel(currentGalleryLabel, currentGallery, 130, 45, 600, 80);
-    currentGalleryLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        QFont galleryNameFont = currentGalleryLabel->font();
+        galleryNameFont.setPointSize(35);
+        galleryNameFont.setBold(true);
+        currentGalleryLabel->setFont(galleryNameFont);
 
-    QFont galleryNameFont = currentGalleryLabel->font();
-    galleryNameFont.setPointSize(35);
-    galleryNameFont.setBold(true);
-    currentGalleryLabel->setFont(galleryNameFont);
-
-    addToWindow(currentGalleryLabel);
-    imageWindow();
-
+        addToWindow(currentGalleryLabel);
+        imageWindow();
+    }
 }
 
 // MANAGE IMAGES

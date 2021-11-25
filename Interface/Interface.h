@@ -131,6 +131,7 @@ public:
     void createLabel(QLabel *label, QString text, int ax, int ay, int aw, int ah);
     void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
     void editGalleryWindow();
+
 private slots:
     void clickedLogIn();
     void clickedSignUp();
@@ -145,7 +146,7 @@ private slots:
     void clickedEditImageMetaData();
     void clickedAcceptEditImageMetadata();
     void clickedAcceptManageGallery();
-    void clickedAcceptDeleteGallery();
+
 
 
     void retrieveImageMetadataFromDb();
