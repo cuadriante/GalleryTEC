@@ -15,7 +15,8 @@ class raidManager {
 public:
     raidManager();
 
-    void write(string data, string newImgID);
+    void addNewImage(string data, string newImgID);
+
     void read(string imgID);
 
 private:
@@ -25,22 +26,21 @@ private:
     string code3 = "";
     string code4 = "";
     string code5 = "";
-    bool isParity;
     int disk = 6;
-    int codeIndex = 1;
     int parityBlock = 1;
     pt::ptree root, dictionary, newImage, code_1, code_2, code_3, code_4, code_5, parity;
     pt::ptree length1, length2, length3, length4, length5, lengthTree;
 
+    void write(string data, string newImgID);
     void setFileLocation();
     void setDisk();
     void deleteExtraBit(string code);
     void setImageId(const string &imageId);
-    void setIsParity(bool isParity);
     void codeSplitter();
     void setCompleteCode(const string &completeCode);
-    void setLenght();
-    void changeParity();
+    void setLength();
+    void applyXOR();
+    string xorAlgorithm(string firstCode, string secondCode);
 };
 
 

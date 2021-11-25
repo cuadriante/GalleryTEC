@@ -2,12 +2,30 @@
 
 raidManager::raidManager() {
     setFileLocation();
+    parityBlock = 5;
+}
+
+void raidManager::addNewImage(string data, string newImgID) {
+    setImageId(newImgID);
+    disk = 1;
+
+    setFileLocation();
+    pt::read_json(fileLocation, root);
+
+    try {
+        string test = root.get<string>(imageID + ".code");
+        cout << "Image is already saved" << endl;
+    } catch (boost::property_tree::ptree_bad_path err) {
+        write(data, newImgID);
+    }
 }
 
 void raidManager::write(string data, string newImgID) {
     setCompleteCode(data);
     codeSplitter();
-    setLenght();
+    applyXOR();
+
+    setLength();
 
     dictionary.put("", "Hello");
 
@@ -25,28 +43,24 @@ void raidManager::write(string data, string newImgID) {
 
         if (disk == 1) {
             newImage.push_back(make_pair("code", code_1));
-//            code.put("", code1);
-//            parity.put("", isParity);
-            parity.put("", false);
         } else if (disk == 2) {
             newImage.push_back(make_pair("code", code_2));
-//            code.put("", code2);
-            parity.put("", false);
         } else if (disk == 3) {
             newImage.push_back(make_pair("code", code_3));
-//            code.put("", code3);
-            parity.put("", false);
         } else if (disk == 4) {
             newImage.push_back(make_pair("code", code_4));
-//            code.put("", code4);
-            parity.put("", false);
         } else if (disk == 5) {
             newImage.push_back(make_pair("code", code_5));
-//            code.put("", "564687956");
-            parity.put("", true);
+
         }
 
-//        newImage.push_back(make_pair("code", code));
+        if (parityBlock == disk) {
+            parity.put("", true);
+        } else {
+            parity.put("", false);
+        }
+
+
         newImage.push_back(make_pair("dictionary", dictionary));
         newImage.push_back(make_pair("parity", parity));
         newImage.push_back(make_pair("length1", length1));
@@ -66,7 +80,72 @@ void raidManager::write(string data, string newImgID) {
 
     }
 
+    parityBlock++;
+    if (parityBlock > 5) {
+        parityBlock = 1;
+    }
 
+    cout << "Image saved successfully" << endl;
+
+
+}
+
+void raidManager::applyXOR() {
+    string newCode = "";
+    string tempCode = "";
+    int lastBlock = 0;
+
+    if (parityBlock != 1 && parityBlock != 2) {
+        newCode = xorAlgorithm(code1, code2);
+        lastBlock = 2;
+    } else if (parityBlock != 2 && parityBlock != 3) {
+        newCode = xorAlgorithm(code2, code3);
+        lastBlock = 3;
+    } else if (parityBlock != 1 && parityBlock != 3) {
+        newCode = xorAlgorithm(code1, code3);
+        lastBlock = 3;
+    }
+
+    tempCode = newCode;
+
+    if (parityBlock != 3 && lastBlock == 2) {
+        newCode = xorAlgorithm(code3, tempCode);
+        tempCode = newCode;
+    }
+    if (parityBlock != 4) {
+        newCode = xorAlgorithm(code4, tempCode);
+        tempCode = newCode;
+    }
+    if (parityBlock != 5) {
+        newCode = xorAlgorithm(code5, tempCode);
+    }
+
+    if (parityBlock == 1) {
+        code1 = newCode;
+    } if (parityBlock == 2) {
+        code2 = newCode;
+    } if (parityBlock == 3) {
+        code3 = newCode;
+    } if (parityBlock == 4) {
+        code4 = newCode;
+    } if (parityBlock == 5) {
+        code5 = newCode;
+    }
+
+}
+
+string raidManager::xorAlgorithm(string firstCode, string secondCode) {
+    string finalCode = "";
+
+    for (int i = 0; i < firstCode.length(); ++i) {
+        if (firstCode[i] == secondCode[i]) {
+            finalCode += "0";
+        } else {
+            finalCode += "1";
+        }
+    }
+
+    return finalCode;
 }
 
 void raidManager::read(string imgID) {
@@ -81,8 +160,7 @@ void raidManager::read(string imgID) {
         try {
             if (root.get<bool>(imageID + ".parity") == 0) {
                 tempCode = root.get<string>(imageID + ".code");
-                cout << tempCode.length() << endl;
-//                cout << imageID + "length" + to_string(disk) << endl;
+
                 if (root.get<int>(imageID + ".length" + to_string(disk)) != tempCode.length()) {
                     deleteExtraBit(tempCode);
                 }
@@ -90,7 +168,7 @@ void raidManager::read(string imgID) {
                 counter ++;
             }
         } catch (boost::property_tree::ptree_bad_path err) {
-            cout << "Data not found" << endl;
+            cout << "Data not found" << endl; // Cambiar por reporte de fallo
         }
 
         setDisk();
@@ -111,52 +189,64 @@ void raidManager::deleteExtraBit(string code) {
 void raidManager::codeSplitter() {
     int lack = completeCode.length() % 4;
     int division = (completeCode.length() - lack) / 4;
-    cout << lack << endl;
     int i = 0;
     disk = 1;
+    bool extraBit = false;
+    string tempCode = "";
 
     if (lack > 0) {
-        division ++;
-    } else if (lack == 0) {
-        lack --;
+        division++;
+        extraBit = true;
+    } else if (lack < 1) {
+        lack--;
     }
 
     while (disk < 6) {
         if (lack == 0) {
-            division --;
-            lack --;
+            division--;
+            lack--;
         }
-        if (i < completeCode.length() - 1) {
+
+        if (i < completeCode.length()) {
             for (int j = 0; j < division; ++j) {
-                if (disk == 1) {
-                    code1 += completeCode[i];
-//                    cout << disk << endl;
-                } else if (disk == 2) {
-                    code2 += completeCode[i];
-//                    cout << disk << endl;
-                } else if (disk == 3) {
-                    code3 += completeCode[i];
-//                    cout << disk << endl;
-                } else if (disk == 4) {
-                    code4 += completeCode[i];
-//                    cout << disk << endl;
-                } else if (disk == 5) {
-                    code5 += completeCode[i];
-//                    cout << disk << endl;
+                if (parityBlock != disk) {
+                    tempCode += completeCode[i];
+                    i++;
                 }
-
-
-                i++;
             }
 
-            lack --;
+            if (lack < 1 && extraBit) {
+                tempCode += "0";
+            }
+
+            if (disk == 1 && parityBlock != 1) {
+                code1 = tempCode;
+            } else if (disk == 2 && parityBlock != 2) {
+                code2 = tempCode;
+            } else if (disk == 3 && parityBlock != 3) {
+                code3 = tempCode;
+            } else if (disk == 4 && parityBlock != 4) {
+                code4 = tempCode;
+            } else if (disk == 5 && parityBlock != 5) {
+                code5 = tempCode;
+            }
+
+
+            if (parityBlock != disk) {
+                lack--;
+            }
+
+            tempCode = "";
 
 
         }
 
         disk++;
+
+
     }
 }
+
 
 void raidManager::setFileLocation() {
     raidManager::fileLocation = "RAIDStorage/Disk" + to_string(disk) + "/data.json";
@@ -173,20 +263,59 @@ void raidManager::setImageId(const string &imageId) {
     imageID = imageId;
 }
 
-void raidManager::setIsParity(bool isParity) {
-    raidManager::isParity = isParity;
-}
 
 void raidManager::setCompleteCode(const string &completeCode) {
     raidManager::completeCode = completeCode;
 }
 
-void raidManager::setLenght() {
+void raidManager::setLength() {
+    int lack = completeCode.length() % 4;
+    bool extraBit = false;
+
+    if (lack > 0) {
+        extraBit = true;
+    }
+
     length1.put("", code1.length());
-    length2.put("", code2.length());
-    length3.put("", code3.length());
-    length4.put("", code4.length());
-    length5.put("", code5.length());
+
+    if (parityBlock != 1) {
+        lack--;
+    }
+
+    if (lack < 1 && extraBit) {
+        length2.put("", code2.length() - 1);
+    } else {
+        length2.put("", code2.length());
+    }
+
+    if (parityBlock != 2) {
+        lack--;
+    }
+
+    if (lack < 1 && extraBit) {
+        length3.put("", code3.length() - 1);
+    } else {
+        length3.put("", code3.length());
+    }
+
+    if (parityBlock != 3) {
+        lack--;
+    }
+    if (lack < 1 && extraBit) {
+        length4.put("", code4.length() - 1);
+    } else {
+        length4.put("", code4.length());
+    }
+
+    if (parityBlock != 4) {
+        lack--;
+    }
+
+    if (lack < 1 && extraBit) {
+        length5.put("", code5.length() - 1);
+    } else {
+        length5.put("", code5.length());
+    }
 
     lengthTree.push_back(make_pair("length1", length1));
     lengthTree.push_back(make_pair("length2", length2));
