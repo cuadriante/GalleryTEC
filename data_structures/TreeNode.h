@@ -24,8 +24,8 @@ public:
     int getFrequency();
     void setRightChild(TreeNode* right);
     void setLeftChild(TreeNode* left);
-    TreeNode getRightChild();
-    TreeNode getLeftChild();
+    TreeNode* getRightChild();
+    TreeNode* getLeftChild();
 };
 
 

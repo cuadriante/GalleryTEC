@@ -16,17 +16,34 @@ Compressor::~Compressor() {
 void Compressor::compress() {
     TreeNode parent;
     int c = 10;
-    while (c > 1) {
+    while (c > 1 || this->tree->getSize() > 0) {
         this->tree->setRoots(Compressor::bubble_sort(this->tree->getRoot()));
-        //parent.setFrequency(this->tree->getRoot()[0].getFrequency() + this->tree->getRoot()[1].getFrequency());
-        //parent.setLeftChild(&this->tree->getRoot()[0]);
-        //parent.setRightChild(&this->tree->getRoot()[1]);
-        //this->tree->updateTreeRoots(parent);
         for (TreeNode n : this->tree->getRoot()) {
             cout << n.getFrequency();
             cout << ", ";
         }
         cout << endl;
+        for (TreeNode n : this->tree->getRoot()) {
+            cout << "Parent: ";
+            cout << n.getFrequency() << endl;
+            if (n.getLeftChild() != nullptr) {
+                cout << "Left: ";
+                cout << n.getLeftChild()->getFrequency();
+                cout << ", ";
+            }
+            if (n.getRightChild() != nullptr) {
+                cout << "Right: ";
+                cout << n.getRightChild()->getFrequency();
+            }
+            else {
+                cout << "No children";
+            }
+            cout << endl;
+        }
+        parent.setFrequency(this->tree->getRoot()[0].getFrequency() + this->tree->getRoot()[1].getFrequency());
+        parent.setLeftChild(&this->tree->getRoot()[0]);
+        parent.setRightChild(&this->tree->getRoot()[1]);
+        this->tree->updateTreeRoots(parent);
         c--;
     }
 }
