@@ -114,13 +114,6 @@ private:
     vector<string> currentImages;
     string currentGalleryString;
 
-
-public:
-    QGraphicsScene *scene;
-    Interface(QWidget* parent=NULL);
-
-    void setDbHandler(DataBaseHandler *dbHandler);
-
     void startWindow();
     void askForUsernameAndPassword();
     void galleriesWindow();
@@ -135,6 +128,11 @@ public:
     void createLabel(QLabel *label, QString text, int ax, int ay, int aw, int ah);
     void createInput(QLineEdit *input, QString text, int ax, int ay, int aw, int ah);
     void editGalleryWindow();
+
+public:
+    QGraphicsScene *scene;
+    Interface(QWidget* parent=NULL);
+    void setDbHandler(DataBaseHandler *dbHandler);
 
 private slots:
     void clickedLogIn();
