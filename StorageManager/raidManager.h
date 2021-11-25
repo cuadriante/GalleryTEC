@@ -14,10 +14,10 @@ namespace pt = boost::property_tree;
 class raidManager {
 public:
     raidManager();
-
     void addNewImage(string data, string newImgID);
-
-    void read(string imgID);
+    void getDictionary(pt::ptree &dictionary, string imgID);
+    string getCode(string imgID);
+    void checkForRecover(string imgID);
 
 private:
     string fileLocation, completeCode, tempCode, imageID;
@@ -28,19 +28,23 @@ private:
     string code5 = "";
     int disk = 6;
     int parityBlock = 1;
+    bool isParity = false;
     pt::ptree root, dictionary, newImage, code_1, code_2, code_3, code_4, code_5, parity;
     pt::ptree length1, length2, length3, length4, length5, lengthTree;
 
     void write(string data, string newImgID);
-    void setFileLocation();
-    void setDisk();
-    void deleteExtraBit(string code);
-    void setImageId(const string &imageId);
-    void codeSplitter();
-    void setCompleteCode(const string &completeCode);
-    void setLength();
     void applyXOR();
     string xorAlgorithm(string firstCode, string secondCode);
+//    void checkForRecover(string imgID);
+    void recoverDisk(int diskToCheck);
+    void recoverySave(int diskToCheck);
+    void deleteExtraBit(string code);
+    void codeSplitter();
+    void setFileLocation();
+    void setDisk();
+    void setImageId(const string &imageId);
+    void setCompleteCode(const string &completeCode);
+    void setLength();
 };
 
 

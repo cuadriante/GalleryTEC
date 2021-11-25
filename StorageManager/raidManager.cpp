@@ -20,6 +20,46 @@ void raidManager::addNewImage(string data, string newImgID) {
     }
 }
 
+void raidManager::getDictionary(pt::ptree &dictionary, string imgID) {
+    setImageId(imgID);
+    disk = 1;
+    setFileLocation();
+
+    pt::read_json(fileLocation, root);
+    dictionary.put_child("1", root.get_child(imageID + ".dictionary"));
+}
+
+string raidManager::getCode(string imgID) {
+    setImageId(imgID);
+    int counter = 1;
+    disk = 1;
+
+
+    while (counter < 5) {
+        setFileLocation();
+        pt::read_json(fileLocation, root);
+        try {
+            if (root.get<bool>(imageID + ".parity") == 0) {
+                tempCode = root.get<string>(imageID + ".code");
+
+                if (root.get<int>(imageID + ".length" + to_string(disk)) != tempCode.length()) {
+                    deleteExtraBit(tempCode);
+                }
+                completeCode += tempCode;
+                counter ++;
+            }
+        } catch (boost::property_tree::ptree_bad_path err) {
+            cout << "Data not found" << endl; // Cambiar por reporte de fallo
+        }
+
+        setDisk();
+    }
+
+    cout << completeCode << endl;
+
+    return completeCode;
+}
+
 void raidManager::write(string data, string newImgID) {
     setCompleteCode(data);
     codeSplitter();
@@ -131,7 +171,6 @@ void raidManager::applyXOR() {
     } if (parityBlock == 5) {
         code5 = newCode;
     }
-
 }
 
 string raidManager::xorAlgorithm(string firstCode, string secondCode) {
@@ -148,33 +187,155 @@ string raidManager::xorAlgorithm(string firstCode, string secondCode) {
     return finalCode;
 }
 
-void raidManager::read(string imgID) {
+void raidManager::checkForRecover(string imgID) {
+    int failingDisks = 0;
+    int diskToCheck = 0;
     setImageId(imgID);
-    int counter = 1;
     disk = 1;
 
-
-    while (counter < 5) {
+    while (disk < 6) {
         setFileLocation();
         pt::read_json(fileLocation, root);
-        try {
-            if (root.get<bool>(imageID + ".parity") == 0) {
-                tempCode = root.get<string>(imageID + ".code");
 
-                if (root.get<int>(imageID + ".length" + to_string(disk)) != tempCode.length()) {
-                    deleteExtraBit(tempCode);
-                }
-                completeCode += tempCode;
-                counter ++;
-            }
+        try {
+            string test = root.get<string>(imageID + ".code");
         } catch (boost::property_tree::ptree_bad_path err) {
-            cout << "Data not found" << endl; // Cambiar por reporte de fallo
+            failingDisks++;
+            diskToCheck = disk;
         }
 
-        setDisk();
+        disk++;
     }
 
-    cout << completeCode << endl;
+    if (failingDisks == 0) {
+        cout << "All disks working ok" << endl;
+    } else if (failingDisks == 1) {
+        recoverDisk(diskToCheck);
+    } else if (failingDisks > 1) {
+        cout << "Disks damaged, the recovery system is uncapable to solved it";
+    }
+
+}
+
+void raidManager::recoverDisk(int diskToCheck) {
+    int checker = 1;
+    bool flag = true;
+    isParity = false;
+    int realParity = diskToCheck;
+    parityBlock = diskToCheck;
+    int curr_disk = 1;
+    string a, b, c, d, e;
+
+    while (flag) {
+        disk = 1;
+
+        try {
+            while (disk < 6) {
+                newImage.clear();
+                setFileLocation();
+
+                pt::read_json(fileLocation, root);
+                setImageId(to_string(checker));
+                if (disk == 1 && disk != diskToCheck) {
+                    code1 = root.get<string>(imageID + ".code");
+                    a = code1;
+                } else if (disk == 2 && disk != diskToCheck) {
+                    code2 = root.get<string>(imageID + ".code");
+                    b = code2;
+                } else if (disk == 3 && disk != diskToCheck) {
+                    code3 = root.get<string>(imageID + ".code");
+                    c = code3;
+                } else if (disk == 4 && disk != diskToCheck) {
+                    code4 = root.get<string>(imageID + ".code");
+                    d = code4;
+                } else if (disk == 5 && disk != diskToCheck) {
+                    code5 = root.get<string>(imageID + ".code");
+                    e = code5;
+                }
+
+                if (disk != diskToCheck) {
+                    isParity = root.get<bool>(imageID + ".parity") == 1;
+                    if (isParity) {
+                        realParity = disk;
+                    }
+
+
+                }
+                disk++;
+            }
+
+            applyXOR();
+            parityBlock = realParity;
+            curr_disk = disk;
+            recoverySave(diskToCheck);
+            disk = curr_disk;
+            checker++;
+            parityBlock = diskToCheck;
+            realParity = diskToCheck;
+//            cout << imageID << endl;
+
+        } catch (boost::property_tree::ptree_bad_path err) {
+            parityBlock = realParity;
+            cout << "Recovery finished" << endl;
+            flag = false;
+            break;
+        }
+    }
+}
+
+
+void raidManager::recoverySave(int diskToCheck) {
+    disk = diskToCheck;
+    int baseDisk = diskToCheck - 1;
+    pt::ptree base, subBase;
+
+    if (diskToCheck == 1) {
+        baseDisk = 5;
+    }
+
+    setFileLocation();
+
+    pt::read_json(fileLocation, root);
+    pt::read_json("RAIDStorage/Disk" + to_string(baseDisk) + "/data.json", base);
+    subBase.put_child("1", base.get_child(imageID));
+//    cout << subBase.get<string>("1.code") << endl;
+
+    if (disk == 1) {
+        code_1.put("", code1);
+        newImage.push_back(make_pair("code", code_1));
+    } else if (disk == 2) {
+        code_2.put("", code2);
+        newImage.push_back(make_pair("code", code_2));
+    } else if (disk == 3) {
+        code_3.put("", code3);
+        newImage.push_back(make_pair("code", code_3));
+    } else if (disk == 4) {
+        code_4.put("", code4);
+        newImage.push_back(make_pair("code", code_4));
+    } else if (disk == 5) {
+        code_5.put("", code5);
+        newImage.push_back(make_pair("code", code_5));
+    }
+
+    if (parityBlock == disk) {
+        parity.put("", true);
+    } else {
+        parity.put("", false);
+    }
+
+    newImage.push_back(make_pair("dictionary", subBase.get_child("1.dictionary")));
+    newImage.push_back(make_pair("parity", parity));
+    newImage.push_back(make_pair("length1", subBase.get_child("1.length1")));
+    newImage.push_back(make_pair("length2", subBase.get_child("1.length2")));
+    newImage.push_back(make_pair("length3", subBase.get_child("1.length3")));
+    newImage.push_back(make_pair("length4", subBase.get_child("1.length4")));
+    newImage.push_back(make_pair("length5", subBase.get_child("1.length5")));
+
+    root.add_child(imageID, newImage);
+
+    boost::property_tree::json_parser::write_json(fileLocation, root);
+
+    root.clear();
 }
 
 void raidManager::deleteExtraBit(string code) {
