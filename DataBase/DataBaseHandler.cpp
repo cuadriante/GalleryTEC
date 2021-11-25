@@ -179,6 +179,7 @@ vector<string> DataBaseHandler::retrieveAllUserGalleries() {
 // IMAGE MANAGEMENT
 
 bool DataBaseHandler::addImageToUserGalleryDb(const string &imageName, const string &galleryName) {
+    srand((unsigned int)time(NULL));
     if(find(galleriesVector.begin(), galleriesVector.end(), galleryName) != galleriesVector.end()){
         uri myURI("mongodb://localhost:27017");
         client conn(myURI);
@@ -194,6 +195,7 @@ bool DataBaseHandler::addImageToUserGalleryDb(const string &imageName, const str
                 << "imageSize" << "unknown"
                 << "imageDesc" << "unknown"
                 << "imagePath" << "unknown"
+                << "imageId" << rand() % 100000
                 << finalize;
         coll.insert_one(update_statement.view());
         return true;
