@@ -13,18 +13,19 @@ using namespace cv;
 class TreeNode {
 private:
     Vec3b data;
-    static int currentId;
-    int id;
-    TreeNode* rightChild;
-    TreeNode* leftChild;
+    TreeNode *rightChild, *leftChild;
     int frequency;
 public:
+    TreeNode();
     TreeNode(Vec3b data1, int freq);
+    void setData(Vec3b data1);
     Vec3b getData();
-    int getID();
+    void setFrequency(int freq);
     int getFrequency();
-    TreeNode* getRightChild();
-    TreeNode* getLeftChild();
+    void setRightChild(TreeNode* right);
+    void setLeftChild(TreeNode* left);
+    TreeNode getRightChild();
+    TreeNode getLeftChild();
 };
 
 

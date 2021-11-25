@@ -5,9 +5,8 @@
 #include "Compressor.h"
 
 Compressor::Compressor(vector<TreeNode> pixels) {
-    this->orderedList = this->bubble_sort(pixels);
-    this->compressed = false;
-    this->tree = new HuffmanBinaryTree(this->orderedList);
+    this->nodes = pixels;
+    this->tree = new HuffmanBinaryTree(this->nodes);
 }
 
 Compressor::~Compressor() {
@@ -15,7 +14,21 @@ Compressor::~Compressor() {
 }
 
 void Compressor::compress() {
-
+    TreeNode parent;
+    int c = 10;
+    while (c > 1) {
+        this->tree->setRoots(Compressor::bubble_sort(this->tree->getRoot()));
+        //parent.setFrequency(this->tree->getRoot()[0].getFrequency() + this->tree->getRoot()[1].getFrequency());
+        //parent.setLeftChild(&this->tree->getRoot()[0]);
+        //parent.setRightChild(&this->tree->getRoot()[1]);
+        //this->tree->updateTreeRoots(parent);
+        for (TreeNode n : this->tree->getRoot()) {
+            cout << n.getFrequency();
+            cout << ", ";
+        }
+        cout << endl;
+        c--;
+    }
 }
 
 void Compressor::decompress() {
@@ -25,7 +38,7 @@ void Compressor::decompress() {
 vector<TreeNode> Compressor::bubble_sort(vector<TreeNode> list) {
     int count = int (list.size());
     while (count > 0) {
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count - 1; i++) {
             if (list[i].getFrequency() > list[i+1].getFrequency()) {
                 TreeNode temp = list[i];
                 list[i] = list[i+1];
@@ -35,8 +48,4 @@ vector<TreeNode> Compressor::bubble_sort(vector<TreeNode> list) {
         count--;
     }
     return list;
-}
-
-bool Compressor::isCompressed() const {
-    return this->compressed;
 }

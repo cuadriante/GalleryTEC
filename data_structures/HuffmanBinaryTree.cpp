@@ -4,18 +4,25 @@
 
 #include "HuffmanBinaryTree.h"
 
-HuffmanBinaryTree::HuffmanBinaryTree(std::vector<TreeNode> list) {
-
+HuffmanBinaryTree::HuffmanBinaryTree(vector<TreeNode> nodes) {
+    this->roots = nodes;
+    this->size = int (this->roots.size());
 }
 
-void HuffmanBinaryTree::insert(Vec3b pix) {
-
+void HuffmanBinaryTree::setRoots(vector<TreeNode> nodes) {
+    this->roots = nodes;
 }
 
-void HuffmanBinaryTree::erase(int id) {
-
+vector<TreeNode> HuffmanBinaryTree::getRoot() {
+    return this->roots;
 }
 
-Vec3b HuffmanBinaryTree::get(int id) {
+void HuffmanBinaryTree::updateTreeRoots(TreeNode parent) {
+    this->roots.push_back(parent);
+    this->roots.erase(this->roots.begin(), this->roots.begin() + 2);
+    this->size = this->size - 2;
+}
 
+int HuffmanBinaryTree::getSize() {
+    return this->size;
 }

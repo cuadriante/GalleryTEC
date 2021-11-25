@@ -4,11 +4,13 @@
 
 #include "TreeNode.h"
 
-int TreeNode::currentId = 0;
+TreeNode::TreeNode() {
+    this->data = Vec3b(0,0,0);
+    this->frequency = 0;
+}
 
 TreeNode::TreeNode(Vec3b data1, int freq) {
     this->data = data1;
-    this->id = TreeNode::currentId++;
     this->frequency = freq;
 }
 
@@ -16,18 +18,26 @@ Vec3b TreeNode::getData() {
     return this->data;
 }
 
-int TreeNode::getID() {
-    return this->id;
+void TreeNode::setFrequency(int freq) {
+    this->frequency = freq;
 }
 
 int TreeNode::getFrequency() {
     return this->frequency;
 }
 
-TreeNode *TreeNode::getLeftChild() {
-    return this->leftChild;
+void TreeNode::setRightChild(TreeNode* right) {
+    this->rightChild = right;
 }
 
-TreeNode *TreeNode::getRightChild() {
-    return this->rightChild;
+void TreeNode::setLeftChild(TreeNode* left) {
+    this->leftChild = left;
+}
+
+TreeNode TreeNode::getLeftChild() {
+    return *leftChild;
+}
+
+TreeNode TreeNode::getRightChild() {
+    return *rightChild;
 }

@@ -5,30 +5,25 @@
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    /*Mat image = imread("/home/eduardo/Documentos/GitHub/GalleryTEC/cupcake.png");
-    Vec3b color;
-    for (int r = 0; r < image.rows; r++) {
-        for (int c = 0; c < image.cols; c++) {
-            color = image.at<Vec3b>(Point(c,r));
-            if (color[0] == 202 && color[1] == 166 && color[2] == 241) {
-                image.at<Vec3b>(Point(c,r))[0] = 0;
-                image.at<Vec3b>(Point(c,r))[1] = 0;
-                image.at<Vec3b>(Point(c,r))[2] = 0;
-            }
-        }
-    }
-    imshow("Hello", image);
-    waitKey();*/
-    ImageProcessor img("/home/eduardo/Documentos/GitHub/GalleryTEC/Captura de pantalla de 2021-11-11 21-49-33.png");
+    TreeNode t1(Vec3b(1,2,2), 14);
+    TreeNode t2(Vec3b(21,2,1), 46);
+    TreeNode t3(Vec3b(21,2,1), 34);
+    TreeNode t4(Vec3b(21,2,1), 4);
+    TreeNode t5(Vec3b(21,2,1), 65);
+    TreeNode t6(Vec3b(21,2,1), 62);
+    TreeNode t7(Vec3b(21,2,1), 92);
 
-    vector<TreeNode> pixels = img.pixelReader();
+    vector<TreeNode> p;
 
-    vector<TreeNode> ordered = Compressor::bubble_sort(pixels);
-    cout << "In order:" << endl;
-    for (TreeNode pix : ordered) {
-        cout << "Color: ";
-        cout << pix.getData();
-        cout << ", Frequency: " + to_string(pix.getFrequency()) << endl;
-    }
+    p.push_back(t1);
+    p.push_back(t2);
+    p.push_back(t3);
+    p.push_back(t4);
+    p.push_back(t5);
+    p.push_back(t6);
+    p.push_back(t7);
+
+    Compressor compressor(p);
+    compressor.compress();
     return 0;
 }

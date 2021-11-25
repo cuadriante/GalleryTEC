@@ -7,15 +7,18 @@
 
 #include "TreeNode.h"
 
+using namespace std;
+
 class HuffmanBinaryTree {
 private:
-    std::vector<TreeNode> root;
+    vector<TreeNode> roots;
     int size;
 public:
-    HuffmanBinaryTree(std::vector<TreeNode> list);
-    void insert(Vec3b pix);
-    void erase(int id);
-    Vec3b get(int id);
+    HuffmanBinaryTree(vector<TreeNode> nodes);
+    void setRoots(vector<TreeNode> nodes);
+    vector<TreeNode> getRoot();
+    void updateTreeRoots(TreeNode parent);
+    int getSize();
 };
 
 
