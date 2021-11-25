@@ -1,12 +1,8 @@
 {
-  "1": {
-    "code": "hola,7",
-    "dictionary": "Hello",
+  "0": {
+    "code": "000000000000",
+    "dictionary": "000000000000",
     "parity": "false",
-    "length1": "5",
-    "length2": "5",
-    "length3": "3",
-    "length4": "11",
-    "length5": "4"
+    "lengths": "0000000"
   }
 }
