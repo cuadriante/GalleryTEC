@@ -99,6 +99,7 @@ private:
     QLabel * imageSizeLabel;
     QLabel * imageYearLabel;
     QLabel * imageDescriptionLabel;
+    QLabel * imagePictureLabel;
 
     QString currentGallery = "New Gallery";
     QString currentImageName = "Unknown";
@@ -106,8 +107,8 @@ private:
     QString imageSize = "Unknown";
     QString imageYear = "Unknown";
     QString imageDescription = "Unknown";
+    QString imagePath = "";
 
-    QFileDialog * imagePath;
 
     vector<QWidget*> currentWidgets;
     vector<string> currentImages;
@@ -154,5 +155,7 @@ private slots:
 
 
     void retrieveImageMetadataFromDb();
+
+    void displayImage();
 };
 #endif //GALLERYTEC_INTERFACE_H

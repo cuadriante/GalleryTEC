@@ -305,6 +305,7 @@ vector<string> DataBaseHandler::retrieveImageMetadata(const string &imageName, c
                     imageMetadataVector.push_back((string) doc["imageYear"].get_utf8().value);
                     imageMetadataVector.push_back((string) doc["imageSize"].get_utf8().value);
                     imageMetadataVector.push_back((string) doc["imageDesc"].get_utf8().value);
+                    imageMetadataVector.push_back((string) doc["imagePath"].get_utf8().value);
                 }
             }
         }

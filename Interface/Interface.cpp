@@ -145,6 +145,7 @@ void Interface::imageWindow() {
     currentWidgets.push_back(currentImageLabel);
     currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
     currentImageLabel->setText(currentImageName);
+    displayImage();
 }
 
 void Interface::metadataWindow() {
@@ -568,14 +569,13 @@ void Interface::clickedGallery() {
 
 void Interface::clickedPreviousImage() {
     clearWindow(true);
-    currentImageIndex++;
-    if (currentImageIndex >= currentImages.size()){
-        currentImageIndex = 0;
-    }
+    currentImageIndex--;
     if (currentImageIndex < 0){
         currentImageIndex = currentImages.size() - 1;
     }
     currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
+    vector<string> imageMetadata = dbHandler->retrieveImageMetadata(currentImages.at(currentImageIndex), currentGalleryString);
+    imagePath = QString::fromStdString(imageMetadata.at(5));
     imageWindow();
 }
 
@@ -589,6 +589,8 @@ void Interface::clickedNextImage() {
         currentImageIndex = currentImages.size() - 1;
     }
     currentImageName = QString::fromStdString(currentImages.at(currentImageIndex));
+    vector<string> imageMetadata = dbHandler->retrieveImageMetadata(currentImages.at(currentImageIndex), currentGalleryString);
+    imagePath = QString::fromStdString(imageMetadata.at(5));
     imageWindow();
 
 }
@@ -602,26 +604,43 @@ void Interface::addExistingImagesFromGallery() {
     currentImageIndex == 0;
     currentImages.clear();
     currentImages = dbHandler->retrieveAllImagesFromUserGallery(gallery);
+    vector<string> imageMetadata = dbHandler->retrieveImageMetadata(currentImages.at(currentImageIndex), currentGalleryString);
+    imagePath = QString::fromStdString(imageMetadata.at(5));
 }
 
 void Interface::clickedSelectPicButton() {
-
-    QString imagePathString = "";
-    imagePathString = QFileDialog::getOpenFileName(this, "Select image", "");
-    if (QString::compare(imagePathString, QString()) != 0){
+    imagePath = "";
+    imagePath = QFileDialog::getOpenFileName(this, "Select image", "");
+    if (QString::compare(imagePath, QString()) != 0){
         QImage imageToDisplay;
-        bool successfulLoad = imageToDisplay.load(imagePathString);
+        bool successfulLoad = imageToDisplay.load(imagePath);
         if (successfulLoad){
-            cout << "image: " << imagePathString.toStdString() << endl;
-            dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imagePath", imagePathString.toStdString());
+            cout << "image: " << imagePath.toStdString() << endl;
+            dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imagePath", imagePath.toStdString());
+
         } else {
-            cout << "no se pudo" << endl;
+            cout << "Could not upload image." << endl;
         }
     } else {
-        cout << "nel" << endl;
+        cout << "Could not upload image." << endl;
     }
 
 }
+
+void Interface::displayImage() {
+    imagePictureLabel = new QLabel(this);
+    if (QString::compare(imagePath, QString()) != 0){
+        QPixmap img(imagePath);
+
+        imagePictureLabel->setPixmap(img.scaled(300, 300, Qt::KeepAspectRatio));
+        addToWindow(imagePictureLabel);
+        imagePictureLabel->setGeometry(280, 190, 300, 300);
+    } else {
+        cout << "No image to load." << endl;
+        imagePictureLabel->setVisible(false);
+    }
+}
+
 
 // MANAGE METADATA
 
