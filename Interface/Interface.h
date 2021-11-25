@@ -107,6 +107,8 @@ private:
     QString imageYear = "Unknown";
     QString imageDescription = "Unknown";
 
+    QFileDialog * imagePath;
+
     vector<QWidget*> currentWidgets;
     vector<string> currentImages;
     string currentGalleryString;

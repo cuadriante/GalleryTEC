@@ -606,6 +606,20 @@ void Interface::addExistingImagesFromGallery() {
 
 void Interface::clickedSelectPicButton() {
 
+    QString imagePathString = "";
+    imagePathString = QFileDialog::getOpenFileName(this, "Select image", "");
+    if (QString::compare(imagePathString, QString()) != 0){
+        QImage imageToDisplay;
+        bool successfulLoad = imageToDisplay.load(imagePathString);
+        if (successfulLoad){
+            cout << "image: " << imagePathString.toStdString() << endl;
+        } else {
+            cout << "no se pudo" << endl;
+        }
+    } else {
+        cout << "nel" << endl;
+    }
+
 }
 
 // MANAGE METADATA
