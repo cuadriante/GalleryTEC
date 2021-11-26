@@ -130,6 +130,7 @@ private:
     void editGalleryWindow();
 
 public:
+
     QGraphicsScene *scene;
 
     /**
