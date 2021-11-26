@@ -52,6 +52,10 @@ string RaidManager::getCode(string imgID) {
                 completeCode += tempCode;
                 counter ++;
             }
+
+            if (counter < 4) {
+                recovering = true;
+            }
         } catch (boost::property_tree::ptree_bad_path err) {
             cout << "Some data is missing" << endl;
             cout << "System is trying to recover the lost data" << endl;

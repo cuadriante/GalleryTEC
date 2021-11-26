@@ -7,19 +7,19 @@
  * @brief Interfaz de la aplicación
  */
 
-#ifndef GALLERYTEC_INTERFACE_H
-#define GALLERYTEC_INTERFACE_H
+//#ifndef GALLERYTEC_INTERFACE_H
+//#define GALLERYTEC_INTERFACE_H
 
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QtWidgets>
-#include <QGraphicsItem>
-#include <QGraphicsRectItem>
-#include <QTimer>
-#include <QBrush>
-#include <QDebug>
-#include <QKeyEvent>
-#include <QApplication>
+//#include <QGraphicsView>
+//#include <QGraphicsScene>
+//#include <QtWidgets>
+//#include <QGraphicsItem>
+//#include <QGraphicsRectItem>
+//#include <QTimer>
+//#include <QBrush>
+//#include <QDebug>
+//#include <QKeyEvent>
+//#include <QApplication>
 #include <unistd.h>
 #include <iostream>
 #include "../DataBase/DataBaseHandler.h"

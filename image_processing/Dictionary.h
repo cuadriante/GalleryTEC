@@ -12,7 +12,7 @@
 
 #include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/json_parser.hpp"
-#include "opencv2/opencv.hpp"
+//#include "opencv2/opencv.hpp"
 #include "../data_structures/TreeNode.h"
 
 using namespace cv;
