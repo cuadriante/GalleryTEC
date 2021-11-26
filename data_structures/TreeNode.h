@@ -13,7 +13,7 @@ using namespace cv;
 class TreeNode {
 private:
     Vec3b data;
-    TreeNode *parent, *rightChild, *leftChild;
+    TreeNode *rightChild, *leftChild;
     int frequency;
     bool visited;
 public:

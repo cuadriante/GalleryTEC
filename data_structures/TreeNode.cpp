@@ -7,7 +7,6 @@
 TreeNode::TreeNode() {
     this->data = Vec3b(0,0,0);
     this->frequency = 0;
-    this->parent = nullptr;
     this->rightChild = nullptr;
     this->leftChild = nullptr;
     this->visited = false;
@@ -38,20 +37,12 @@ int TreeNode::getFrequency() {
     return this->frequency;
 }
 
-void TreeNode::setParent(TreeNode* p) {
-    this->parent = p;
-}
-
 void TreeNode::setRightChild(TreeNode* right) {
     this->rightChild = right;
 }
 
 void TreeNode::setLeftChild(TreeNode* left) {
     this->leftChild = left;
-}
-
-TreeNode *TreeNode::getParent() {
-    return this->parent;
 }
 
 TreeNode* TreeNode::getLeftChild() {
