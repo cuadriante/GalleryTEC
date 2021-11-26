@@ -65,4 +65,5 @@ QLabel ImageProcessor::constructImg() {
         }
         i = 0;
     }
+    cvtColor(image, image, CV_BGR2RGB);
 }
