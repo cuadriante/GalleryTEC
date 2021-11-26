@@ -613,11 +613,15 @@ void Interface::addExistingImagesFromGallery() {
 void Interface::clickedSelectPicButton() {
     imagePath = "";
     imagePath = QFileDialog::getOpenFileName(this, "Select image", "");
-
+    this->imgProcessor = new ImageProcessor(imagePath.toStdString());
+    vector<TreeNode> pixels = imgProcessor->pixelReader();
+    this->compressor = new Compressor(pixels);
     // AQUI COMPRIMIR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (QString::compare(imagePath, QString()) != 0){
         QImage imageToDisplay;
         bool successfulLoad = imageToDisplay.load(imagePath);
+        pair<string, ptree> data = this->compressor->compress();
+
         if (successfulLoad){
             cout << "image: " << imagePath.toStdString() << endl;
             dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imagePath", imagePath.toStdString());

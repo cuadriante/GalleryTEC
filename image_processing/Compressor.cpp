@@ -46,7 +46,7 @@ void Compressor::createDictionary() {
     }
 }
 
-void Compressor::compress(string compressedFilename) {
+pair<string,ptree> Compressor::compress() {
     this->buildTree();
     this->createDictionary();
     for (TreeNode node : this->nodes) {
@@ -58,7 +58,8 @@ void Compressor::compress(string compressedFilename) {
             cout << imageCode << endl;
         }
     }
-    this->dictionary->generateJSON(compressedFilename);
+    ptree head = this->dictionary->generateJSON();
+    return make_pair(imageCode, head);
 }
 
 vector<TreeNode> Compressor::decompress(string compressedFilename) {

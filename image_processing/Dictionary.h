@@ -21,7 +21,7 @@ private:
 public:
     vector<pair<Vec3b,string>> getElements();
     void addElement(Vec3b pixel, string code);
-    void generateJSON(string filename);
+    ptree generateJSON();
     vector<TreeNode> readJSON(string filename, string image);
 };
 

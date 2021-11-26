@@ -21,7 +21,7 @@ private:
     void createDictionary();
 public:
     Compressor(vector<TreeNode> pixels);
-    void compress(string compressedFilename);
+    pair<string,ptree> compress();
     vector<TreeNode> decompress(string compressedFilename);
     static vector<TreeNode> bubble_sort(vector<TreeNode> pixels);
 };

@@ -13,7 +13,7 @@ void Dictionary::addElement(Vec3b pixel, string code) {
     this->elements.push_back(make_pair(pixel, code));
 }
 
-void Dictionary::generateJSON(string filename) {
+ptree Dictionary::generateJSON() {
     ptree pixels_node;
     ptree color_node;
     ptree code_node;
@@ -26,7 +26,7 @@ void Dictionary::generateJSON(string filename) {
         pixels_node.push_back(make_pair("pixel", pixel_node));
     }
     this->root.add_child("pixels", pixels_node);
-    json_parser::write_json(filename, this->root);
+    return this->root;
 }
 
 vector<TreeNode> Dictionary::readJSON(string filename, string image) {
