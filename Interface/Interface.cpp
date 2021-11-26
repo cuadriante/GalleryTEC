@@ -613,6 +613,8 @@ void Interface::addExistingImagesFromGallery() {
 void Interface::clickedSelectPicButton() {
     imagePath = "";
     imagePath = QFileDialog::getOpenFileName(this, "Select image", "");
+
+    // AQUI COMPRIMIR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (QString::compare(imagePath, QString()) != 0){
         QImage imageToDisplay;
         bool successfulLoad = imageToDisplay.load(imagePath);
@@ -627,7 +629,7 @@ void Interface::clickedSelectPicButton() {
         cout << "Could not upload image." << endl;
     }
 
-}
+} // COMPRIMIR !!!!!!!!!!!!!!!!!!!!
 
 void Interface::displayImage() {
     // AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, quitar el de abajo
@@ -639,11 +641,14 @@ void Interface::displayImage() {
         imagePictureLabel->setPixmap(img.scaled(300, 300, Qt::KeepAspectRatio));
         addToWindow(imagePictureLabel);
         imagePictureLabel->setGeometry(280, 190, 300, 300);
+
+        dbHandler->retrieveAllImagesFromUserGallery(currentGalleryString);
+
     } else {
         cout << "No image to load." << endl;
         imagePictureLabel->setVisible(false);
     }
-}
+} // DESCOMPRMIR !!!!!!!!!!!!!!!!!!!!!!
 
 
 // MANAGE METADATA

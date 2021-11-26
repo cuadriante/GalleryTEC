@@ -29,8 +29,9 @@ public:
      * @brief Agregar una nueva imagen (no existente) al sistema de almacenamiento
      * @param data Código binario de la imagen
      * @param newImgID Identificador único de la imagen
+     * @param dict Diccionario de la imagen
      */
-    void addNewImage(string data, string newImgID);
+    void addNewImage(string data, string newImgID, pt::ptree dict);
 
     /**
      * @brief Accede al diccionario correspondiente a la imagen
@@ -66,7 +67,7 @@ private:
     pt::ptree root, dictionary, newImage, code_1, code_2, code_3, code_4, code_5, parity;
     pt::ptree length1, length2, length3, length4, length5, lengthTree;
 
-    void write(string data, string newImgID);
+    void write(string data, string newImgID, pt::ptree dict);
     void applyXOR();
     string xorAlgorithm(string firstCode, string secondCode);
     void checkForRecover(string imgID);
