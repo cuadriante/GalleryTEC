@@ -52,7 +52,7 @@ vector<TreeNode> ImageProcessor::frequencyCounter() {
 
 
 
-QLabel ImageProcessor::constructImg(vector<TreeNode> pixels) {
+QLabel* ImageProcessor::constructImg(vector<TreeNode> pixels) {
     int i = 0;
     image = new Mat(this->height, this->width,1);
     for (int row = 0; row < this->height; row++) {
