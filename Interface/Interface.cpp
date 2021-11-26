@@ -628,7 +628,9 @@ void Interface::clickedSelectPicButton() {
 }
 
 void Interface::displayImage() {
+    // AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, quitar el de abajo
     imagePictureLabel = new QLabel(this);
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (QString::compare(imagePath, QString()) != 0){
         QPixmap img(imagePath);
 
