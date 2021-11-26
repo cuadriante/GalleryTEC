@@ -613,16 +613,18 @@ void Interface::addExistingImagesFromGallery() {
 void Interface::clickedSelectPicButton() {
     imagePath = "";
     imagePath = QFileDialog::getOpenFileName(this, "Select image", "");
-    this->imgProcessor = new ImageProcessor(imagePath.toStdString());
-    vector<TreeNode> pixels = imgProcessor->pixelReader();
-    this->compressor = new Compressor(pixels);
-    // AQUI COMPRIMIR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//    this->imgProcessor = new ImageProcessor(imagePath.toStdString());
+//    vector<TreeNode> pixels = imgProcessor->pixelReader();
+//    this->compressor = new Compressor(pixels);
+
     if (QString::compare(imagePath, QString()) != 0){
         QImage imageToDisplay;
         bool successfulLoad = imageToDisplay.load(imagePath);
-        pair<string, ptree> data = this->compressor->compress();
-        this->raidManager->addNewImage(data.first, to_string(this->imageId), data.second);
-        this->imageId++;
+        // COMPRESION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //pair<string, ptree> data = this->compressor->compress();
+        //this->raidManager->addNewImage(data.first, to_string(this->imageId), data.second);
+       // this->imageId++;
+       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (successfulLoad){
             cout << "image: " << imagePath.toStdString() << endl;
             dbHandler->editImageMetadata(currentImages.at(currentImageIndex), currentGalleryString, "imagePath", imagePath.toStdString());
@@ -634,14 +636,17 @@ void Interface::clickedSelectPicButton() {
         cout << "Could not upload image." << endl;
     }
 
-} // COMPRIMIR !!!!!!!!!!!!!!!!!!!!
+}
 
 void Interface::displayImage() {
-    // AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, quitar el de abajo
-    string coding = this->raidManager->getCode(to_string(this->imageId));
-    vector<TreeNode> pixels = this->compressor->decompress(coding);
-    imagePictureLabel = this->imgProcessor->constructImg(pixels);
+    // DESCOMPRESION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//    string coding = this->raidManager->getCode(to_string(this->imageId));
+//    vector<TreeNode> pixels = this->compressor->decompress(coding);
+//    imagePictureLabel = this->imgProcessor->constructImg(pixels);
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    imagePictureLabel = new QLabel(this);
+
     if (QString::compare(imagePath, QString()) != 0){
         QPixmap img(imagePath);
 
