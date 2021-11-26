@@ -24,7 +24,7 @@ public:
     ImageProcessor(const string& imgUrl);
     ~ImageProcessor();
     vector<TreeNode> pixelReader();
-    void constructImg(vector<TreeNode> vec);
+    static void constructImg(vector<TreeNode> vec);
 };
 
 
