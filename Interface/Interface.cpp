@@ -823,6 +823,13 @@ void Interface::setDbHandler(DataBaseHandler *dbHandler) {
     Interface::dbHandler = dbHandler;
 }
 
+void Interface::setRaidManager(RaidManager *raidManager, int imageId) {
+    Interface::raidManager = raidManager;
+    Interface::imageId = imageId;
+    Interface::imageId = raidManager->setNextID();
+
+}
+
 
 
 

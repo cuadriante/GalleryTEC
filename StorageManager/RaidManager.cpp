@@ -1,4 +1,4 @@
-#include "raidManager.h"
+#include "RaidManager.h"
 
 raidManager::raidManager() {
     setFileLocation();

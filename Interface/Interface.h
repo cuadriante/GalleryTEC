@@ -18,15 +18,20 @@
 #include <unistd.h>
 #include <iostream>
 #include "../DataBase/DataBaseHandler.h"
+#include "../StorageManager/RaidManager.h"
 
 using namespace std;
 
 class Interface: public QGraphicsView {
 Q_OBJECT
 
+
+
 private:
 
     DataBaseHandler * dbHandler;
+    RaidManager * raidManager;
+    int imageId;
 
     const QString BG_GALLERY_TEC = "../Resources/galleryTEC.png";
     const QString BG_GALLERIES = "../Resources/galleries.png";
@@ -144,6 +149,7 @@ public:
      * @param dbHandler
      */
     void setDbHandler(DataBaseHandler *dbHandler);
+    void setRaidManager(RaidManager *raidManager, int imageId);
 
 private slots:
     void clickedLogIn();

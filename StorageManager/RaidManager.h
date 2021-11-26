@@ -1,5 +1,5 @@
 /**
- * @file raidManager.h
+ * @file RaidManager.h
  * @version 1.0
  * @date 25 de noviembre de 2021
  * @author Gregory Alpízar
@@ -17,13 +17,13 @@
 using namespace std;
 namespace pt = boost::property_tree;
 
-class raidManager {
+class RaidManager {
 public:
 
     /**
      * @brief Constructor
      */
-    raidManager();
+    RaidManager();
 
     /**
      * @brief Agregar una nueva imagen (no existente) al sistema de almacenamiento

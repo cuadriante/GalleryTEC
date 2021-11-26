@@ -2,7 +2,7 @@
 #include <QApplication>
 #include "Interface/Interface.h"
 #include "DataBase/DataBaseHandler.h"
-#include "StorageManager/raidManager.h"
+#include "StorageManager/RaidManager.h"
 
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/json.hpp>
@@ -20,10 +20,13 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
+
     DataBaseHandler dataBaseHandler;
+    RaidManager raidManager;
     QApplication app(argc, argv);
     Interface interface;
     interface.setDbHandler(&dataBaseHandler);
+    interface.setRaidManager(&raidManager, 1);
     interface.show();
 
     return app.exec();
