@@ -26,7 +26,7 @@ public:
     ImageProcessor(const string& imgUrl);
     ~ImageProcessor();
     vector<TreeNode> pixelReader();
-    QLabel constructImg();
+    QLabel* constructImg();
 };
 
 
