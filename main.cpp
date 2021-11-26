@@ -20,7 +20,6 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-
     DataBaseHandler dataBaseHandler;
     RaidManager raidManager;
     QApplication app(argc, argv);

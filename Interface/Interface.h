@@ -19,19 +19,21 @@
 #include <iostream>
 #include "../DataBase/DataBaseHandler.h"
 #include "../StorageManager/RaidManager.h"
+#include "../image_processing/Compressor.h"
+#include "../image_processing/ImageProcessor.h"
 
 using namespace std;
 
 class Interface: public QGraphicsView {
 Q_OBJECT
 
-
-
 private:
 
     DataBaseHandler * dbHandler;
     RaidManager * raidManager;
     int imageId;
+    ImageProcessor * imgProcessor;
+    Compressor * compressor;
 
     const QString BG_GALLERY_TEC = "../Resources/galleryTEC.png";
     const QString BG_GALLERIES = "../Resources/galleries.png";
