@@ -19,6 +19,7 @@
 using namespace std;
 
 int main(int argc, char** argv) {
+
     DataBaseHandler dataBaseHandler;
     QApplication app(argc, argv);
     Interface interface;

@@ -4,7 +4,6 @@
 
 
 #include "Interface.h"
-#include "../image_processing/ImageProcessor.h"
 
 Interface::Interface(QWidget *parent) : QGraphicsView(parent) {
     scene = new QGraphicsScene(0,0,850,700);
@@ -629,7 +628,9 @@ void Interface::clickedSelectPicButton() {
 }
 
 void Interface::displayImage() {
-    imagePictureLabel = ImageProcessor::constructImg()
+    // AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, quitar el de abajo
+    imagePictureLabel = new QLabel(this);
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (QString::compare(imagePath, QString()) != 0){
         QPixmap img(imagePath);
 
