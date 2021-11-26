@@ -5,7 +5,7 @@ raidManager::raidManager() {
     parityBlock = 5;
 }
 
-void raidManager::addNewImage(string data, string newImgID) {
+void raidManager::addNewImage(string data, string newImgID, pt::ptree dict) {
     setImageId(newImgID);
     disk = 1;
 
@@ -16,7 +16,7 @@ void raidManager::addNewImage(string data, string newImgID) {
         string test = root.get<string>(imageID + ".code");
         cout << "Image is already saved" << endl;
     } catch (boost::property_tree::ptree_bad_path err) {
-        write(data, newImgID);
+        write(data, newImgID, dict);
     }
 }
 
@@ -98,14 +98,14 @@ int raidManager::setNextID() {
     }
 }
 
-void raidManager::write(string data, string newImgID) {
+void raidManager::write(string data, string newImgID, pt::ptree dict) {
     setCompleteCode(data);
     codeSplitter();
     applyXOR();
 
     setLength();
 
-    dictionary.put("", "Hello");
+//    dictionary.put("", dict);
 
     disk = 1;
 
@@ -139,7 +139,7 @@ void raidManager::write(string data, string newImgID) {
         }
 
 
-        newImage.push_back(make_pair("dictionary", dictionary));
+        newImage.push_back(make_pair("dictionary", dict));
         newImage.push_back(make_pair("parity", parity));
         newImage.push_back(make_pair("length1", length1));
         newImage.push_back(make_pair("length2", length2));
