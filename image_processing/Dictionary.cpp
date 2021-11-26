@@ -4,6 +4,9 @@
 
 #include "Dictionary.h"
 
+ptree Dictionary::getRoot() {
+    return this->root;
+}
 vector<pair<Vec3b, string>> Dictionary::getElements() {
     return this->elements;
 }

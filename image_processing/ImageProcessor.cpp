@@ -52,7 +52,7 @@ vector<TreeNode> ImageProcessor::frequencyCounter() {
 
 
 
-QLabel* ImageProcessor::constructImg() {
+QLabel ImageProcessor::constructImg(vector<TreeNode> pixels) {
     int i = 0;
     image = new Mat(this->height, this->width,1);
     for (int row = 0; row < this->height; row++) {
@@ -60,13 +60,13 @@ QLabel* ImageProcessor::constructImg() {
             if (i >= col) {
                 i = 0;
             }
-            this->image->at<Vec3b>(Point(row,col)) = this->pixels[i].getData();
+            this->image->at<Vec3b>(Point(row,col)) = pixels[i].getData();
             i++;
         }
         i = 0;
     }
     cvtColor(*image, *image, COLOR_RGB2BGR);
-    auto* label = new QLabel();
+    QLabel* label = new QLabel();
     label->setPixmap(QPixmap::fromImage(QImage(image->data, image->cols, image->rows, image->step, QImage::Format_RGB888)));
     return label;
 }

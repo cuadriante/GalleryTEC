@@ -19,6 +19,7 @@ private:
     ptree root;
     vector<pair<Vec3b, string>> elements;
 public:
+    ptree getRoot();
     vector<pair<Vec3b,string>> getElements();
     void addElement(Vec3b pixel, string code);
     ptree generateJSON();

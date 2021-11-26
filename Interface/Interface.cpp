@@ -621,7 +621,7 @@ void Interface::clickedSelectPicButton() {
         QImage imageToDisplay;
         bool successfulLoad = imageToDisplay.load(imagePath);
         pair<string, ptree> data = this->compressor->compress();
-        this->raidManager->addNewImage(data.first, this->imageId, data.second);
+        this->raidManager->addNewImage(data.first, to_string(this->imageId), data.second);
         this->imageId++;
         if (successfulLoad){
             cout << "image: " << imagePath.toStdString() << endl;
@@ -638,10 +638,9 @@ void Interface::clickedSelectPicButton() {
 
 void Interface::displayImage() {
     // AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, quitar el de abajo
-    string coding = this->raidManager->getCode(this->imageId);
-    vector<TreeNode> pixels = this->compressor->decompress();
-    QLabel img = *this->imgProcessor->constructImg(pixels);
-    imagePictureLabel = img;
+    string coding = this->raidManager->getCode(to_string(this->imageId));
+    vector<TreeNode> pixels = this->compressor->decompress(coding);
+    imagePictureLabel = this->imgProcessor->constructImg(pixels);
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (QString::compare(imagePath, QString()) != 0){
         QPixmap img(imagePath);

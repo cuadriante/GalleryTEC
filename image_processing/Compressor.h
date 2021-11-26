@@ -22,7 +22,7 @@ private:
 public:
     Compressor(vector<TreeNode> pixels);
     pair<string,ptree> compress();
-    vector<TreeNode> decompress();
+    vector<TreeNode> decompress(string coding);
     static vector<TreeNode> bubble_sort(vector<TreeNode> pixels);
 };
 
