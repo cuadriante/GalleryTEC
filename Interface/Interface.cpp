@@ -6,6 +6,8 @@
 #include "Interface.h"
 
 Interface::Interface(QWidget *parent) : QGraphicsView(parent) {
+    this->imgProcessor = nullptr;
+    this->compressor = nullptr;
     scene = new QGraphicsScene(0,0,850,700);
     setScene(scene);
     this->setWindowTitle("GalleryTEC");
