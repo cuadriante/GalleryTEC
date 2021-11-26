@@ -23,10 +23,8 @@ public:
     Vec3b getData();
     void setFrequency(int freq);
     int getFrequency();
-    void setParent(TreeNode* p);
     void setRightChild(TreeNode* right);
     void setLeftChild(TreeNode* left);
-    TreeNode* getParent();
     TreeNode* getRightChild();
     TreeNode* getLeftChild();
     void visit();

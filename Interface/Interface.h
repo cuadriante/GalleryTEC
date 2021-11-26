@@ -18,6 +18,8 @@
 #include <unistd.h>
 #include <iostream>
 #include "../DataBase/DataBaseHandler.h"
+#include "../image_processing/Compressor.h"
+#include "../image_processing/ImageProcessor.h"
 
 using namespace std;
 
@@ -27,6 +29,8 @@ Q_OBJECT
 private:
 
     DataBaseHandler * dbHandler;
+    ImageProcessor * imgProcessor;
+    Compressor * compressor;
 
     const QString BG_GALLERY_TEC = "../Resources/galleryTEC.png";
     const QString BG_GALLERIES = "../Resources/galleries.png";

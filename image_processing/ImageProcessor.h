@@ -21,7 +21,6 @@ private:
     vector<Vec3b> unrepeatedColors;
     vector<TreeNode> pixels;
     vector<TreeNode> frequencyCounter();
-
 public:
     ImageProcessor(const string& imgUrl);
     ~ImageProcessor();
