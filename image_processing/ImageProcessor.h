@@ -8,6 +8,7 @@
 #include "opencv2/opencv.hpp"
 #include "opencv2/highgui.hpp"
 #include "../data_structures/TreeNode.h"
+#include <QLabel>
 
 using namespace cv;
 using namespace std;
@@ -20,11 +21,12 @@ private:
     vector<Vec3b> unrepeatedColors;
     vector<TreeNode> pixels;
     vector<TreeNode> frequencyCounter();
+
 public:
     ImageProcessor(const string& imgUrl);
     ~ImageProcessor();
     vector<TreeNode> pixelReader();
-    static void constructImg(vector<TreeNode> vec);
+    QLabel constructImg();
 };
 
 

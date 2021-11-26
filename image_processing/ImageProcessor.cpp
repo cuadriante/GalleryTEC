@@ -50,9 +50,11 @@ vector<TreeNode> ImageProcessor::frequencyCounter() {
     }
 }
 
-void ImageProcessor::constructImg(vector<TreeNode> vec) {
+
+
+QLabel ImageProcessor::constructImg() {
     int i = 0;
-    this->image = new Mat(this->height, this->width,1);
+    image = new Mat(this->height, this->width,1);
     for (int row = 0; row < this->height; row++) {
         for (int col = 0; col < this->width; col++) {
             if (i >= col) {
