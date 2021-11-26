@@ -29,14 +29,13 @@ ptree Dictionary::generateJSON() {
     return this->root;
 }
 
-vector<TreeNode> Dictionary::readJSON(string filename, string image) {
+vector<TreeNode> Dictionary::readJSON(string coding, ptree dictionary) {
     int begin = 0;
     int end = 0;
     vector<TreeNode> pixels;
-    json_parser::read_json(filename, this->root);
-    while (end <= image.size()) {
-        for (ptree::value_type pixel : this->root.get_child("pixels")) {
-            string substring = image.substr(begin,end);
+    while (end <= coding.size()) {
+        for (ptree::value_type pixel : dictionary.get_child("pixels")) {
+            string substring = coding.substr(begin,end);
             if (pixel.second.get_child("code").data() == substring) {
                 string color = pixel.second.get_child("color").data();
                 TreeNode node;

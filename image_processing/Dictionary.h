@@ -22,7 +22,7 @@ public:
     vector<pair<Vec3b,string>> getElements();
     void addElement(Vec3b pixel, string code);
     ptree generateJSON();
-    vector<TreeNode> readJSON(string filename, string image);
+    vector<TreeNode> readJSON(string coding, ptree dictionary);
 };
 
 
