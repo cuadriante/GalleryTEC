@@ -63,7 +63,7 @@ pair<string,ptree> Compressor::compress() {
 }
 
 vector<TreeNode> Compressor::decompress(string coding) {
-    vector<TreeNode> imagePixels = this->dictionary->readJSON(coding, this->dictionary);
+    vector<TreeNode> imagePixels = this->dictionary->readJSON(coding, this->dictionary->getRoot());
     delete this->tree;
     delete this->dictionary;
     return imagePixels;

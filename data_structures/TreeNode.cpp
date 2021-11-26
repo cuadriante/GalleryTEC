@@ -15,7 +15,6 @@ TreeNode::TreeNode() {
 TreeNode::TreeNode(Vec3b data1, int freq) {
     this->data = data1;
     this->frequency = freq;
-    this->parent = nullptr,
     this->rightChild = nullptr;
     this->leftChild = nullptr;
     this->visited = false;

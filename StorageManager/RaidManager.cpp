@@ -1,11 +1,11 @@
 #include "RaidManager.h"
 
-raidManager::raidManager() {
+RaidManager::RaidManager() {
     setFileLocation();
     parityBlock = 5;
 }
 
-void raidManager::addNewImage(string data, string newImgID, pt::ptree dict) {
+void RaidManager::addNewImage(string data, string newImgID, pt::ptree dict) {
     setImageId(newImgID);
     disk = 1;
 
@@ -20,7 +20,7 @@ void raidManager::addNewImage(string data, string newImgID, pt::ptree dict) {
     }
 }
 
-void raidManager::getDictionary(pt::ptree &dictionary, string imgID) {
+void RaidManager::getDictionary(pt::ptree &dictionary, string imgID) {
     setImageId(imgID);
     disk = 1;
     setFileLocation();
@@ -29,7 +29,7 @@ void raidManager::getDictionary(pt::ptree &dictionary, string imgID) {
     dictionary.put_child("1", root.get_child(imageID + ".dictionary"));
 }
 
-string raidManager::getCode(string imgID) {
+string RaidManager::getCode(string imgID) {
     bool recovering = false;
     setImageId(imgID);
     int counter = 1;
@@ -74,7 +74,7 @@ string raidManager::getCode(string imgID) {
     }
 }
 
-int raidManager::setNextID() {
+int RaidManager::setNextID() {
     int counter = 1;
     checkForRecover(to_string(counter));
     disk = 1;
@@ -98,7 +98,7 @@ int raidManager::setNextID() {
     }
 }
 
-void raidManager::write(string data, string newImgID, pt::ptree dict) {
+void RaidManager::write(string data, string newImgID, pt::ptree dict) {
     setCompleteCode(data);
     codeSplitter();
     applyXOR();
@@ -168,7 +168,7 @@ void raidManager::write(string data, string newImgID, pt::ptree dict) {
 
 }
 
-void raidManager::applyXOR() {
+void RaidManager::applyXOR() {
     string newCode = "";
     string tempCode = "";
     int lastBlock = 0;
@@ -211,7 +211,7 @@ void raidManager::applyXOR() {
     }
 }
 
-string raidManager::xorAlgorithm(string firstCode, string secondCode) {
+string RaidManager::xorAlgorithm(string firstCode, string secondCode) {
     string finalCode = "";
 
     for (int i = 0; i < firstCode.length(); ++i) {
@@ -225,7 +225,7 @@ string raidManager::xorAlgorithm(string firstCode, string secondCode) {
     return finalCode;
 }
 
-void raidManager::checkForRecover(string imgID) {
+void RaidManager::checkForRecover(string imgID) {
     int failingDisks = 0;
     int diskToCheck = 0;
     setImageId(imgID);
@@ -255,7 +255,7 @@ void raidManager::checkForRecover(string imgID) {
 
 }
 
-void raidManager::recoverDisk(int diskToCheck) {
+void RaidManager::recoverDisk(int diskToCheck) {
     int checker = 1;
     bool flag = true;
     isParity = false;
@@ -322,7 +322,7 @@ void raidManager::recoverDisk(int diskToCheck) {
 }
 
 
-void raidManager::recoverySave(int diskToCheck) {
+void RaidManager::recoverySave(int diskToCheck) {
     disk = diskToCheck;
     int baseDisk = diskToCheck - 1;
     pt::ptree base, subBase;
@@ -376,7 +376,7 @@ void raidManager::recoverySave(int diskToCheck) {
     root.clear();
 }
 
-void raidManager::deleteExtraBit(string code) {
+void RaidManager::deleteExtraBit(string code) {
     string newCode = "";
     for (int i = 0; i < code.length() - 1; ++i) {
         newCode += code[i];
@@ -385,7 +385,7 @@ void raidManager::deleteExtraBit(string code) {
     tempCode = newCode;
 }
 
-void raidManager::codeSplitter() {
+void RaidManager::codeSplitter() {
     int lack = completeCode.length() % 4;
     int division = (completeCode.length() - lack) / 4;
     int i = 0;
@@ -447,27 +447,27 @@ void raidManager::codeSplitter() {
 }
 
 
-void raidManager::setFileLocation() {
-    raidManager::fileLocation = "RAIDStorage/Disk" + to_string(disk) + "/data.json";
+void RaidManager::setFileLocation() {
+    RaidManager::fileLocation = "RAIDStorage/Disk" + to_string(disk) + "/data.json";
 }
 
-void raidManager::setDisk() {
-    raidManager::disk += 1;
-    if (raidManager::disk > 5) {
-        raidManager::disk = 1;
+void RaidManager::setDisk() {
+    RaidManager::disk += 1;
+    if (RaidManager::disk > 5) {
+        RaidManager::disk = 1;
     }
 }
 
-void raidManager::setImageId(const string &imageId) {
+void RaidManager::setImageId(const string &imageId) {
     imageID = imageId;
 }
 
 
-void raidManager::setCompleteCode(const string &completeCode) {
-    raidManager::completeCode = completeCode;
+void RaidManager::setCompleteCode(const string &completeCode) {
+    RaidManager::completeCode = completeCode;
 }
 
-void raidManager::setLength() {
+void RaidManager::setLength() {
     int lack = completeCode.length() % 4;
     bool extraBit = false;
 
