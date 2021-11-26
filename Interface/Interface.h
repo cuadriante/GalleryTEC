@@ -131,7 +131,17 @@ private:
 
 public:
     QGraphicsScene *scene;
+
+    /**
+     * @brief Constructor
+     * @param parent Nodo padre de la interfaz (nulo en este caso)
+     */
     Interface(QWidget* parent=NULL);
+
+    /**
+     * @brief Setter
+     * @param dbHandler
+     */
     void setDbHandler(DataBaseHandler *dbHandler);
 
 private slots:
