@@ -1,0 +1,10 @@
+<map id="image_processing/Compressor.h" name="image_processing/Compressor.h">
+<area shape="rect" id="node1" title="Comprime imágenes." alt="" coords="139,5,373,32"/>
+<area shape="rect" id="node2" href="$_huffman_binary_tree_8h.html" title="Crea un árbol con el objeto compreso." alt="" coords="97,80,260,121"/>
+<area shape="rect" id="node6" href="$_dictionary_8h.html" title="Crea el diccionario asociado a la imagen." alt="" coords="284,87,383,114"/>
+<area shape="rect" id="node3" href="$_tree_node_8h.html" title="Define un nodo de un árbol." alt="" coords="131,177,226,203"/>
+<area shape="rect" id="node4" title=" " alt="" coords="187,259,341,285"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,259,163,285"/>
+<area shape="rect" id="node7" title=" " alt="" coords="302,169,453,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="477,169,627,211"/>
+</map>

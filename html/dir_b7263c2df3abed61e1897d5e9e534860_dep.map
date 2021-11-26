@@ -1,0 +1,9 @@
+<map id="Interface" name="Interface">
+<area shape="rect" id="node1" href="dir_b7263c2df3abed61e1897d5e9e534860.html" title="Interface" alt="" coords="194,5,274,53"/>
+<area shape="rect" id="node2" href="dir_e94ccc02267e29692cc4a651c30f18b8.html" title="image_processing" alt="" coords="5,101,145,149"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000009_000008.html" title="2" alt="" coords="130,92,139,107"/>
+<area shape="rect" id="node3" href="dir_bd5129f522b238b6a61648bb18373613.html" title="StorageManager" alt="" coords="169,101,299,149"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000009_000010.html" title="1" alt="" coords="238,76,247,90"/>
+<area shape="rect" id="node4" href="dir_1f0f7cef4b9a1f8d44d97f44c64fd30a.html" title="DataBase" alt="" coords="323,101,409,149"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000009_000007.html" title="1" alt="" coords="319,76,328,91"/>
+</map>

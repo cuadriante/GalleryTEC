@@ -1,0 +1,9 @@
+<map id="image_processing/Dictionary.h" name="image_processing/Dictionary.h">
+<area shape="rect" id="node1" title="Crea el diccionario asociado a la imagen." alt="" coords="260,5,481,32"/>
+<area shape="rect" id="node2" href="$_compressor_8h.html" title="Comprime imágenes." alt="" coords="125,80,358,107"/>
+<area shape="rect" id="node7" href="$_dictionary_8cpp.html" title=" " alt="" coords="382,80,618,107"/>
+<area shape="rect" id="node3" href="$_compressor_8cpp.html" title=" " alt="" coords="5,155,253,181"/>
+<area shape="rect" id="node4" href="$_interface_8h.html" title="Interfaz de la aplicación." alt="" coords="277,155,432,181"/>
+<area shape="rect" id="node5" href="$_interface_8cpp.html" title=" " alt="" coords="194,229,363,256"/>
+<area shape="rect" id="node6" href="$main_8cpp.html" title=" " alt="" coords="388,229,471,256"/>
+</map>

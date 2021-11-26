@@ -1,6 +1,11 @@
-//
-// Created by cuadriante on 16/11/21.
-//
+/**
+ * @file Interface.h
+ * @version 1.0
+ * @date 25 de noviembre de 2021
+ * @author Adriana Calderón
+ * @title Interfaz
+ * @brief Interfaz de la aplicación
+ */
 
 #ifndef GALLERYTEC_INTERFACE_H
 #define GALLERYTEC_INTERFACE_H

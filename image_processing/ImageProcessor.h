@@ -1,6 +1,11 @@
-//
-// Created by eduardo on 15/11/21.
-//
+/**
+ * @file ImageProcessor.h
+ * @version 1.0
+ * @date 25 de noviembre de 2021
+ * @author Eduardo Bolívar
+ * @title Procesador de imágenes
+ * @brief Procesa una imagen dada
+ */
 
 #ifndef GALLERYTEC_IMAGEPROCESSOR_H
 #define GALLERYTEC_IMAGEPROCESSOR_H
@@ -22,9 +27,29 @@ private:
     vector<TreeNode> pixels;
     vector<TreeNode> frequencyCounter();
 public:
+
+    /**
+     * @brief Constructor
+     * @param imgUrl Dirección de la imagen en la base de datos
+     */
     ImageProcessor(const string& imgUrl);
+
+    /**
+     * @brief Contructor
+     */
     ~ImageProcessor();
+
+    /**
+     * @brief Lector de pixeles
+     * @return Un vector asociado al pixel
+     */
     vector<TreeNode> pixelReader();
+
+    /**
+     * @brief Contructor de la imagen
+     * @param pixels Pixeles de la imagen
+     * @return La imagen
+     */
     QLabel* constructImg(vector<TreeNode> pixels);
 };
 
